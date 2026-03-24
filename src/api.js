@@ -1,6 +1,6 @@
 // src/api.js 
  
-// IMPORTANTE: El 'export' al principio permite que App.jsx lo vea 
+// La palabra 'export' es lo que permite que App.jsx importe esta función 
 export const askNeura = async (message) => { 
   try { 
     const response = await fetch('/api/chat', { 
@@ -12,11 +12,11 @@ export const askNeura = async (message) => {
     }); 
 
     if (!response.ok) { 
-      throw new Error('Error en la respuesta de la IA'); 
+      throw new Error('Error en la comunicación con la API'); 
     } 
 
     const data = await response.json(); 
-    return data.text; // Retorna el texto que viene de Groq 
+    return data.text; // Este es el texto que viene de Groq 
   } catch (error) { 
     console.error("Error en askNeura:", error); 
     throw error; 
