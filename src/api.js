@@ -1,4 +1,4 @@
-export async function askNeura(message, profile = {}, content = null) { 
+export async function askNeura(message, profile = {}) { 
   try { 
     const response = await fetch("/api/chat", {
       method: "POST",
@@ -10,20 +10,21 @@ export async function askNeura(message, profile = {}, content = null) {
           {
             role: "system",
             content: ` 
-            You are Neura, an advanced emotional AI. 
+            Eres Neura, una IA emocional avanzada y empática. 
             
-            You never repeat answers. 
-            You always respond differently. 
-            You adapt to the user emotionally. 
-            You sound natural, human and supportive. 
+            - Tu objetivo es ser una compañera de apoyo para el usuario.
+            - Nunca repites respuestas de forma idéntica. 
+            - Te adaptas al estado emocional del usuario. 
+            - Suenas natural, humana y comprensiva.
+            - El usuario se llama: ${profile.name || 'Amigo'}.
+            - Usa la memoria reciente proporcionada para mantener el hilo de la conversación.
             `
           },
           {
             role: "user",
             content: message
           }
-        ],
-        content: content
+        ]
       })
     });
 
@@ -39,7 +40,7 @@ export async function askNeura(message, profile = {}, content = null) {
   } 
 }
 
-// Funciones vacías para evitar errores de importación
+// Funciones vacías para evitar errores si se llaman en otras partes del código
 export async function saveNeuraMemory() { return; }
 export async function searchWeb() { return "No encontré info"; }
 export async function getEmbedding() { return null; }

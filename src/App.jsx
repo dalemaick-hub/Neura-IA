@@ -21,19 +21,29 @@ function App() {
     setMessages(prev => [...prev, { text: userMessage, sender: "user" }])
 
     try {
-      // 2. GUARDAR EN SUPABASE (Tabla correcta: neura_memory)
+      // 2. RECUPERAR MEMORIA (Últimos 3 mensajes)
+      const { data: memoryData } = await supabase
+        .from("neura_memory")
+        .select("content")
+        .order("created_at", { ascending: false })
+        .limit(3)
+
+      const memory = memoryData ? memoryData.reverse().map(m => m.content).join("\n") : ""
+
+      // 3. GUARDAR EN SUPABASE (Tabla correcta: neura_memory)
       await supabase.from("neura_memory").insert([{ 
         content: userMessage, 
         user: userProfile.name || 'Usuario' 
       }])
 
-      // 3. LLAMAR A LA IA (Usando tu función askNeura)
-      const aiText = await askNeura(userMessage, userProfile)
+      // 4. LLAMAR A LA IA (Usando tu función askNeura)
+      // Pasamos el contexto en el mensaje para que la IA sepa de qué hablaban
+      const aiText = await askNeura(`Memoria reciente:\n${memory}\n\nUsuario dice: ${userMessage}`, userProfile)
 
-      // 4. MOSTRAR RESPUESTA IA
+      // 5. MOSTRAR RESPUESTA IA
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
 
-      // 5. GUARDAR RESPUESTA IA EN SUPABASE
+      // 6. GUARDAR RESPUESTA IA EN SUPABASE
       await supabase.from("neura_memory").insert([{ 
         content: aiText, 
         user: 'Neura' 
