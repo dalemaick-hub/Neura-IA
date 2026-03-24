@@ -1,24 +1,36 @@
 // src/api.js 
  
-// La palabra 'export' es lo que permite que App.jsx importe esta función 
-export const askNeura = async (message) => { 
+// IMPORTANTE: El 'export' al principio permite que App.jsx lo vea 
+export const askNeura = async (message, user_id = "user_123") => { 
   try { 
-    const response = await fetch('/api/chat', { 
-      method: 'POST', 
+    // Reemplaza con tu URL real de Render cuando la tengas desplegada
+    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://TU-BACKEND.onrender.com/chat";
+
+    const response = await fetch(BACKEND_URL, { 
+      method: "POST", 
       headers: { 
-        'Content-Type': 'application/json', 
+        "Content-Type": "application/json", 
       }, 
-      body: JSON.stringify({ message }), 
+      body: JSON.stringify({ 
+        message, 
+        user_id 
+      }), 
     }); 
-
+ 
     if (!response.ok) { 
-      throw new Error('Error en la comunicación con la API'); 
+      throw new Error("Error en la respuesta del servidor"); 
     } 
-
+ 
     const data = await response.json(); 
-    return data.text; // Este es el texto que viene de Groq 
+    // Ahora el backend devuelve { emotion, response }
+    return data.response; 
   } catch (error) { 
     console.error("Error en askNeura:", error); 
     throw error; 
   } 
-};
+}; 
+
+// Funciones vacías para evitar errores si se llaman en otras partes del código
+export async function saveNeuraMemory() { return; }
+export async function searchWeb() { return "No encontré info"; }
+export async function getEmbedding() { return null; }
