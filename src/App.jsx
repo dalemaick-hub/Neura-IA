@@ -21,47 +21,42 @@ function App() {
     setMessages(prev => [...prev, { text: userMessage, sender: "user" }])
 
     try {
-      // 2. RECUPERAR MEMORIA (Opcional, no bloquea)
-      let memoryContext = ""
-      try {
-        const { data: memoryData } = await supabase
-          .from("neura_memory")
-          .select("content")
-          .order("created_at", { ascending: false })
-          .limit(3)
-        
-        if (memoryData && memoryData.length > 0) {
-          memoryContext = "\n\nMemoria reciente:\n" + memoryData.reverse().map(m => m.content).join("\n")
-        }
-      } catch (memErr) {
-        console.warn("No se pudo cargar la memoria:", memErr)
-      }
+      // 2. RECUPERAR MEMORIA (COMENTADO TEMPORALMENTE)
+      /*
+      const { data: memoryData } = await supabase
+        .from("neura_memory")
+        .select("content")
+        .order("created_at", { ascending: false })
+        .limit(3)
 
-      // 3. GUARDAR MENSAJE USUARIO (No bloquea la IA si falla)
-      supabase.from("neura_memory").insert([{ 
+      const memory = memoryData ? memoryData.reverse().map(m => m.content).join("\n") : ""
+      */
+
+      // 3. GUARDAR EN SUPABASE (COMENTADO TEMPORALMENTE)
+      /*
+      await supabase.from("neura_memory").insert([{ 
         content: userMessage, 
         user: userProfile.name || 'Usuario' 
-      }]).then(({ error }) => {
-        if (error) console.error("Error al guardar mensaje usuario:", error)
-      })
+      }])
+      */
 
-      // 4. LLAMAR A LA IA (Con el contexto si existe)
-      const aiText = await askNeura(userMessage + memoryContext)
+      // 4. LLAMAR A LA IA (Simplificado)
+      const aiText = await askNeura(userMessage)
 
       // 5. MOSTRAR RESPUESTA IA
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
 
-      // 6. GUARDAR RESPUESTA IA (No bloquea)
-      supabase.from("neura_memory").insert([{ 
+      // 6. GUARDAR RESPUESTA IA EN SUPABASE (COMENTADO TEMPORALMENTE)
+      /*
+      await supabase.from("neura_memory").insert([{ 
         content: aiText, 
         user: 'Neura' 
-      }]).then(({ error }) => {
-        if (error) console.error("Error al guardar respuesta IA:", error)
-      })
+      }])
+      */
 
     } catch (error) {
       console.error("Fallo:", error)
-      setMessages(prev => [...prev, { text: "Error de conexión con la IA", sender: "ai" }])
+      setMessages(prev => [...prev, { text: "Error de conexión", sender: "ai" }])
     }
   }
 

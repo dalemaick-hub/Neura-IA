@@ -1,18 +1,21 @@
+// src/api.js 
 export const askNeura = async (message) => { 
-  const response = await fetch('/api/chat', { 
-    method: 'POST', 
-    headers: { 'Content-Type': 'application/json' }, 
-    body: JSON.stringify({ message }) 
-  }); 
-  
-  if (!response.ok) { 
-    const errorData = await response.json(); 
-    throw new Error(errorData.error || 'Error en la API'); 
+  try { 
+    const response = await fetch('/api/chat', { 
+      method: 'POST', 
+      headers: { 'Content-Type': 'application/json' }, 
+      body: JSON.stringify({ message }) 
+    }); 
+    
+    if (!response.ok) throw new Error('Error en la comunicación con la IA'); 
+    
+    const data = await response.json(); 
+    return data.text; 
+  } catch (error) { 
+    console.error("Error en askNeura:", error); 
+    throw error; 
   } 
-  
-  const data = await response.json(); 
-  return data.text; 
-};
+}; 
 
 // Funciones vacías para evitar errores si se llaman en otras partes del código
 export async function saveNeuraMemory() { return; }
