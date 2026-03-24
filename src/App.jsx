@@ -1,6 +1,6 @@
 import { supabase } from "./supabase"
 import { getNeuraResponse } from "./neuraBrain"
-import { askNeura, searchWeb, saveNeuraMemory, getEmbedding } from "./api"
+import { askNeura, searchWeb, saveNeuraMemory } from "./api"
 import React, { useState, useEffect } from 'react'
 import Landing from './components/Landing'
 import Chat from './components/Chat'
@@ -39,12 +39,10 @@ function App() {
 
     const profile = JSON.parse(localStorage.getItem("neura_profile")) || { name: "", moods: [] }
 
-    // Guardar mensaje en Supabase con embedding
-    const embedding = await getEmbedding(userMessage)
+    // Guardar mensaje en Supabase
     const { data, error } = await supabase.from("documents").insert({ 
       content: userMessage,
-      type: "user",
-      embedding
+      type: "user"
     })
     console.log("SUPABASE RESPONSE (USER):", data, error)
 
@@ -89,12 +87,10 @@ function App() {
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
 
       // ✅ PASO 5 — GUARDAR BIEN 
-      // IA: Guardar respuesta con embedding
-      const aiEmbedding = await getEmbedding(aiText)
+      // IA:
       const { data: aiData, error: aiError } = await supabase.from("documents").insert({ 
         content: aiText,
-        type: "ai",
-        embedding: aiEmbedding
+        type: "ai"
       })
       console.log("SUPABASE RESPONSE (AI):", aiData, aiError)
 
