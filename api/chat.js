@@ -1,30 +1,23 @@
-import { createClient } from "@supabase/supabase-js"; 
 import Groq from "groq-sdk"; 
  
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY); 
 const groq = new Groq({ apiKey: process.env.GROQ_API_KEY }); 
  
 export default async function handler(req, res) { 
-  if (req.method !== "POST") return res.status(405).json({ error: "Método no permitido" }); 
- 
+  if (req.method !== 'POST') return res.status(405).send('Method Not Allowed'); 
+  
   try { 
-    const { messages } = req.body; 
- 
-    // 1. Hablar con Groq 
+    const { message } = req.body; 
+
     const completion = await groq.chat.completions.create({ 
-      messages: messages, 
+      messages: [{ role: "user", content: message }], 
       model: "llama3-8b-8192", 
     }); 
- 
-    const aiText = completion.choices[0].message.content; 
- 
-    // 2. Responder al frontend con fecha real 
-    return res.status(200).json({ 
-      text: aiText, 
-      timestamp: new Date().toISOString() 
-    }); 
+
+    const responseText = completion.choices[0]?.message?.content || "No pude pensar nada."; 
+    return res.status(200).json({ text: responseText }); 
+    
   } catch (error) { 
-    console.error("Error crítico:", error); 
+    console.error("Error en Groq:", error); 
     return res.status(500).json({ error: error.message }); 
   } 
 }

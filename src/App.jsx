@@ -21,7 +21,8 @@ function App() {
     setMessages(prev => [...prev, { text: userMessage, sender: "user" }])
 
     try {
-      // 2. RECUPERAR MEMORIA (Últimos 3 mensajes)
+      // 2. RECUPERAR MEMORIA (COMENTADO TEMPORALMENTE)
+      /*
       const { data: memoryData } = await supabase
         .from("neura_memory")
         .select("content")
@@ -29,29 +30,33 @@ function App() {
         .limit(3)
 
       const memory = memoryData ? memoryData.reverse().map(m => m.content).join("\n") : ""
+      */
 
-      // 3. GUARDAR EN SUPABASE (Tabla correcta: neura_memory)
+      // 3. GUARDAR EN SUPABASE (COMENTADO TEMPORALMENTE)
+      /*
       await supabase.from("neura_memory").insert([{ 
         content: userMessage, 
         user: userProfile.name || 'Usuario' 
       }])
+      */
 
-      // 4. LLAMAR A LA IA (Usando tu función askNeura)
-      // Pasamos el contexto en el mensaje para que la IA sepa de qué hablaban
-      const aiText = await askNeura(`Memoria reciente:\n${memory}\n\nUsuario dice: ${userMessage}`, userProfile)
+      // 4. LLAMAR A LA IA (Simplificado)
+      const aiText = await askNeura(userMessage)
 
       // 5. MOSTRAR RESPUESTA IA
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
 
-      // 6. GUARDAR RESPUESTA IA EN SUPABASE
+      // 6. GUARDAR RESPUESTA IA EN SUPABASE (COMENTADO TEMPORALMENTE)
+      /*
       await supabase.from("neura_memory").insert([{ 
         content: aiText, 
         user: 'Neura' 
       }])
+      */
 
     } catch (error) {
-      console.error("Error en el sistema:", error)
-      setMessages(prev => [...prev, { text: "Lo siento, tuve un problema al conectar.", sender: "ai" }])
+      console.error("Fallo:", error)
+      setMessages(prev => [...prev, { text: "Error de conexión", sender: "ai" }])
     }
   }
 
