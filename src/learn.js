@@ -1,8 +1,8 @@
 import { supabase } from "./supabase"
 
 export async function saveKnowledge(text) {
-  await supabase.from("documents").insert({
+  await supabase.from("neura_memory").insert({
     content: text,
-    type: "knowledge"
+    user: "knowledge"
   })
 }
