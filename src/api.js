@@ -50,12 +50,14 @@ export async function askNeura(message, profile = {}) {
 
   const aiText = response.choices[0].message.content; 
 
-  // --- PASO C: AUTO-ALIMENTACIÓN (La parte clave) --- 
-  // Esto guarda la respuesta para que NEURA la "recuerde" la próxima vez 
+  // PASO D (Auto-alimentación): Guardar esta nueva interacción para el futuro 
   try {
+    const interactionContent = `Pregunta: ${message} | Respuesta: ${aiText}`;
+    const interactionEmbedding = await embeddings.embedQuery(interactionContent);
+
     await supabase.from('neura_memory').insert({ 
-      content: `El usuario preguntó: ${message}. NEURA respondió: ${aiText}`, 
-      embedding: queryEmbedding, // Reutilizamos el vector de la pregunta
+      content: interactionContent, 
+      embedding: interactionEmbedding,
       metadata: { 
         user: profile.name || "Usuario",
         type: "auto_learned"
