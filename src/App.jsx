@@ -1,3 +1,5 @@
+import { getNeuraResponse } from "./neuraBrain"
+import { askNeura } from "./api"
 import React, { useState, useEffect } from 'react'
 import Landing from './components/Landing'
 import Chat from './components/Chat'
@@ -8,76 +10,59 @@ function App() {
   const [emotion, setEmotion] = useState('neutral')
   const [userProfile, setUserProfile] = useState({
     name: '',
-    moodHistory: [],
-    preferences: []
+    moods: []
   })
 
   // Load profile from LocalStorage on mount
   useEffect(() => {
-    const savedProfile = localStorage.getItem('userProfile')
+    const savedProfile = localStorage.getItem('neura_profile')
     if (savedProfile) {
       setUserProfile(JSON.parse(savedProfile))
     }
   }, [])
 
-  // Save profile to LocalStorage when it changes
+  // 🔹 PASO 5 — Guardar nombre
   useEffect(() => {
-    localStorage.setItem('userProfile', JSON.stringify(userProfile))
-  }, [userProfile])
+    let profile = JSON.parse(localStorage.getItem("neura_profile")) || {}
 
-  const detectEmotion = (text) => {
-    const stressWords = ['cansado', 'estresado', 'mal', 'agobiado', 'triste', 'ansioso', 'preocupado', 'frustrado']
-    const positiveWords = ['feliz', 'bien', 'genial', 'excelente', 'motivado', 'alegre', 'contento', 'entusiasmado']
-
-    const lowerText = text.toLowerCase()
-    
-    if (stressWords.some(word => lowerText.includes(word))) {
-      return 'stress'
-    } else if (positiveWords.some(word => lowerText.includes(word))) {
-      return 'positive'
+    if (!profile.name) {
+      const name = prompt("¿Cómo te llamas?")
+      profile.name = name
+      localStorage.setItem("neura_profile", JSON.stringify(profile))
+      setUserProfile(profile)
     }
-    return 'neutral'
-  }
+  }, [])
 
-  const handleSendMessage = (text) => {
-    const userMessage = {
-      text,
-      sender: 'user',
-      timestamp: new Date().toISOString()
+  const handleSendMessage = async (userMessage) => {
+    setMessages(prev => [...prev, { text: userMessage, sender: "user" }])
+
+    const profile = JSON.parse(localStorage.getItem("neura_profile")) || { name: "", moods: [] }
+
+    // Usar la lógica local para detectar la emoción y guardar en el perfil
+    const localResponse = getNeuraResponse(userMessage, profile)
+    profile.moods = profile.moods || []
+    profile.moods.push(localResponse.mood)
+    localStorage.setItem("neura_profile", JSON.stringify(profile))
+    setUserProfile(profile)
+
+    // Actualizar emoción para UI (para mantener el efecto visual de fondo)
+    setEmotion(localResponse.mood === 'estres' ? 'stress' : (localResponse.mood === 'positivo' ? 'positive' : 'neutral'))
+
+    // IA REAL CON MEMORIA
+    try {
+      const aiText = await askNeura(
+        `Usuario: ${profile.name || "usuario"}. 
+        Historial emocional: ${profile.moods?.join(", ")}. 
+        Mensaje: ${userMessage}`
+      )
+
+      // añadir mensaje IA
+      setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
+    } catch (error) {
+      console.error("Error al obtener respuesta de Neura:", error)
+      // Fallback a respuesta local si falla la API
+      setMessages(prev => [...prev, { text: localResponse.text, sender: "ai" }])
     }
-
-    const detectedEmotion = detectEmotion(text)
-    setEmotion(detectedEmotion)
-
-    // Update mood history
-    if (detectedEmotion !== 'neutral') {
-      setUserProfile(prev => ({
-        ...prev,
-        moodHistory: [...prev.moodHistory, { mood: detectedEmotion, timestamp: new Date().toISOString() }]
-      }))
-    }
-
-    setMessages(prev => [...prev, userMessage])
-
-    // Simulated IA Response
-    setTimeout(() => {
-      let aiResponseText = ''
-      
-      if (detectedEmotion === 'stress') {
-        aiResponseText = "Entiendo que te sientas así. Respira profundo, estoy aquí para apoyarte. ¿Quieres hablar más sobre eso?"
-      } else if (detectedEmotion === 'positive') {
-        aiResponseText = "¡Qué alegría escucharlo! Me encanta verte con esa energía. ¿Qué te hace sentir así?"
-      } else {
-        aiResponseText = "Te escucho. Gracias por compartir eso conmigo. Cuéntame más."
-      }
-
-      const aiMessage = {
-        text: aiResponseText,
-        sender: 'ai',
-        timestamp: new Date().toISOString()
-      }
-      setMessages(prev => [...prev, aiMessage])
-    }, 1000)
   }
 
   return (
