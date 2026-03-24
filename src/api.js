@@ -7,21 +7,31 @@ const groq = new Groq({
 
 export async function askNeura(message, profile = {}) { 
   try { 
-    const chatCompletion = await groq.chat.completions.create({ 
-      model: "llama3-8b-8192", 
-      messages: [
-        {
-          role: "system",
-          content: "Eres Neura, una IA empática."
-        },
-        {
-          role: "user",
-          content: message
-        }
-      ], 
-    }); 
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content: "Eres Neura, una IA empática."
+          },
+          {
+            role: "user",
+            content: message
+          }
+        ]
+      })
+    });
 
-    return chatCompletion.choices[0]?.message?.content; 
+    if (!response.ok) {
+      throw new Error("Error en la respuesta de la API");
+    }
+
+    const data = await response.json();
+    return data.text;
   } catch (error) { 
     console.error("Error en la IA:", error);
     throw error;
