@@ -11,6 +11,8 @@ app.use(express.json());
  
 app.use("/chat", chatRoute); 
  
-app.listen(3000, () => { 
-  console.log("🚀 Neura backend running on port 3000"); 
+const PORT = process.env.PORT || 3000; 
+ 
+app.listen(PORT, () => { 
+  console.log(`🚀 Neura backend running on port ${PORT}`); 
 });
