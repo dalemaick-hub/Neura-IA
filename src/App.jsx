@@ -40,10 +40,11 @@ function App() {
     const profile = JSON.parse(localStorage.getItem("neura_profile")) || { name: "", moods: [] }
 
     // Guardar mensaje en Supabase
-    await supabase.from("documents").insert({ 
+    const { data, error } = await supabase.from("documents").insert({ 
       content: userMessage,
       type: "user"
     })
+    console.log("SUPABASE RESPONSE (USER):", data, error)
 
     // 🚀 PASO 4 — HACER QUE NEURA APRENDA AUTOMÁTICAMENTE
     // detectar si es algo importante y guardarlo como conocimiento inteligente (con embeddings)
@@ -87,10 +88,11 @@ function App() {
 
       // ✅ PASO 5 — GUARDAR BIEN 
       // IA:
-      await supabase.from("documents").insert({ 
+      const { data: aiData, error: aiError } = await supabase.from("documents").insert({ 
         content: aiText,
         type: "ai"
       })
+      console.log("SUPABASE RESPONSE (AI):", aiData, aiError)
 
       // Guardar también en memoria inteligente si la respuesta es relevante
       if (aiText.length > 50) {
