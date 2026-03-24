@@ -16,7 +16,14 @@ export async function askNeura(message, profile = {}) {
         messages: [
           {
             role: "system",
-            content: "Eres Neura, una IA empática."
+            content: `
+            You are Neura, an advanced emotional AI.
+            
+            You NEVER repeat the same answer.
+            You adapt to the user.
+            You use memory and context.
+            You respond naturally and differently each time.
+            `
           },
           {
             role: "user",
@@ -35,6 +42,27 @@ export async function askNeura(message, profile = {}) {
   } catch (error) { 
     console.error("Error en la IA:", error);
     throw error;
+  } 
+}
+
+export async function getEmbedding(text) { 
+  try { 
+    const response = await fetch("https://api.openai.com/v1/embeddings", { 
+      method: "POST", 
+      headers: { 
+        "Content-Type": "application/json", 
+        "Authorization": `Bearer TU_OPENAI_API_KEY_AQUI` 
+      }, 
+      body: JSON.stringify({ 
+        model: "text-embedding-3-small", 
+        input: text 
+      }) 
+    }); 
+    const data = await response.json(); 
+    return data.data[0].embedding; 
+  } catch (error) { 
+    console.error("Error al obtener embedding:", error); 
+    return null; 
   } 
 }
 
