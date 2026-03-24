@@ -91,14 +91,14 @@ function App() {
 
       const memory = memoryData ? memoryData.map(d => d.content).join("\n") : ""
 
-      // 🔹 llamar a la IA con contexto de memoria
+      // 🔹 llamar a la IA con contexto de memoria y enviar content para guardado
       const aiText = await askNeura(` 
       Previous messages: 
       ${memory} 
       
       User says: 
       ${userMessage} 
-      `, profile)
+      `, profile, userMessage)
 
       // añadir mensaje IA
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])

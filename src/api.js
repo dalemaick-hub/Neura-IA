@@ -1,34 +1,42 @@
-export async function askNeura(message, profile = {}) { 
-  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", { 
-    method: "POST", 
-    headers: { 
-      "Content-Type": "application/json", 
-      "Authorization": "Bearer TU_API_KEY" // Sustituir por tu clave de API de Groq
-    }, 
-    body: JSON.stringify({ 
-      model: "llama3-70b-8192", 
-      messages: [ 
-        { 
-          role: "system", 
-          content: ` 
-          You are Neura, an advanced emotional AI. 
-          
-          You never repeat answers. 
-          You always respond differently. 
-          You adapt to the user emotionally. 
-          You sound natural, human and supportive. 
-          ` 
-        }, 
-        { 
-          role: "user", 
-          content: message 
-        } 
-      ] 
-    }) 
-  }) 
+export async function askNeura(message, profile = {}, content = null) { 
+  try { 
+    const response = await fetch("/api/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        messages: [
+          {
+            role: "system",
+            content: ` 
+            You are Neura, an advanced emotional AI. 
+            
+            You never repeat answers. 
+            You always respond differently. 
+            You adapt to the user emotionally. 
+            You sound natural, human and supportive. 
+            `
+          },
+          {
+            role: "user",
+            content: message
+          }
+        ],
+        content: content
+      })
+    });
 
-  const data = await response.json() 
-  return data.choices[0].message.content 
+    if (!response.ok) {
+      throw new Error("Error en la respuesta de la API");
+    }
+
+    const data = await response.json();
+    return data.text;
+  } catch (error) { 
+    console.error("Error en la IA:", error);
+    throw error;
+  } 
 }
 
 // Funciones vacías para evitar errores de importación
