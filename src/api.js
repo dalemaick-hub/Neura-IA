@@ -8,7 +8,7 @@ const groq = new Groq({
 export async function askNeura(message, profile = {}) { 
   try { 
     const chatCompletion = await groq.chat.completions.create({ 
-      model: "llama-3-8b-instant", 
+      model: "llama3-8b-8192", 
       messages: [
         {
           role: "system",
