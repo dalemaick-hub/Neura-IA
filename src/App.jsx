@@ -81,7 +81,24 @@ function App() {
 
     // IA REAL CON MEMORIA INTELIGENTE
     try {
-      const aiText = await askNeura(userMessage, profile)
+      // 🚀 PASO 3 — HACER QUE USE MEMORIA
+      const { data: memoryData } = await supabase 
+        .from("documents") 
+        .select("content") 
+        .eq("type", "user") 
+        .order("created_at", { ascending: false }) 
+        .limit(3) 
+
+      const memory = memoryData ? memoryData.map(d => d.content).join("\n") : ""
+
+      // 🔹 llamar a la IA con contexto de memoria
+      const aiText = await askNeura(` 
+      Previous messages: 
+      ${memory} 
+      
+      User says: 
+      ${userMessage} 
+      `, profile)
 
       // añadir mensaje IA
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
