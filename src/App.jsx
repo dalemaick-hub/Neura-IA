@@ -1,5 +1,6 @@
+import { supabase } from "./supabase"
 import { getNeuraResponse } from "./neuraBrain"
-import { askNeura } from "./api"
+import { askNeura, searchWeb } from "./api"
 import React, { useState, useEffect } from 'react'
 import Landing from './components/Landing'
 import Chat from './components/Chat'
@@ -36,6 +37,36 @@ function App() {
   const handleSendMessage = async (userMessage) => {
     setMessages(prev => [...prev, { text: userMessage, sender: "user" }])
 
+    // Guardar mensaje en Supabase
+    await supabase.from("documents").insert({ 
+      content: userMessage,
+      type: "user"
+    })
+
+    // 🚀 PASO 4 — HACER QUE NEURA APRENDA AUTOMÁTICAMENTE
+    // detectar si es algo importante y guardarlo como conocimiento
+    if (userMessage.length > 50) { 
+      await supabase.from("documents").insert({ 
+        content: userMessage,
+        type: "knowledge" 
+      })
+    }
+
+    // 🌐 INVESTIGACIÓN WEB AUTOMÁTICA
+    if (userMessage.toLowerCase().includes("qué es") || userMessage.toLowerCase().includes("investiga")) { 
+      try {
+        const info = await searchWeb(userMessage) 
+        if (info && info !== "No encontré info") {
+          await supabase.from("documents").insert({ 
+            content: `Investigación sobre "${userMessage}": ${info}`,
+            type: "knowledge" 
+          })
+        }
+      } catch (err) {
+        console.error("Error en investigación web:", err)
+      }
+    }
+
     const profile = JSON.parse(localStorage.getItem("neura_profile")) || { name: "", moods: [] }
 
     // Usar la lógica local para detectar la emoción y guardar en el perfil
@@ -48,16 +79,50 @@ function App() {
     // Actualizar emoción para UI (para mantener el efecto visual de fondo)
     setEmotion(localResponse.mood === 'estres' ? 'stress' : (localResponse.mood === 'positivo' ? 'positive' : 'neutral'))
 
+    // PASO 1 — TRAER KNOWLEDGE 
+    const { data: knowledge } = await supabase 
+      .from("documents") 
+      .select("content") 
+      .eq("type", "knowledge") 
+      .limit(5) 
+
+    // ✅ PASO 2 — TRAER MENSAJES RECIENTES 
+    const { data: recent } = await supabase 
+      .from("documents") 
+      .select("content") 
+      .eq("type", "user") 
+      .order("created_at", { ascending: false }) 
+      .limit(3)
+
+    // PASO 3 — CREAR CONTEXTO 
+    const knowledgeText = knowledge?.map(k => k.content).join("\n") || ""
+    const recentText = recent?.map(r => r.content).join("\n") || ""
+
     // IA REAL CON MEMORIA
     try {
-      const aiText = await askNeura(
-        `Usuario: ${profile.name || "usuario"}. 
-        Historial emocional: ${profile.moods?.join(", ")}. 
-        Mensaje: ${userMessage}`
-      )
+      // ✅ PASO 4 — ENVIAR A LA IA 
+      const aiText = await askNeura(` 
+        You are Neura, an empathetic emotional AI. 
+        
+        Learned knowledge: 
+        ${knowledgeText} 
+        
+        Recent conversation: 
+        ${recentText} 
+        
+        User message: 
+        ${userMessage} 
+      `)
 
       // añadir mensaje IA
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
+
+      // ✅ PASO 5 — GUARDAR BIEN 
+      // IA:
+      await supabase.from("documents").insert({ 
+        content: aiText,
+        type: "ai"
+      })
     } catch (error) {
       console.error("Error al obtener respuesta de Neura:", error)
       // Fallback a respuesta local si falla la API

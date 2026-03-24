@@ -10,7 +10,13 @@ export async function askNeura(message) {
       messages: [ 
         { 
           role: "system", 
-          content: "Eres Neura, una IA empática que ayuda emocionalmente." 
+          content: ` 
+            Eres Neura, una IA emocional avanzada. 
+            Recuerdas conversaciones pasadas. 
+            Hablas de forma cercana, humana y empática. 
+            Nunca repites lo mismo. 
+            Adaptas tus respuestas al estado emocional del usuario. 
+          ` 
         }, 
         { 
           role: "user", 
@@ -22,4 +28,11 @@ export async function askNeura(message) {
 
   const data = await response.json() 
   return data.choices[0].message.content 
+} 
+
+export async function searchWeb(query) { 
+  const res = await fetch(`https://api.duckduckgo.com/?q=${query}&format=json`) 
+  const data = await res.json() 
+
+  return data.Abstract || "No encontré info" 
 } 
