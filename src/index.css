@@ -2,21 +2,42 @@
 @tailwind components;
 @tailwind utilities;
 
-@keyframes floatY {
-  0% { transform: translateY(0px) }
-  50% { transform: translateY(-14px) }
-  100% { transform: translateY(0px) }
+@keyframes soft-flow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
-.anim-float {
-  animation: floatY 6s ease-in-out infinite;
+.animate-soft-flow {
+  background-size: 200% 200%;
+  animation: soft-flow 18s ease-in-out infinite;
 }
-@keyframes pulseGlow {
-  0%,100% { opacity: .25; filter: blur(48px) }
-  50% { opacity: .45; filter: blur(64px) }
+
+@keyframes pulse-slow {
+  0%, 100% { opacity: 0.4; transform: scale(1); }
+  50% { opacity: 0.7; transform: scale(1.1); }
 }
-.anim-glow {
-  animation: pulseGlow 7s ease-in-out infinite;
+.animate-pulse-slow {
+  animation: pulse-slow 6s ease-in-out infinite;
 }
+
+@keyframes float-soft {
+  0% { transform: translate(-50%, -50%) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateY(-20px); }
+  100% { transform: translate(-50%, -50%) translateY(0); }
+}
+.animate-float-soft {
+  animation: float-soft 8s ease-in-out infinite;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fade-in 1.2s ease forwards;
+}
+.delay-500 { animation-delay: 0.5s; }
+.delay-700 { animation-delay: 0.7s; }
 
 :root {
   --background: #0b0e14;
@@ -48,7 +69,8 @@
 }
 
 body {
-  @apply bg-background text-on-surface font-body overflow-x-hidden selection:bg-primary/30;
+  background: linear-gradient(to bottom, #f7eaff, #fde6f2, #fff5f8);
+  @apply text-on-surface font-body overflow-x-hidden selection:bg-primary/30;
 }
 
 .scrollbar-hide::-webkit-scrollbar {

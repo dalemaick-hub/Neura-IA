@@ -5,7 +5,7 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="w-full fixed top-0 left-0 z-50 bg-background/80 backdrop-blur-xl border-b border-white/10">
+    <header className="w-full fixed top-0 left-0 z-50 bg-background/80 backdrop-blur-xl border-b border-outline-variant">
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
         <Link to="/" className="text-2xl font-headline font-bold text-primary">
           NEURA
@@ -31,7 +31,7 @@ export default function Navbar() {
       </nav>
 
       {open && (
-        <div className="md:hidden bg-background border-t border-white/10 px-6 py-4 space-y-4">
+        <div className="md:hidden bg-background border-t border-outline-variant px-6 py-4 space-y-4 text-on-surface">
           <Link to="/features" onClick={() => setOpen(false)} className="block">
             Features
           </Link>
