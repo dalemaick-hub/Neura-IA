@@ -11,7 +11,7 @@ export default function IntelligencePage() {
       <img
         src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s%20(2).png"
         alt="Neura Imagen Inteligencia 1"
-        className="rounded-2xl w-full mb-10 shadow-lg border border-outline-variant"
+        className="rounded-2xl w-full mb-10 shadow-lg border border-outline-variant animate-float-soft animate-glow-soft"
       />
 
       <p className="text-lg leading-relaxed opacity-90 mb-6">
@@ -27,7 +27,7 @@ export default function IntelligencePage() {
       <img
         src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s2.png"
         alt="Neura Imagen Inteligencia 2"
-        className="rounded-2xl w-full mt-10 shadow-lg border border-outline-variant"
+        className="rounded-2xl w-full mt-10 shadow-lg border border-outline-variant animate-breathe"
       />
 
       <h2 className="text-3xl font-headline font-bold mt-16 mb-6">Capacidades principales</h2>

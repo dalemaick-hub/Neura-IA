@@ -9,7 +9,7 @@ export default function Hero() {
       <img
         src="/images/Gemini_Generated_Image_ls4dpnls4dpnls4d.png"
         alt="Neura Amor"
-        className="absolute top-1/2 left-1/2 w-[420px] -translate-x-1/2 -translate-y-1/2 opacity-80 animate-float-soft"
+        className="absolute top-1/2 left-1/2 w-[420px] -translate-x-1/2 -translate-y-1/2 opacity-80 hero-float-soft"
         loading="eager"
       />
 
