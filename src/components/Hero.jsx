@@ -56,9 +56,9 @@ export default function Hero() {
       <div className="absolute inset-0 bg-gradient-to-b from-[#2a1f3d] via-[#3b2752] to-[#4a2c6d] opacity-90"></div>
       <div className="absolute w-[700px] h-[700px] bg-pink-300/20 blur-[120px] rounded-full animate-pulse-slow"></div>
 
-      <img src="/images/neura-butterfly-1.png" alt="Neura butterfly 1" className="butterfly-follow" />
-      <img src="/images/neura-butterfly-2.png" alt="Neura butterfly 2" className="butterfly-follow" />
-      <img src="/images/neura-butterfly-3.png" alt="Neura butterfly 3" className="butterfly-follow" />
+      <img src="/images/Recorte%20de%20mariposa.png" alt="Mariposa 1" className="butterfly-follow" />
+      <img src="/images/Recorte%20de%20mariposa%20-%20copia.png" alt="Mariposa 2" className="butterfly-follow" />
+      <img src="/images/Recorte%20de%20mariposa%20-%20copia%20(2).png" alt="Mariposa 3" className="butterfly-follow" />
 
       <h1 className="text-6xl md:text-7xl font-headline font-bold text-white mb-6 relative z-10">
         NEURA — La IA que te entiende
