@@ -5,22 +5,19 @@ const groq = new Groq({
 }); 
  
 export async function generateResponse(message, emotion) { 
-  const systemPrompt = ` 
-Eres Neura, una IA emocional y empática. 
- 
-Estado emocional detectado: ${emotion} 
- 
-Responde con empatía, claridad y cercanía. 
-No seas genérico. 
- `; 
- 
-  const chatCompletion = await groq.chat.completions.create({ 
+  const completion = await groq.chat.completions.create({ 
+    model: "llama-3.1-8b-instant", 
     messages: [ 
-      { role: "system", content: systemPrompt }, 
-      { role: "user", content: message }, 
+      { 
+        role: "system", 
+        content: "Eres una IA empática que ayuda emocionalmente" 
+      }, 
+      { 
+        role: "user", 
+        content: message 
+      } 
     ], 
-    model: "llama3-8b-8192", 
   }); 
  
-  return chatCompletion.choices[0].message.content; 
+  return completion.choices[0].message.content; 
 }
