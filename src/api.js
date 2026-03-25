@@ -12,9 +12,13 @@ export async function askNeura(message) {
     }),
   });
 
-  if (!res.ok) {
-    throw new Error("Error en API");
-  }
+if (!res.ok) {
+  const text = await res.text();
+  console.error("ERROR BACKEND:", text);
+  return {
+    response: "Error real: " + text
+  };
+}
 
   return res.json();
 }
