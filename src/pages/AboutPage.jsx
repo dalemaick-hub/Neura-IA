@@ -9,7 +9,7 @@ export default function AboutPage() {
       </p>
 
       <img
-        src="/images/neura-butterfly-1.jpg"
+        src="/images/Gemini_Generated_Image_4aj90v4aj90v4aj9.png"
         alt="Neura Imagen 1"
         className="rounded-2xl w-full mb-10 shadow-lg border border-outline-variant"
       />
@@ -39,7 +39,7 @@ export default function AboutPage() {
       </p>
 
       <img
-        src="/images/neura-butterfly-2.jpg"
+        src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s.png"
         alt="Neura Imagen 2"
         className="rounded-2xl w-full mt-10 shadow-lg border border-outline-variant"
       />
