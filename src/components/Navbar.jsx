@@ -7,8 +7,17 @@ export default function Navbar() {
   return (
     <header className="w-full fixed top-0 left-0 z-50 bg-background/80 backdrop-blur-xl border-b border-outline-variant">
       <nav className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        <Link to="/" className="text-2xl font-headline font-bold text-primary">
-          NEURA
+        <Link to="/" className="flex items-center gap-3">
+          <span className="w-9 h-9 rounded-full overflow-hidden border border-white/10 bg-white/5">
+            <img
+              src="/images/Gemini_Generated_Image_ls4dpnls4dpnls4d.png"
+              alt=""
+              aria-hidden="true"
+              className="w-full h-full object-cover opacity-80 mix-blend-soft-light"
+              style={{ filter: "grayscale(1) contrast(1.15) brightness(1.05)" }}
+            />
+          </span>
+          <span className="text-2xl font-headline font-bold text-primary">NEURA</span>
         </Link>
 
         <div className="hidden md:flex items-center gap-8 text-on-surface">
