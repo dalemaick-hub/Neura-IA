@@ -53,14 +53,14 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#2a1f3d] via-[#3b2752] to-[#4a2c6d] opacity-90"></div>
-      <div className="absolute w-[700px] h-[700px] bg-pink-300/20 blur-[120px] rounded-full animate-pulse-slow"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#2a1f3d] via-[#3b2752] to-[#4a2c6d] opacity-95"></div>
+      <div className="absolute w-[700px] h-[700px] bg-pink-300/30 blur-[120px] rounded-full animate-pulse-slow"></div>
 
-      <img src="/images/Recorte%20de%20mariposa.png" alt="Mariposa 1" className="butterfly-follow" />
-      <img src="/images/Recorte%20de%20mariposa%20-%20copia.png" alt="Mariposa 2" className="butterfly-follow" />
-      <img src="/images/Recorte%20de%20mariposa%20-%20copia%20(2).png" alt="Mariposa 3" className="butterfly-follow" />
+      <img src="/images/Recorte%20de%20mariposa.png" alt="Mariposa 1" className="butterfly-follow delay-1" />
+      <img src="/images/Recorte%20de%20mariposa%20-%20copia.png" alt="Mariposa 2" className="butterfly-follow delay-2" />
+      <img src="/images/Recorte%20de%20mariposa%20-%20copia%20(2).png" alt="Mariposa 3" className="butterfly-follow delay-3" />
 
-      <h1 className="text-6xl md:text-7xl font-headline font-bold text-white mb-6 relative z-10">
+      <h1 className="text-6xl md:text-7xl font-headline font-bold text-white mb-6 relative z-10 drop-shadow-xl">
         NEURA — La IA que te entiende
       </h1>
 
@@ -70,7 +70,7 @@ export default function Hero() {
 
       <div className="flex gap-4 relative z-10">
         <Link to="/chat">
-          <button className="px-8 py-3 rounded-full bg-primary text-white font-semibold text-lg shadow-lg hover:scale-105 transition" type="button">
+          <button className="px-8 py-3 rounded-full bg-[#b47bff] text-white font-semibold text-lg shadow-lg hover:scale-105 transition" type="button">
             Empieza ahora
           </button>
         </Link>

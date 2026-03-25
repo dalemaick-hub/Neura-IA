@@ -99,6 +99,9 @@
   transition: transform 0.25s ease-out;
   will-change: transform;
 }
+.butterfly-follow.delay-1 { transition-duration: 260ms; }
+.butterfly-follow.delay-2 { transition-duration: 320ms; }
+.butterfly-follow.delay-3 { transition-duration: 380ms; }
 
 :root {
   --background: #0b0e14;
