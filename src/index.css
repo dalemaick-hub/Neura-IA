@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes floatY {
+  0% { transform: translateY(0px) }
+  50% { transform: translateY(-14px) }
+  100% { transform: translateY(0px) }
+}
+.anim-float {
+  animation: floatY 6s ease-in-out infinite;
+}
+@keyframes pulseGlow {
+  0%,100% { opacity: .25; filter: blur(48px) }
+  50% { opacity: .45; filter: blur(64px) }
+}
+.anim-glow {
+  animation: pulseGlow 7s ease-in-out infinite;
+}
+
 :root {
   --background: #0b0e14;
   --on-surface: #ecedf6;

@@ -4,6 +4,15 @@ export default function Hero() {
   return (
     <section className="min-h-screen flex flex-col justify-center items-center text-center px-6 relative overflow-hidden bg-background text-on-surface pt-20">
       <div className="absolute inset-0 bg-gradient-to-b from-primary/10 to-background opacity-40 animate-pulse"></div>
+      <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+        <div className="absolute w-[520px] h-[520px] rounded-full bg-primary/10 blur-3xl anim-glow"></div>
+        <img
+          src="/images/Gemini_Generated_Image_ls4dpnls4dpnls4d.png"
+          alt="Neura visual"
+          className="w-[360px] max-w-[80vw] rounded-2xl shadow-2xl border border-white/10 anim-float"
+          loading="eager"
+        />
+      </div>
 
       <h1 className="text-6xl md:text-7xl font-headline font-bold text-on-surface mb-6 relative z-10">
         NEURA — La IA que te entiende
@@ -31,4 +40,3 @@ export default function Hero() {
     </section>
   );
 }
-

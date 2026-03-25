@@ -9,7 +9,7 @@ export default function IntelligencePage() {
       </p>
 
       <img
-        src="/images/neura-intelligence-1.jpg"
+        src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s%20(2).png"
         alt="Neura Imagen Inteligencia 1"
         className="rounded-2xl w-full mb-10 shadow-lg border border-outline-variant"
       />
@@ -25,7 +25,7 @@ export default function IntelligencePage() {
       </p>
 
       <img
-        src="/images/neura-intelligence-2.jpg"
+        src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s2.png"
         alt="Neura Imagen Inteligencia 2"
         className="rounded-2xl w-full mt-10 shadow-lg border border-outline-variant"
       />
