@@ -1,9 +1,8 @@
-import { askNeura } from "./api";
-import { supabase } from "./supabase"
-import { askNeura } from "./api" // Simplificado para que funcione
-import React, { useState, useEffect } from 'react'
-import Landing from './components/Landing'
-import Chat from './components/Chat'
+import { askNeura } from "./api.js";
+import { supabase } from "./supabase";
+import React, { useState, useEffect } from 'react';
+import Landing from './components/Landing';
+import Chat from './components/Chat';
 
 function App() {
   const [showChat, setShowChat] = useState(false)
