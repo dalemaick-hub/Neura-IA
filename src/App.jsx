@@ -41,10 +41,13 @@ function App() {
       */
 
       // 4. LLAMAR A LA IA (Simplificado)
-      const aiText = await askNeura(userMessage)
+      const data = await askNeura(userMessage)
+      const aiText = data.response; // Extraemos el texto de la respuesta del backend
+      const aiEmotion = data.emotion; // Extraemos la emoción
 
       // 5. MOSTRAR RESPUESTA IA
       setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
+      if (aiEmotion) setEmotion(aiEmotion)
 
       // 6. GUARDAR RESPUESTA IA EN SUPABASE (COMENTADO TEMPORALMENTE)
       /*

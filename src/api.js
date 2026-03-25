@@ -3,10 +3,10 @@
 // IMPORTANTE: El 'export' al principio permite que App.jsx lo vea 
 export const askNeura = async (message, user_id = "user_123") => { 
   try { 
-    // Reemplaza con tu URL real de Render cuando la tengas desplegada
-    const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || "https://TU-BACKEND.onrender.com/chat";
+    // URL base de tu backend en Render
+    const API_URL = import.meta.env.VITE_BACKEND_URL || "https://TU-URL.onrender.com";
 
-    const response = await fetch(BACKEND_URL, { 
+    const response = await fetch(`${API_URL}/chat`, { 
       method: "POST", 
       headers: { 
         "Content-Type": "application/json", 
@@ -23,7 +23,7 @@ export const askNeura = async (message, user_id = "user_123") => {
  
     const data = await response.json(); 
     // Ahora el backend devuelve { emotion, response }
-    return data.response; 
+    return data; // Retornamos todo el objeto por si App.jsx necesita la emoción
   } catch (error) { 
     console.error("Error en askNeura:", error); 
     throw error; 
