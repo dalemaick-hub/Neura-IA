@@ -1,5 +1,5 @@
+import { askNeura } from "./api";
 import { supabase } from "./supabase"
-import { getNeuraResponse } from "./neuraBrain"
 import { askNeura } from "./api" // Simplificado para que funcione
 import React, { useState, useEffect } from 'react'
 import Landing from './components/Landing'
