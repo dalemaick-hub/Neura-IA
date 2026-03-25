@@ -1,35 +1,82 @@
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function Hero() {
+  useEffect(() => {
+    const butterflies = Array.from(document.querySelectorAll(".butterfly-follow"));
+    if (butterflies.length === 0) return;
+
+    const state = butterflies.map((b, i) => {
+      const speed = 0.06 + i * 0.03;
+      const offsetX = (i - 1) * 70;
+      const offsetY = (i - 1) * 40;
+      return {
+        el: b,
+        speed,
+        offsetX,
+        offsetY,
+        x: window.innerWidth / 2,
+        y: window.innerHeight / 2,
+        tx: window.innerWidth / 2,
+        ty: window.innerHeight / 2,
+      };
+    });
+
+    let rafId = 0;
+
+    const onMove = (e) => {
+      const cx = e.clientX;
+      const cy = e.clientY;
+      for (const s of state) {
+        s.tx = cx + s.offsetX;
+        s.ty = cy + s.offsetY;
+      }
+    };
+
+    const tick = () => {
+      for (const s of state) {
+        s.x += (s.tx - s.x) * s.speed;
+        s.y += (s.ty - s.y) * s.speed;
+        s.el.style.transform = `translate3d(${s.x}px, ${s.y}px, 0)`;
+      }
+      rafId = window.requestAnimationFrame(tick);
+    };
+
+    window.addEventListener("mousemove", onMove);
+    rafId = window.requestAnimationFrame(tick);
+
+    return () => {
+      window.removeEventListener("mousemove", onMove);
+      window.cancelAnimationFrame(rafId);
+    };
+  }, []);
+
   return (
     <section className="relative min-h-screen flex flex-col justify-center items-center text-center px-6 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-pink-200 via-purple-200 to-white animate-soft-flow"></div>
-      <div className="absolute w-[700px] h-[700px] bg-pink-300/40 blur-[120px] rounded-full animate-pulse-slow"></div>
+      <div className="absolute inset-0 bg-gradient-to-b from-[#2a1f3d] via-[#3b2752] to-[#4a2c6d] opacity-90"></div>
+      <div className="absolute w-[700px] h-[700px] bg-pink-300/20 blur-[120px] rounded-full animate-pulse-slow"></div>
 
-      <img
-        src="/images/Gemini_Generated_Image_ls4dpnls4dpnls4d.png"
-        alt="Neura Amor"
-        className="absolute top-1/2 left-1/2 w-[420px] -translate-x-1/2 -translate-y-1/2 opacity-80 hero-float-soft"
-        loading="eager"
-      />
+      <img src="/images/neura-butterfly-1.png" alt="Neura butterfly 1" className="butterfly-follow" />
+      <img src="/images/neura-butterfly-2.png" alt="Neura butterfly 2" className="butterfly-follow" />
+      <img src="/images/neura-butterfly-3.png" alt="Neura butterfly 3" className="butterfly-follow" />
 
-      <h1 className="text-6xl md:text-7xl font-headline font-bold text-[#4a2c6d] mb-6 relative z-10 animate-fade-in">
+      <h1 className="text-6xl md:text-7xl font-headline font-bold text-white mb-6 relative z-10">
         NEURA — La IA que te entiende
       </h1>
 
-      <p className="text-xl md:text-2xl text-[#5a3e7a]/80 max-w-2xl mb-10 relative z-10 animate-fade-in delay-500">
+      <p className="text-xl md:text-2xl text-white/80 max-w-2xl mb-10 relative z-10">
         Un acompañante emocional diseñado para ayudarte a pensar mejor, sentirte mejor y vivir mejor.
       </p>
 
-      <div className="flex gap-4 relative z-10 animate-fade-in delay-700">
+      <div className="flex gap-4 relative z-10">
         <Link to="/chat">
-          <button className="px-8 py-3 rounded-full bg-[#b47bff] text-white font-semibold text-lg shadow-lg hover:scale-105 transition" type="button">
+          <button className="px-8 py-3 rounded-full bg-primary text-white font-semibold text-lg shadow-lg hover:scale-105 transition" type="button">
             Empieza ahora
           </button>
         </Link>
 
         <Link to="/discover">
-          <button className="px-8 py-3 rounded-full bg-white/70 text-[#4a2c6d] font-semibold text-lg border border-[#b47bff]/30 shadow-md hover:scale-105 transition" type="button">
+          <button className="px-8 py-3 rounded-full bg-white/20 text-white font-semibold text-lg border border-white/30 shadow-md hover:scale-105 transition" type="button">
             Descubre NEURA
           </button>
         </Link>
