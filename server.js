@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json()); 
  
 // 👇 ESTA LÍNEA ES CLAVE 
-app.use("/chat", chatRoute); 
+app.use("/api/chat", chatRoute); 
  
 // 👇 AÑADE ESTO PARA PROBAR 
 app.get("/", (req, res) => { 

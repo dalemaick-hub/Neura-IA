@@ -23,7 +23,7 @@ function App() {
 
     try {
       // 2. LLAMAR A LA IA (Usando el nuevo formato de respuesta)
-      const data = await askNeura(userMessage)
+      const data = await askNeura(userMessage, emotion)
 
       // 3. MOSTRAR RESPUESTA IA Y ACTUALIZAR EMOCIÓN
       setMessages(prev => [
