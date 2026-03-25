@@ -9,7 +9,7 @@ export default function AboutPage() {
       </p>
 
       <img
-        src="/images/Gemini_Generated_Image_4aj90v4aj90v4aj9.png"
+        src="/images/Gemini_Generated_Image_r95iycr95iycr95i.png"
         alt="Neura Imagen 1"
         className="rounded-2xl w-full mb-10 shadow-lg border border-outline-variant"
       />
@@ -23,6 +23,12 @@ export default function AboutPage() {
         Fue diseñada por <span className="text-primary font-semibold">Gustavo D. Quintero</span>, con la visión de crear una IA que no
         solo responda, sino que acompañe. Una IA que entienda tus silencios, tus dudas, tus noches difíciles y tus días luminosos.
       </p>
+
+      <img
+        src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s%20(2).png"
+        alt="Neura Imagen 2"
+        className="rounded-2xl w-full mb-10 shadow-lg border border-outline-variant"
+      />
 
       <p className="text-lg leading-relaxed opacity-90 mb-6">
         Una IA que pueda escucharte cuando nadie más lo hace, que pueda sostenerte cuando el mundo pesa, que pueda ayudarte a ordenar lo
@@ -39,8 +45,8 @@ export default function AboutPage() {
       </p>
 
       <img
-        src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s.png"
-        alt="Neura Imagen 2"
+        src="/images/Gemini_Generated_Image_zb8szfzb8szfzb8s2.png"
+        alt="Neura Imagen 3"
         className="rounded-2xl w-full mt-10 shadow-lg border border-outline-variant"
       />
     </main>
