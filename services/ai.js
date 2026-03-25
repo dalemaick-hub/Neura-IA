@@ -19,7 +19,7 @@ No seas genérico.
       { role: "system", content: systemPrompt }, 
       { role: "user", content: message }, 
     ], 
-    model: "llama3-70b-8192", 
+    model: "llama3-8b-8192", 
   }); 
  
   return chatCompletion.choices[0].message.content; 
