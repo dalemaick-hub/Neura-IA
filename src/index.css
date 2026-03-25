@@ -137,6 +137,11 @@ body {
   @apply text-on-surface font-body overflow-x-hidden selection:bg-primary/30;
 }
 
+.bg-metal {
+  background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.06), transparent 60%),
+              radial-gradient(circle at 70% 70%, rgba(255,255,255,0.04), transparent 60%);
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }
