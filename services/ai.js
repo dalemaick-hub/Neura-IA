@@ -6,7 +6,7 @@ const groq = new Groq({
  
 export async function generateResponse(message, emotion) { 
   const completion = await groq.chat.completions.create({ 
-    model: "llama-3.1-8b-instant", 
+    model: "llama3-70b-8192", 
     messages: [ 
       { 
         role: "system", 
