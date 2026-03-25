@@ -1,0 +1,16 @@
+{
+  "name": "NEURA — La IA que te entiende",
+  "short_name": "NEURA",
+  "description": "IA emocional para acompañamiento y productividad",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0e14",
+  "theme_color": "#8B5CF6",
+  "icons": [
+    {
+      "src": "assets/logo-neura.png",
+      "sizes": "1024x1024",
+      "type": "image/png"
+    }
+  ]
+}

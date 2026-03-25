@@ -1,6 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Link } from "react-router-dom"
 
 const Landing = ({ onStart }) => {
+  const [open, setOpen] = useState(false)
+
   return (
     <div className="bg-background text-on-surface font-body min-h-screen overflow-x-hidden selection:bg-primary/30">
       {/* Top Navigation */}
@@ -8,21 +11,55 @@ const Landing = ({ onStart }) => {
         <div className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
           <div className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-400 font-headline tracking-tight">NEURA</div>
           <div className="hidden md:flex items-center space-x-8">
-            <a className="text-indigo-400 border-b-2 border-indigo-500 pb-1 font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80 transition-all" href="#">Features</a>
-            <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80" href="#">About</a>
-            <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80" href="#">Intelligence</a>
-            <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80" href="#">Ethics</a>
+            <Link className="text-indigo-400 border-b-2 border-indigo-500 pb-1 font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80 transition-all" to="/features">Features</Link>
+            <Link className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80" to="/about">About</Link>
+            <Link className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80" to="/intelligence">Intelligence</Link>
+            <Link className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg cursor-pointer active:opacity-80" to="/ethics">Ethics</Link>
           </div>
           <div className="flex items-center space-x-4">
-            <button className="text-slate-300 hover:text-white transition-colors font-medium px-4 py-2">Sign In</button>
+            <Link className="text-slate-300 hover:text-white transition-colors font-medium px-4 py-2" to="/signin">Sign In</Link>
             <button 
               onClick={onStart}
               className="bg-gradient-to-br from-primary-dim to-primary text-on-primary-container font-bold px-6 py-2.5 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg shadow-primary/20"
             >
               Get Started
             </button>
+            <button
+              className="md:hidden text-slate-300 hover:text-white transition-colors font-semibold px-3 py-2 rounded-lg border border-white/10"
+              onClick={() => setOpen(v => !v)}
+              type="button"
+            >
+              ☰
+            </button>
           </div>
         </div>
+        {open && (
+          <div className="md:hidden bg-slate-950/80 border-t border-white/10 px-8 py-6 space-y-4">
+            <Link className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" to="/features" onClick={() => setOpen(false)}>
+              Features
+            </Link>
+            <Link className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" to="/about" onClick={() => setOpen(false)}>
+              About
+            </Link>
+            <Link className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" to="/intelligence" onClick={() => setOpen(false)}>
+              Intelligence
+            </Link>
+            <Link className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" to="/ethics" onClick={() => setOpen(false)}>
+              Ethics
+            </Link>
+            <Link className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" to="/discover" onClick={() => setOpen(false)}>
+              Discover
+            </Link>
+            <Link to="/chat" onClick={() => setOpen(false)}>
+              <button
+                type="button"
+                className="w-full bg-gradient-to-br from-primary-dim to-primary text-on-primary-container font-bold px-6 py-2.5 rounded-full shadow-lg shadow-primary/20"
+              >
+                Get Started
+              </button>
+            </Link>
+          </div>
+        )}
       </nav>
 
       {/* Hero Section */}
@@ -53,9 +90,11 @@ const Landing = ({ onStart }) => {
             >
               Empieza ahora
             </button>
-            <button className="w-full sm:w-auto px-10 py-5 rounded-full glass-panel border border-outline-variant/30 text-on-surface font-semibold text-lg hover:bg-surface-bright transition-colors">
-              Descubre NEURA
-            </button>
+            <Link className="w-full sm:w-auto" to="/discover">
+              <button className="w-full px-10 py-5 rounded-full glass-panel border border-outline-variant/30 text-on-surface font-semibold text-lg hover:bg-surface-bright transition-colors">
+                Descubre NEURA
+              </button>
+            </Link>
           </div>
         </div>
       </header>

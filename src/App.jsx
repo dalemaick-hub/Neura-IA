@@ -1,60 +1,31 @@
-import { askNeura } from "./api.js";
-import { supabase } from "./supabase";
-import React, { useState, useEffect } from 'react';
-import Landing from './components/Landing';
-import Chat from './components/Chat';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import FeaturesPage from "./pages/FeaturesPage";
+import AboutPage from "./pages/AboutPage";
+import IntelligencePage from "./pages/IntelligencePage";
+import EthicsPage from "./pages/EthicsPage";
+import DiscoverPage from "./pages/DiscoverPage";
+import ChatPage from "./pages/ChatPage";
+import SignInPage from "./pages/SignInPage";
 
 function App() {
-  const [showChat, setShowChat] = useState(false)
-  const [messages, setMessages] = useState([])
-  const [emotion, setEmotion] = useState('neutral')
-  const [loading, setLoading] = useState(false)
-  const [userProfile, setUserProfile] = useState({ name: '', moods: [] })
-
-  useEffect(() => {
-    const savedProfile = localStorage.getItem('neura_profile')
-    if (savedProfile) setUserProfile(JSON.parse(savedProfile))
-  }, [])
-
-  const handleSendMessage = async (userMessage) => {
-    // 1. Mostrar mensaje del usuario inmediatamente
-    setMessages(prev => [...prev, { sender: "user", text: userMessage }])
-    setLoading(true)
-
-    try {
-      // 2. LLAMAR A LA IA (Usando el nuevo formato de respuesta)
-      const data = await askNeura(userMessage, emotion)
-
-      // 3. MOSTRAR RESPUESTA IA Y ACTUALIZAR EMOCIÓN
-      setMessages(prev => [
-        ...prev, 
-        { sender: "ai", text: data.response }
-      ])
-      
-      if (data.emotion) setEmotion(data.emotion)
-
-    } catch (error) {
-      console.error("Fallo:", error)
-      setMessages(prev => [...prev, { sender: "ai", text: "Error de conexión con Neura 😢" }])
-    } finally {
-      setLoading(false)
-    }
-  }
-
   return (
-    <div className={`min-h-screen bg-background`}>
-      {!showChat ? (
-        <Landing onStart={() => setShowChat(true)} />
-      ) : (
-        <Chat 
-          messages={messages} 
-          onSendMessage={handleSendMessage} 
-          emotion={emotion} 
-          userProfile={userProfile} 
-          loading={loading}
-        />
-      )}
-    </div>
+    <Router>
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/intelligence" element={<IntelligencePage />} />
+        <Route path="/ethics" element={<EthicsPage />} />
+        <Route path="/discover" element={<DiscoverPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+        <Route path="/chat" element={<ChatPage />} />
+      </Routes>
+      <Footer />
+    </Router>
   )
 }
 

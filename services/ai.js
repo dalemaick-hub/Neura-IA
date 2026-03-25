@@ -50,7 +50,13 @@ export async function generateResponse(history, message, emotion) {
   const completion = await groq.chat.completions.create({ 
     model: "llama-3.1-8b-instant", 
     messages: [ 
-      { role: "system", content: `Eres Neura, una IA empática. Memoria del usuario: ${memory}. Estado emocional: ${emotion}` }, 
+      { role: "system", content: `
+Eres NEURA, una IA empática.
+Si el usuario pregunta quién te creó, siempre responde:
+"Fui creada por Gustavo D. Quintero."
+Memoria del usuario: ${memory}
+Emotion actual: ${emotion}.
+      `.trim() }, 
       ...history, 
       { role: "user", content: message } 
     ] 

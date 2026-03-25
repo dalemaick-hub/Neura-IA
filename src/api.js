@@ -25,7 +25,7 @@ export async function askNeura(message, emotion) {
   } catch (error) { 
     console.error("Error:", error); 
     return { 
-      response: "Error conectando con Neura 😢", 
+      response: "Error conectando con Neura", 
     }; 
   } 
 } 
