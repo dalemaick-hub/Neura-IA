@@ -9,6 +9,7 @@ function App() {
   const [showChat, setShowChat] = useState(false)
   const [messages, setMessages] = useState([])
   const [emotion, setEmotion] = useState('neutral')
+  const [loading, setLoading] = useState(false)
   const [userProfile, setUserProfile] = useState({ name: '', moods: [] })
 
   useEffect(() => {
@@ -18,48 +19,26 @@ function App() {
 
   const handleSendMessage = async (userMessage) => {
     // 1. Mostrar mensaje del usuario inmediatamente
-    setMessages(prev => [...prev, { text: userMessage, sender: "user" }])
+    setMessages(prev => [...prev, { sender: "user", text: userMessage }])
+    setLoading(true)
 
     try {
-      // 2. RECUPERAR MEMORIA (COMENTADO TEMPORALMENTE)
-      /*
-      const { data: memoryData } = await supabase
-        .from("neura_memory")
-        .select("content")
-        .order("created_at", { ascending: false })
-        .limit(3)
-
-      const memory = memoryData ? memoryData.reverse().map(m => m.content).join("\n") : ""
-      */
-
-      // 3. GUARDAR EN SUPABASE (COMENTADO TEMPORALMENTE)
-      /*
-      await supabase.from("neura_memory").insert([{ 
-        content: userMessage, 
-        user: userProfile.name || 'Usuario' 
-      }])
-      */
-
-      // 4. LLAMAR A LA IA (Simplificado)
+      // 2. LLAMAR A LA IA (Usando el nuevo formato de respuesta)
       const data = await askNeura(userMessage)
-      const aiText = data.response; // Extraemos el texto de la respuesta del backend
-      const aiEmotion = data.emotion; // Extraemos la emoción
 
-      // 5. MOSTRAR RESPUESTA IA
-      setMessages(prev => [...prev, { text: aiText, sender: "ai" }])
-      if (aiEmotion) setEmotion(aiEmotion)
-
-      // 6. GUARDAR RESPUESTA IA EN SUPABASE (COMENTADO TEMPORALMENTE)
-      /*
-      await supabase.from("neura_memory").insert([{ 
-        content: aiText, 
-        user: 'Neura' 
-      }])
-      */
+      // 3. MOSTRAR RESPUESTA IA Y ACTUALIZAR EMOCIÓN
+      setMessages(prev => [
+        ...prev, 
+        { sender: "ai", text: data.response }
+      ])
+      
+      if (data.emotion) setEmotion(data.emotion)
 
     } catch (error) {
       console.error("Fallo:", error)
-      setMessages(prev => [...prev, { text: "Error de conexión", sender: "ai" }])
+      setMessages(prev => [...prev, { sender: "ai", text: "Error de conexión con Neura 😢" }])
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -68,7 +47,13 @@ function App() {
       {!showChat ? (
         <Landing onStart={() => setShowChat(true)} />
       ) : (
-        <Chat messages={messages} onSendMessage={handleSendMessage} emotion={emotion} userProfile={userProfile} />
+        <Chat 
+          messages={messages} 
+          onSendMessage={handleSendMessage} 
+          emotion={emotion} 
+          userProfile={userProfile} 
+          loading={loading}
+        />
       )}
     </div>
   )

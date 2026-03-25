@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react'
 import MessageBubble from './MessageBubble'
 import InputBar from './InputBar'
 
-const Chat = ({ messages, onSendMessage, emotion, userProfile }) => {
+const Chat = ({ messages, onSendMessage, emotion, userProfile, loading }) => {
   const scrollRef = useRef(null)
 
   useEffect(() => {
@@ -69,6 +69,17 @@ const Chat = ({ messages, onSendMessage, emotion, userProfile }) => {
           {messages.map((msg, idx) => (
             <MessageBubble key={idx} message={msg} isUser={msg.sender === 'user'} />
           ))}
+          {loading && (
+            <div className="flex justify-start mb-4 animate-pulse">
+              <div className="bg-surface-variant/40 border border-outline-variant/20 px-6 py-4 rounded-2xl shadow-lg backdrop-blur-md">
+                <div className="flex gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce [animation-delay:-0.3s]"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce [animation-delay:-0.15s]"></span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary/50 animate-bounce"></span>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
 
