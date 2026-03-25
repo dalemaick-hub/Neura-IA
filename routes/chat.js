@@ -17,8 +17,11 @@ router.post("/", async (req, res) => {
       response, 
     }); 
   } catch (error) { 
-    console.error(error); 
-    res.status(500).json({ error: "Error en el chat" }); 
+    console.error("ERROR REAL:", error); 
+ 
+    res.status(500).json({ 
+      error: error.message || "Error desconocido", 
+    }); 
   } 
 }); 
  
