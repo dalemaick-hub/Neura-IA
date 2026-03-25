@@ -133,8 +133,7 @@
 }
 
 body {
-  background: linear-gradient(to bottom, #f7eaff, #fde6f2, #fff5f8);
-  @apply text-on-surface font-body overflow-x-hidden selection:bg-primary/30;
+  @apply bg-background text-on-surface font-body overflow-x-hidden selection:bg-primary/30;
 }
 
 .bg-metal {
