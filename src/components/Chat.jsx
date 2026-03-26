@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import MessageBubble from './MessageBubble'
 import InputBar from './InputBar'
+import ThinkingHeart from './ThinkingHeart'
 
 const Chat = ({ messages, onSendMessage, emotion, userProfile, loading }) => {
   const scrollRef = useRef(null)
@@ -17,17 +18,7 @@ const Chat = ({ messages, onSendMessage, emotion, userProfile, loading }) => {
         {messages.map((msg, idx) => (
           <MessageBubble key={idx} message={msg} isUser={msg.sender === 'user'} />
         ))}
-        {loading && (
-          <div className="flex justify-start mb-4 animate-pulse">
-            <div className="bg-white/10 border border-white/10 px-6 py-4 rounded-2xl shadow-lg backdrop-blur-md">
-              <div className="flex gap-1">
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-200/70 animate-bounce [animation-delay:-0.3s]"></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-200/70 animate-bounce [animation-delay:-0.15s]"></span>
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-200/70 animate-bounce"></span>
-              </div>
-            </div>
-          </div>
-        )}
+        {loading && <ThinkingHeart />}
       </div>
       <InputBar onSendMessage={onSendMessage} />
     </div>

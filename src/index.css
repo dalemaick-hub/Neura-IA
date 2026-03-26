@@ -182,3 +182,28 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.thinking-heart {
+  font-size: 24px;
+  color: #ff7aa8;
+  display: inline-block;
+  transform-origin: center;
+  animation: neura-heartbeat 0.8s infinite ease-in-out;
+  text-shadow: 0 0 18px rgba(255, 122, 168, 0.28);
+}
+
+@keyframes neura-heartbeat {
+  0% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+
+  50% {
+    transform: scale(1.3);
+    opacity: 1;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 0.7;
+  }
+}
