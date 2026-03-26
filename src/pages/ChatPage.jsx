@@ -3,46 +3,127 @@ import Chat from "../components/Chat";
 import { askNeura } from "../api.js";
 import NeuraLayout from "../components/NeuraLayout";
 
+const HISTORY_KEY = "neura_history";
+const BADWORD_COUNT_KEY = "badword_count";
+
+const badWords = [
+  "puta",
+  "puto",
+  "mierda",
+  "joder",
+  "cono",
+  "pendejo",
+  "pendeja",
+  "cabron",
+  "cabrona",
+  "imbecil",
+  "estupido",
+  "estupida",
+  "malparido",
+  "malparida",
+];
+
+export function loadHistory() {
+  const saved = localStorage.getItem(HISTORY_KEY);
+  return saved ? JSON.parse(saved) : [];
+}
+
+export function saveHistory(nextMessages) {
+  localStorage.setItem(HISTORY_KEY, JSON.stringify(nextMessages));
+}
+
+function getBadWordCount() {
+  return Number(localStorage.getItem(BADWORD_COUNT_KEY) || 0);
+}
+
+function incrementBadWordCount() {
+  const current = getBadWordCount() + 1;
+  localStorage.setItem(BADWORD_COUNT_KEY, String(current));
+  return current;
+}
+
+function containsBadWords(text) {
+  const normalized = text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+  return badWords.some((word) => normalized.includes(word));
+}
+
+function toApiMessages(chatMessages) {
+  return chatMessages.map((message) => ({
+    role: message.sender === "user" ? "user" : "assistant",
+    content: message.text,
+  }));
+}
+
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
-  const [emotion, setEmotion] = useState("neutral");
+  const [emotion] = useState("neutral");
   const [loading, setLoading] = useState(false);
   const [userProfile, setUserProfile] = useState({ name: "", moods: [] });
 
   useEffect(() => {
-    const savedHistory = localStorage.getItem("neura_history");
     const savedProfile = localStorage.getItem("neura_profile");
 
-    if (savedHistory) {
-      try {
-        setMessages(JSON.parse(savedHistory));
-      } catch (error) {
-        console.warn("No se pudo leer neura_history desde localStorage.", error);
-      }
+    try {
+      setMessages(loadHistory());
+    } catch (error) {
+      console.warn("No se pudo leer neura_history desde localStorage.", error);
     }
 
-    if (savedProfile) setUserProfile(JSON.parse(savedProfile));
+    if (savedProfile) {
+      setUserProfile(JSON.parse(savedProfile));
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("neura_history", JSON.stringify(messages));
+    saveHistory(messages);
   }, [messages]);
 
   const clearHistory = () => {
-    localStorage.removeItem("neura_history");
+    localStorage.removeItem(HISTORY_KEY);
     setMessages([]);
   };
 
   const handleSendMessage = async (userMessage) => {
-    setMessages((prev) => [...prev, { sender: "user", text: userMessage, timestamp: Date.now() }]);
+    let badCount = getBadWordCount();
+
+    if (containsBadWords(userMessage)) {
+      badCount = incrementBadWordCount();
+    }
+
+    if (badCount > 10) {
+      setMessages((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: "Entiendo que estas molesto, pero necesito que hablemos con respeto para poder ayudarte mejor. Si quieres, podemos respirar un momento y seguir.",
+          timestamp: Date.now(),
+        },
+      ]);
+      return;
+    }
+
+    const nextMessages = [
+      ...messages,
+      { sender: "user", text: userMessage, timestamp: Date.now() },
+    ];
+
+    setMessages(nextMessages);
     setLoading(true);
 
     try {
-      const data = await askNeura(userMessage, emotion);
-      setMessages((prev) => [...prev, { sender: "ai", text: data.response, timestamp: Date.now() }]);
-      if (data.emotion) setEmotion(data.emotion);
+      const data = await askNeura(toApiMessages(nextMessages));
+      setMessages((prev) => [
+        ...prev,
+        { sender: "ai", text: data.response, timestamp: Date.now() },
+      ]);
     } catch (error) {
-      setMessages((prev) => [...prev, { sender: "ai", text: "Error de conexión con Neura", timestamp: Date.now() }]);
+      setMessages((prev) => [
+        ...prev,
+        { sender: "ai", text: "Error de conexion con Neura", timestamp: Date.now() },
+      ]);
     } finally {
       setLoading(false);
     }
@@ -63,20 +144,26 @@ export default function ChatPage() {
           alt=""
           aria-hidden="true"
         />
-        <h1 className="text-4xl md:text-5xl font-headline font-bold drop-shadow-xl">¿Cómo te sientes hoy?</h1>
+        <h1 className="text-4xl md:text-5xl font-headline font-bold drop-shadow-xl">Como te sientes hoy?</h1>
         <p className="text-lg md:text-xl mt-4 text-white/80 max-w-2xl mx-auto">
-          Cuéntame lo que tienes en mente. Estoy aquí para escucharte y apoyarte.
+          Cuentame lo que tienes en mente. Estoy aqui para escucharte y apoyarte.
         </p>
       </header>
 
       <section className="px-6 py-12 min-h-[60vh]">
         <div className="max-w-3xl mx-auto bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-white/10">
-          <Chat messages={messages} onSendMessage={handleSendMessage} emotion={emotion} userProfile={userProfile} loading={loading} />
+          <Chat
+            messages={messages}
+            onSendMessage={handleSendMessage}
+            emotion={emotion}
+            userProfile={userProfile}
+            loading={loading}
+          />
           <button
             onClick={clearHistory}
             className="mt-4 mx-auto block px-5 py-2 rounded-full text-sm font-medium bg-white/10 border border-white/20 text-purple-200 hover:bg-white/20 transition-all backdrop-blur-md shadow-lg"
           >
-            🧹 Limpiar historial
+            Limpiar historial
           </button>
         </div>
       </section>
