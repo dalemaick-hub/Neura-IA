@@ -1,17 +1,7 @@
-import React from "react";
-
-const ThinkingHeart = () => {
+export default function ThinkingHeart() {
   return (
-    <div
-      className="flex justify-start mb-4"
-      aria-live="polite"
-      aria-label="Neura esta pensando"
-    >
-      <div className="bg-white/10 border border-white/10 px-5 py-3 rounded-2xl shadow-lg backdrop-blur-md">
-        <div className="thinking-heart leading-none">{"\u2764\uFE0F"}</div>
-      </div>
+    <div className="thinking-heart" aria-live="polite" aria-label="Neura esta pensando">
+      {"\u2764\uFE0F"}
     </div>
   );
-};
-
-export default ThinkingHeart;
+}

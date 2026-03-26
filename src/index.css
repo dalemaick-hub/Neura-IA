@@ -1,3 +1,16 @@
+.thinking-heart {
+  font-size: 28px;
+  animation: heartBeat 0.9s infinite ease-in-out;
+  display: inline-block;
+  margin-top: 10px;
+}
+
+@keyframes heartBeat {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
