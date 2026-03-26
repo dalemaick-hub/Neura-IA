@@ -38,11 +38,15 @@ function getBadWordCount() {
 
 function incrementBadWordCount() {
   const current = getBadWordCount() + 1;
-  localStorage.setItem(BADWORD_COUNT_KEY, String(current));
+  localStorage.setItem(BADWORD_COUNT_KEY, current);
   return current;
 }
 
 function containsBadWords(text) {
+  if (!text || typeof text !== "string") {
+    return false;
+  }
+
   const normalized = text
     .toLowerCase()
     .normalize("NFD")
@@ -89,7 +93,7 @@ export default function ChatPage() {
   const handleSendMessage = async (userMessage) => {
     let badCount = getBadWordCount();
 
-    if (containsBadWords(userMessage)) {
+    if (userMessage && containsBadWords(userMessage)) {
       badCount = incrementBadWordCount();
     }
 
