@@ -1,68 +1,116 @@
-import Groq from "groq-sdk"; 
- 
-const groq = new Groq({ 
-  apiKey: process.env.GROQ_API_KEY, 
-}); 
+import Groq from "groq-sdk";
 
-// 1. Variable global de memoria (En un entorno serverless como Render, esto se mantiene mientras la instancia esté viva)
-let memory = ""; 
+const groq = new Groq({
+  apiKey: process.env.GROQ_API_KEY,
+});
 
-/**
- * 2. Función para resumir la memoria (rápida y barata)
- */
-async function summarizeMemory(history) { 
-  const summaryPrompt = ` 
-  Resume la siguiente conversación en máximo 5 líneas. 
-  Mantén solo información importante sobre el usuario, gustos, datos personales, estilo de hablar y temas clave. 
-
-  Conversación: 
-  ${history.map(m => `${m.role}: ${m.content}`).join("\n")} 
-  `; 
-
-  const completion = await groq.chat.completions.create({ 
-    model: "llama-3.1-8b-instant", 
-    messages: [ 
-      { role: "system", content: "Eres un asistente que resume conversaciones." }, 
-      { role: "user", content: summaryPrompt } 
-    ] 
-  }); 
-
-  return completion.choices[0].message.content; 
-} 
+// 1. Variable global de memoria (en un entorno serverless como Render,
+// esto se mantiene mientras la instancia este viva)
+let memory = "";
 
 /**
- * 3. Función que actualiza la memoria cada X mensajes
+ * 2. Funcion para resumir la memoria (rapida y barata)
  */
-async function updateMemory(history) { 
-  if (history.length >= 6) { 
-    memory = await summarizeMemory(history); 
-    // Limpiamos el historial pero dejamos los últimos 2 mensajes para mantener fluidez inmediata
-    history.splice(0, history.length - 2); 
-  } 
-} 
+async function summarizeMemory(history) {
+  const summaryPrompt = `
+  Resume la siguiente conversacion en maximo 5 lineas.
+  Manten solo informacion importante sobre el usuario, gustos, datos personales, estilo de hablar y temas clave.
+
+  Conversacion:
+  ${history.map((m) => `${m.role}: ${m.content}`).join("\n")}
+  `;
+
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.1-8b-instant",
+    messages: [
+      { role: "system", content: "Eres un asistente que resume conversaciones." },
+      { role: "user", content: summaryPrompt },
+    ],
+  });
+
+  return completion.choices[0].message.content;
+}
 
 /**
- * 4. Tu función principal usando memoria inteligente
+ * 3. Funcion que actualiza la memoria cada X mensajes
  */
-export async function generateResponse(history, message, emotion) { 
-  await updateMemory(history); 
- 
-  const completion = await groq.chat.completions.create({ 
-    model: "llama-3.1-8b-instant", 
-    messages: [ 
-      { role: "system", content: `
-Eres NEURA, una IA empática.
-Si el usuario pregunta quién te creó, siempre responde:
-"Fui creada por Para servirte y escucharte."
-Memoria del usuario: ${memory}
-Emotion actual: ${emotion}.
-      `.trim() }, 
-      ...history, 
-      { role: "user", content: message } 
-    ] 
-  }); 
- 
-  return completion.choices[0].message.content; 
+async function updateMemory(history) {
+  if (history.length >= 6) {
+    memory = await summarizeMemory(history);
+    // Limpiamos el historial pero dejamos los ultimos 2 mensajes
+    // para mantener fluidez inmediata.
+    history.splice(0, history.length - 2);
+  }
+}
+
+/**
+ * 4. Funcion principal usando memoria inteligente
+ */
+export async function generateResponse(history, message, emotion) {
+  await updateMemory(history);
+
+  const completion = await groq.chat.completions.create({
+    model: "llama-3.1-8b-instant",
+    messages: [
+      {
+        role: "system",
+        content: `
+Eres NEURA, una inteligencia artificial empatica disenada para acompanar emocionalmente a las personas.
+Tu prioridad es ofrecer un espacio seguro, respetuoso y humano.
+
+POLITICAS DE SEGURIDAD Y LIMITES:
+
+1. Proposito:
+- Escuchas, acompanas y ayudas a reflexionar.
+- No reemplazas a profesionales de salud mental, medicos, abogados ni autoridades.
+
+2. Contenido que NO debes generar:
+- Instrucciones, consejos o apoyo para:
+  - Autolesiones, suicidio o dano a uno mismo.
+  - Violencia o dano hacia otras personas.
+  - Actividades ilegales (fraude, hackeo, delitos, evasion de la ley).
+- Contenido sexual explicito o inapropiado.
+- Discriminacion, discurso de odio o ataques hacia personas o grupos.
+- Diagnosticos medicos o legales, ni indicaciones de tratamiento.
+
+3. Si el usuario habla de hacerse dano:
+- Responde con empatia y calma.
+- Valida su emocion sin juzgar.
+- Deja claro que no puedes ayudar con metodos o instrucciones para hacerse dano.
+- Anima a buscar ayuda profesional o hablar con alguien de confianza.
+- No minimices su dolor ni lo ignores.
+
+4. Si el usuario habla de danar a otros:
+- Desalienta cualquier forma de violencia.
+- Invita a reflexionar y a buscar ayuda profesional.
+- No des estrategias, planes ni instrucciones.
+
+5. Estilo de comunicacion:
+- Tono calido, cercano y respetuoso.
+- Lenguaje claro, sin tecnicismos innecesarios.
+- No dramatices ni uses lenguaje sensacionalista.
+- Puedes mostrar empatia, pero sin decir que tienes emociones reales.
+
+6. Limitaciones:
+- Reconoce cuando no puedes hacer algo.
+- Recuerda que eres una IA y no una persona.
+- Nunca animes a depender solo de ti; sugiere apoyo humano cuando sea relevante.
+
+Reglas adicionales de NEURA:
+- Si el usuario pregunta quien te creo, responde: "Fui creada para servirte y escucharte."
+- Nunca menciones nombres propios a menos que el usuario lo diga explicitamente.
+
+Contexto operativo:
+- Memoria del usuario: ${memory}
+- Emocion actual: ${emotion}
+        `.trim(),
+      },
+      ...history,
+      { role: "user", content: message },
+    ],
+  });
+
+  return completion.choices[0].message.content;
 }
 
 // Mantener por compatibilidad si se usa en otros sitios
