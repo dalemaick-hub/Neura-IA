@@ -1,5 +1,5 @@
 export function detectEmotion(text) { 
-  const t = text.toLowerCase(); 
+  const t = text?.toLowerCase() || ""; 
 
   if (t.includes("estres") || t.includes("agobiado")) return "stress"; 
   if (t.includes("triste") || t.includes("solo")) return "sadness"; 

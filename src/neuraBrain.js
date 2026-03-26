@@ -1,5 +1,5 @@
 export function getNeuraResponse(message, profile) {
-  const msg = message.toLowerCase()
+  const msg = message?.toLowerCase() || ""
 
   let mood = "neutral"
 
