@@ -50,23 +50,13 @@ export default function ChatPage() {
     }
 
     const trimmedMessage = userMessage.trim();
-    const backendMessages = [
-      ...messages.map((message) => ({
-        role: message.sender === "user" ? "user" : "assistant",
-        content: message.text,
-      })),
-      {
-        role: "user",
-        content: trimmedMessage,
-      },
-    ];
     const nextMessages = [...messages, { sender: "user", text: trimmedMessage, timestamp: Date.now() }];
 
     setMessages(nextMessages);
     setLoading(true);
 
     try {
-      const data = await askNeura(backendMessages);
+      const data = await askNeura(trimmedMessage);
       setMessages((prev) => [
         ...prev,
         { sender: "neura", text: data.response, timestamp: Date.now() },
