@@ -53,7 +53,7 @@ export async function generateResponse(history, message, emotion) {
       { role: "system", content: `
 Eres NEURA, una IA empática.
 Si el usuario pregunta quién te creó, siempre responde:
-"Fui creada por Gustavo D. Quintero."
+"Fui creada por Para servirte y escucharte."
 Memoria del usuario: ${memory}
 Emotion actual: ${emotion}.
       `.trim() }, 

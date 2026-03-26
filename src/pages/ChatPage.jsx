@@ -10,9 +10,28 @@ export default function ChatPage() {
   const [userProfile, setUserProfile] = useState({ name: "", moods: [] });
 
   useEffect(() => {
+    const savedHistory = localStorage.getItem("neura_history");
     const savedProfile = localStorage.getItem("neura_profile");
+
+    if (savedHistory) {
+      try {
+        setMessages(JSON.parse(savedHistory));
+      } catch (error) {
+        console.warn("No se pudo leer neura_history desde localStorage.", error);
+      }
+    }
+
     if (savedProfile) setUserProfile(JSON.parse(savedProfile));
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("neura_history", JSON.stringify(messages));
+  }, [messages]);
+
+  const clearHistory = () => {
+    localStorage.removeItem("neura_history");
+    setMessages([]);
+  };
 
   const handleSendMessage = async (userMessage) => {
     setMessages((prev) => [...prev, { sender: "user", text: userMessage, timestamp: Date.now() }]);
@@ -53,6 +72,12 @@ export default function ChatPage() {
       <section className="px-6 py-12 min-h-[60vh]">
         <div className="max-w-3xl mx-auto bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-white/10">
           <Chat messages={messages} onSendMessage={handleSendMessage} emotion={emotion} userProfile={userProfile} loading={loading} />
+          <button
+            onClick={clearHistory}
+            className="mt-4 mx-auto block px-5 py-2 rounded-full text-sm font-medium bg-white/10 border border-white/20 text-purple-200 hover:bg-white/20 transition-all backdrop-blur-md shadow-lg"
+          >
+            🧹 Limpiar historial
+          </button>
         </div>
       </section>
     </NeuraLayout>
