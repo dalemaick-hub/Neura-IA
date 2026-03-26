@@ -4,24 +4,6 @@ import { askNeura } from "../api.js";
 import NeuraLayout from "../components/NeuraLayout";
 
 const HISTORY_KEY = "neura_history";
-const BADWORD_COUNT_KEY = "badword_count";
-
-const badWords = [
-  "puta",
-  "puto",
-  "mierda",
-  "joder",
-  "cono",
-  "pendejo",
-  "pendeja",
-  "cabron",
-  "cabrona",
-  "imbecil",
-  "estupido",
-  "estupida",
-  "malparido",
-  "malparida",
-];
 
 export function loadHistory() {
   const saved = localStorage.getItem(HISTORY_KEY);
@@ -30,28 +12,6 @@ export function loadHistory() {
 
 export function saveHistory(nextMessages) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(nextMessages));
-}
-
-function getBadWordCount() {
-  return Number(localStorage.getItem(BADWORD_COUNT_KEY) || 0);
-}
-
-function incrementBadWordCount() {
-  const current = getBadWordCount() + 1;
-  localStorage.setItem(BADWORD_COUNT_KEY, current);
-  return current;
-}
-
-function containsBadWords(text) {
-  if (!text || typeof text !== "string") {
-    return false;
-  }
-
-  const normalized = text
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
-  return badWords.some((word) => normalized.includes(word));
 }
 
 function toApiMessages(chatMessages) {
@@ -91,21 +51,7 @@ export default function ChatPage() {
   };
 
   const handleSendMessage = async (userMessage) => {
-    let badCount = getBadWordCount();
-
-    if (userMessage && containsBadWords(userMessage)) {
-      badCount = incrementBadWordCount();
-    }
-
-    if (badCount > 10) {
-      setMessages((prev) => [
-        ...prev,
-        {
-          sender: "ai",
-          text: "Entiendo que estas molesto, pero necesito que hablemos con respeto para poder ayudarte mejor. Si quieres, podemos respirar un momento y seguir.",
-          timestamp: Date.now(),
-        },
-      ]);
+    if (!userMessage || userMessage.trim() === "") {
       return;
     }
 
