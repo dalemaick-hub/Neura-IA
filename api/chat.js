@@ -21,10 +21,25 @@ export default async function handler(req, res) {
 
   try {
     const { messages = [] } = req.body;
+    const cleanMessages = Array.isArray(messages)
+      ? messages.filter(
+          (message) =>
+            message &&
+            (message.role === "user" || message.role === "assistant") &&
+            typeof message.content === "string" &&
+            message.content.trim() !== "",
+        )
+      : [];
+
+    if (cleanMessages.length === 0) {
+      return res.status(400).json({
+        error: "No hay mensajes validos para procesar.",
+      });
+    }
 
     const completion = await groq.chat.completions.create({
       model: "llama3-8b-8192",
-      messages: [{ role: "system", content: systemPrompt }, ...messages],
+      messages: [{ role: "system", content: systemPrompt }, ...cleanMessages],
       max_tokens: 200,
     });
 
