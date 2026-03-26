@@ -21,7 +21,7 @@ async function summarizeMemory(history) {
   `;
 
   const completion = await groq.chat.completions.create({
-    model: "llama3-8b-8192",
+    model: "llama-3.1-8b-instant",
     messages: [
       { role: "system", content: "Eres un asistente que resume conversaciones." },
       { role: "user", content: summaryPrompt },
@@ -50,7 +50,7 @@ export async function generateResponse(history, message, emotion) {
   await updateMemory(history);
 
   const completion = await groq.chat.completions.create({
-    model: "llama3-8b-8192",
+    model: "llama-3.3-70b-versatile",
     messages: [
       {
         role: "system",

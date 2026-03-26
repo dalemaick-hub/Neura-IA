@@ -86,7 +86,7 @@ export default async function handler(req, res) {
     }
 
     const completion = await groq.chat.completions.create({
-      model: "llama3-8b-8192",
+      model: "llama-3.3-70b-versatile",
       messages: [{ role: "system", content: systemPrompt }, ...cleanMessages],
       temperature: 0.7,
       max_tokens: 200,
