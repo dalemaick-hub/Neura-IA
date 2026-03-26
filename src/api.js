@@ -2,13 +2,22 @@ const API_URL = "https://neura-ia.onrender.com";
 
 export async function askNeura(messages) {
   try {
+    const cleanMessages = Array.isArray(messages)
+      ? messages.filter(
+          (message) =>
+            message &&
+            typeof message.content === "string" &&
+            message.content.trim() !== "",
+        )
+      : [];
+
     const res = await fetch(`${API_URL}/api/chat`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        messages,
+        messages: cleanMessages,
       }),
     });
 

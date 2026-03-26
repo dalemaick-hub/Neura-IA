@@ -14,13 +14,6 @@ export function saveHistory(nextMessages) {
   localStorage.setItem(HISTORY_KEY, JSON.stringify(nextMessages));
 }
 
-function toApiMessages(chatMessages) {
-  return chatMessages.map((message) => ({
-    role: message.sender === "user" ? "user" : "assistant",
-    content: message.text,
-  }));
-}
-
 export default function ChatPage() {
   const [messages, setMessages] = useState([]);
   const [emotion] = useState("neutral");
@@ -52,27 +45,36 @@ export default function ChatPage() {
 
   const handleSendMessage = async (userMessage) => {
     if (!userMessage || userMessage.trim() === "") {
+      console.log("Mensaje vacío bloqueado");
       return;
     }
 
-    const nextMessages = [
-      ...messages,
-      { sender: "user", text: userMessage, timestamp: Date.now() },
+    const trimmedMessage = userMessage.trim();
+    const backendMessages = [
+      ...messages.map((message) => ({
+        role: message.sender === "user" ? "user" : "assistant",
+        content: message.text,
+      })),
+      {
+        role: "user",
+        content: trimmedMessage,
+      },
     ];
+    const nextMessages = [...messages, { sender: "user", text: trimmedMessage, timestamp: Date.now() }];
 
     setMessages(nextMessages);
     setLoading(true);
 
     try {
-      const data = await askNeura(toApiMessages(nextMessages));
+      const data = await askNeura(backendMessages);
       setMessages((prev) => [
         ...prev,
-        { sender: "ai", text: data.response, timestamp: Date.now() },
+        { sender: "neura", text: data.response, timestamp: Date.now() },
       ]);
     } catch (error) {
       setMessages((prev) => [
         ...prev,
-        { sender: "ai", text: "Error de conexion con Neura", timestamp: Date.now() },
+        { sender: "neura", text: "Error de conexion con Neura", timestamp: Date.now() },
       ]);
     } finally {
       setLoading(false);
