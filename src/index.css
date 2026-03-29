@@ -220,3 +220,58 @@ body {
     opacity: 0.7;
   }
 }
+
+@keyframes message-in {
+  0% {
+    opacity: 0;
+    transform: translateY(14px) scale(0.98);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-message-in {
+  animation: message-in 0.45s ease-out both;
+}
+
+@keyframes emotion-wave {
+  0% {
+    transform: translateX(-20%);
+    opacity: 0.3;
+  }
+
+  50% {
+    transform: translateX(20%);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translateX(60%);
+    opacity: 0.3;
+  }
+}
+
+.emotion-wave {
+  background-size: 200% 100%;
+  animation: emotion-wave 6s linear infinite;
+}
+
+@keyframes orb-breathe {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.75;
+  }
+
+  50% {
+    transform: scale(1.18);
+    opacity: 1;
+  }
+}
+
+.emotion-orb {
+  animation: orb-breathe 4.5s ease-in-out infinite;
+  box-shadow: 0 0 30px currentColor;
+}

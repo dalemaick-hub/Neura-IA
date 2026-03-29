@@ -11,12 +11,48 @@ import {
 import NeuraLayout from "../components/NeuraLayout";
 
 const EMOTION_META = {
-  feliz: { emoji: "✨", label: "Te sientes feliz" },
-  triste: { emoji: "😔", label: "Te sientes triste" },
-  estresado: { emoji: "🧠", label: "Detectado: Estres" },
-  ansioso: { emoji: "🌿", label: "Te sientes ansioso" },
-  enfadado: { emoji: "🔥", label: "Te sientes enfadado" },
-  neutral: { emoji: "💬", label: "Te estoy escuchando" },
+  feliz: {
+    emoji: "\u2728",
+    label: "Te sientes feliz",
+    accent: "text-emerald-300",
+    surface: "from-emerald-400/20 to-cyan-400/10",
+    orb: "rgba(74, 222, 128, 0.55)",
+  },
+  triste: {
+    emoji: "\u{1F614}",
+    label: "Te sientes triste",
+    accent: "text-sky-300",
+    surface: "from-sky-400/20 to-indigo-400/10",
+    orb: "rgba(56, 189, 248, 0.55)",
+  },
+  estresado: {
+    emoji: "\u{1F9E0}",
+    label: "Estado detectado: Estres",
+    accent: "text-orange-300",
+    surface: "from-orange-400/20 to-pink-400/10",
+    orb: "rgba(251, 146, 60, 0.58)",
+  },
+  ansioso: {
+    emoji: "\u{1F33F}",
+    label: "Te sientes ansioso",
+    accent: "text-teal-300",
+    surface: "from-teal-400/20 to-sky-400/10",
+    orb: "rgba(45, 212, 191, 0.55)",
+  },
+  enfadado: {
+    emoji: "\u{1F525}",
+    label: "Te sientes enfadado",
+    accent: "text-rose-300",
+    surface: "from-rose-400/20 to-orange-400/10",
+    orb: "rgba(251, 113, 133, 0.58)",
+  },
+  neutral: {
+    emoji: "\u{1F4AC}",
+    label: "Te estoy escuchando",
+    accent: "text-violet-200",
+    surface: "from-violet-400/20 to-sky-400/10",
+    orb: "rgba(189, 157, 255, 0.52)",
+  },
 };
 
 const QUICK_REPLIES = [
@@ -26,10 +62,10 @@ const QUICK_REPLIES = [
 ];
 
 const PERSONALITY_MODES = [
-  { id: "calmado", label: "Calmado", emoji: "🧘" },
-  { id: "motivador", label: "Motivador", emoji: "💪" },
-  { id: "analitico", label: "Analitico", emoji: "🧠" },
-  { id: "directo", label: "Directo", emoji: "🗣️" },
+  { id: "calmado", label: "Calmado", emoji: "\u{1F9D8}" },
+  { id: "motivador", label: "Motivador", emoji: "\u{1F4AA}" },
+  { id: "analitico", label: "Analitico", emoji: "\u{1F9E0}" },
+  { id: "directo", label: "Directo", emoji: "\u{1F5E3}" },
 ];
 
 function buildWeeklySummary(moods) {
@@ -46,25 +82,11 @@ function buildWeeklySummary(moods) {
 
   const [dominantMood] = Object.entries(counts).sort((left, right) => right[1] - left[1])[0];
 
-  if (dominantMood === "estresado") {
-    return "Esta semana: alto nivel de estres.";
-  }
-
-  if (dominantMood === "ansioso") {
-    return "Esta semana: hay senales de ansiedad sostenida.";
-  }
-
-  if (dominantMood === "triste") {
-    return "Esta semana: se percibe una carga emocional baja.";
-  }
-
-  if (dominantMood === "feliz") {
-    return "Esta semana: tu energia emocional va en buen camino.";
-  }
-
-  if (dominantMood === "enfadado") {
-    return "Esta semana: hay tension acumulada que conviene descargar.";
-  }
+  if (dominantMood === "estresado") return "Esta semana: alto nivel de estres.";
+  if (dominantMood === "ansioso") return "Esta semana: hay senales de ansiedad sostenida.";
+  if (dominantMood === "triste") return "Esta semana: se percibe una carga emocional baja.";
+  if (dominantMood === "feliz") return "Esta semana: tu energia emocional va en buen camino.";
+  if (dominantMood === "enfadado") return "Esta semana: hay tension acumulada que conviene descargar.";
 
   return "Esta semana: tu estado emocional ha sido bastante estable.";
 }
@@ -91,18 +113,12 @@ export default function ChatPage() {
   }, []);
 
   useEffect(() => {
-    if (!isReady) {
-      return;
-    }
-
+    if (!isReady) return;
     saveHistory(messages);
   }, [isReady, messages]);
 
   useEffect(() => {
-    if (!isReady) {
-      return;
-    }
-
+    if (!isReady) return;
     saveUserProfile(userProfile);
   }, [isReady, userProfile]);
 
@@ -161,37 +177,47 @@ export default function ChatPage() {
 
   return (
     <NeuraLayout>
-      <header className="relative w-full py-10 px-6 text-center bg-gradient-to-b from-[#3b2752] via-[#4a2c6d] to-[#5e3a7f] text-white overflow-hidden">
+      <header className="relative w-full overflow-hidden bg-gradient-to-b from-[#321b4f] via-[#49276d] to-[#5e3a7f] px-6 py-10 text-center text-white">
+        <div
+          className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl opacity-70 animate-pulse-slow"
+          style={{ background: emotionMeta.orb }}
+        />
         <img
           src="/images/Recorte%20de%20mariposa.png"
-          className="absolute top-10 left-10 w-20 animate-float-soft opacity-80"
+          className="absolute left-10 top-10 w-20 animate-float-soft opacity-80"
           alt=""
           aria-hidden="true"
         />
         <img
           src="/images/Recorte%20de%20mariposa%20-%20copia.png"
-          className="absolute top-20 right-16 w-24 animate-float-soft opacity-80 delay-500"
+          className="absolute right-16 top-20 w-24 animate-float-soft opacity-80 delay-500"
           alt=""
           aria-hidden="true"
         />
-        <h1 className="text-4xl md:text-5xl font-headline font-bold drop-shadow-xl">Como te sientes hoy?</h1>
-        <p className="text-lg md:text-xl mt-4 text-white/80 max-w-2xl mx-auto">
-          Cuentame lo que tienes en mente. Estoy aqui para escucharte y apoyarte.
-        </p>
+        <div className="relative z-10">
+          <div className="mx-auto mb-4 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
+            <span className="emotion-orb h-3 w-3 rounded-full" style={{ backgroundColor: emotionMeta.orb }}></span>
+            <span className={`text-sm font-medium ${emotionMeta.accent}`}>{emotionMeta.label}</span>
+          </div>
+          <h1 className="text-4xl font-headline font-bold drop-shadow-xl md:text-5xl">\u00BFC\u00F3mo te sientes hoy?</h1>
+          <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80 md:text-xl">
+            Estoy aqui para escucharte. En pocos segundos podemos bajar ruido mental y darte un siguiente paso claro.
+          </p>
+        </div>
       </header>
 
-      <section className="px-6 py-12 min-h-[60vh]">
-        <div className="max-w-3xl mx-auto bg-white/5 backdrop-blur-xl rounded-3xl shadow-2xl p-6 border border-white/10 space-y-6">
+      <section className="min-h-[60vh] px-6 py-12">
+        <div className="mx-auto max-w-3xl space-y-6 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl">
           <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
-            <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 text-white">
+            <div className={`rounded-2xl border border-white/10 bg-gradient-to-br ${emotionMeta.surface} px-4 py-4 text-white shadow-[0_20px_60px_-35px_rgba(189,157,255,0.45)]`}>
               <p className="text-xs uppercase tracking-[0.25em] text-white/50">Estado emocional</p>
-              <p className="mt-2 text-lg font-semibold">
+              <p className={`mt-2 text-lg font-semibold ${emotionMeta.accent}`}>
                 {emotionMeta.emoji} {emotionMeta.label}
               </p>
             </div>
             <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 text-white">
               <p className="text-xs uppercase tracking-[0.25em] text-white/50">Resumen emocional</p>
-              <p className="mt-2 text-sm leading-6 text-white/80">📊 {weeklySummary}</p>
+              <p className="mt-2 text-sm leading-6 text-white/80">{"\\u{1F4CA}"} {weeklySummary}</p>
             </div>
           </div>
 
@@ -212,7 +238,7 @@ export default function ChatPage() {
                   onClick={() => setMode(item.id)}
                   className={`rounded-full border px-3 py-2 text-sm transition ${
                     mode === item.id
-                      ? "border-purple-300 bg-purple-300/20 text-white"
+                      ? "border-purple-300 bg-purple-300/20 text-white shadow-[0_0_25px_rgba(189,157,255,0.25)]"
                       : "border-white/10 bg-white/5 text-white/75 hover:bg-white/10"
                   }`}
                 >
@@ -226,12 +252,13 @@ export default function ChatPage() {
             messages={messages}
             onSendMessage={handleSendMessage}
             emotion={emotion}
+            emotionMeta={emotionMeta}
             userProfile={userProfile}
             loading={loading}
           />
           <button
             onClick={handleClearHistory}
-            className="mt-4 mx-auto block px-5 py-2 rounded-full text-sm font-medium bg-white/10 border border-white/20 text-purple-200 hover:bg-white/20 transition-all backdrop-blur-md shadow-lg"
+            className="mx-auto mt-4 block rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-purple-200 shadow-lg backdrop-blur-md transition-all hover:bg-white/20"
           >
             Limpiar historial
           </button>
