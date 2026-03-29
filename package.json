@@ -1,1 +1,35 @@
-{"name":"neura-ia","version":"0.1.0","private":true,"type":"module","scripts":{"dev":"vite","build":"vite build","preview":"vite preview"},"dependencies":{"@supabase/supabase-js":"^2.100.0","cors":"^2.8.6","dotenv":"^17.3.1","express":"^5.2.1","groq-sdk":"^1.1.1","openai":"^6.32.0","react":"^18.2.0","react-dom":"^18.2.0","react-router-dom":"^6.30.1"},"devDependencies":{"@vitejs/plugin-react":"^4.3.4","autoprefixer":"^10.4.20","postcss":"^8.4.49","tailwindcss":"^3.4.17","vite":"^5.4.11"},"description":"¿Qué es NEURA? NEURA es la evolución de la Inteligencia Artificial: el primer asistente emocional personal diseñado no solo para procesar datos, sino para comprender a las personas.","main":"postcss.config.js","keywords":[],"author":"","license":"ISC"}
+{
+  "name": "neura-ia",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:server": "node server/index.js",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.100.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "groq-sdk": "^1.1.1",
+    "openai": "^6.32.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.30.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.4",
+    "autoprefixer": "^10.4.20",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "vite": "^5.4.11"
+  },
+  "description": "NEURA es la evolucion de la Inteligencia Artificial: el primer asistente emocional personal disenado no solo para procesar datos, sino para comprender a las personas.",
+  "main": "postcss.config.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

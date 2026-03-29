@@ -1,3 +1,5 @@
 node_modules
 Neura-IA
-Neura-IA
+.env
+.env.*
+!.env.example
