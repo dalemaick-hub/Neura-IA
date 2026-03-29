@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import Chat from "../components/Chat";
 import { analizarEmocion } from "../services/ai.js";
 import {
@@ -12,43 +12,43 @@ import NeuraLayout from "../components/NeuraLayout";
 
 const EMOTION_META = {
   feliz: {
-    emoji: "\u2728",
-    label: "Te sientes feliz",
+    emoji: "😄",
+    label: "Te sientes: Felicidad",
     accent: "text-emerald-300",
     surface: "from-emerald-400/20 to-cyan-400/10",
     orb: "rgba(74, 222, 128, 0.55)",
   },
   triste: {
-    emoji: "\u{1F614}",
-    label: "Te sientes triste",
+    emoji: "😢",
+    label: "Te sientes: Tristeza",
     accent: "text-sky-300",
     surface: "from-sky-400/20 to-indigo-400/10",
     orb: "rgba(56, 189, 248, 0.55)",
   },
   estresado: {
-    emoji: "\u{1F9E0}",
-    label: "Estado detectado: Estres",
+    emoji: "😩",
+    label: "Estado detectado: Estrés",
     accent: "text-orange-300",
     surface: "from-orange-400/20 to-pink-400/10",
     orb: "rgba(251, 146, 60, 0.58)",
   },
   ansioso: {
-    emoji: "\u{1F33F}",
-    label: "Te sientes ansioso",
+    emoji: "🌿",
+    label: "Te sientes: Ansiedad",
     accent: "text-teal-300",
     surface: "from-teal-400/20 to-sky-400/10",
     orb: "rgba(45, 212, 191, 0.55)",
   },
   enfadado: {
-    emoji: "\u{1F525}",
-    label: "Te sientes enfadado",
+    emoji: "🔥",
+    label: "Te sientes: Enfado",
     accent: "text-rose-300",
     surface: "from-rose-400/20 to-orange-400/10",
     orb: "rgba(251, 113, 133, 0.58)",
   },
   neutral: {
-    emoji: "\u{1F4AC}",
-    label: "Te estoy escuchando",
+    emoji: "💙",
+    label: "Estoy aquí para escucharte",
     accent: "text-violet-200",
     surface: "from-violet-400/20 to-sky-400/10",
     orb: "rgba(189, 157, 255, 0.52)",
@@ -56,23 +56,36 @@ const EMOTION_META = {
 };
 
 const QUICK_REPLIES = [
-  "Quiero un consejo mas directo",
-  "Explicamelo mejor",
-  "Dame algo practico",
+  "Quiero un consejo más directo",
+  "Explícamelo mejor",
+  "Dame algo práctico",
+];
+
+const HERO_ACTIONS = [
+  "Dame un consejo",
+  "Sé más directo",
+  "Ayúdame a calmarme",
+];
+
+const EMOTION_PRESETS = [
+  { emotion: "triste", label: "😢", prompt: "Hoy me siento triste y quiero hablarlo contigo." },
+  { emotion: "estresado", label: "😩", prompt: "Hoy me siento estresado y necesito bajar revoluciones." },
+  { emotion: "neutral", label: "😌", prompt: "Quiero hacer un check-in emocional y sentir más calma." },
+  { emotion: "feliz", label: "😄", prompt: "Hoy me siento feliz y quiero aprovechar bien esta energía." },
 ];
 
 const PERSONALITY_MODES = [
-  { id: "calmado", label: "Calmado", emoji: "\u{1F9D8}" },
-  { id: "motivador", label: "Motivador", emoji: "\u{1F4AA}" },
-  { id: "analitico", label: "Analitico", emoji: "\u{1F9E0}" },
-  { id: "directo", label: "Directo", emoji: "\u{1F5E3}" },
+  { id: "calmado", label: "Calmad@", emoji: "💜" },
+  { id: "motivador", label: "Motivador", emoji: "💪" },
+  { id: "analitico", label: "Analítico", emoji: "🧠" },
+  { id: "directo", label: "Directo", emoji: "🗣️" },
 ];
 
 function buildWeeklySummary(moods) {
   const recentMoods = moods.slice(-7);
 
   if (recentMoods.length === 0) {
-    return "Aun no hay suficiente informacion emocional esta semana.";
+    return "Aún no hay suficiente información emocional esta semana.";
   }
 
   const counts = recentMoods.reduce((accumulator, mood) => {
@@ -82,11 +95,11 @@ function buildWeeklySummary(moods) {
 
   const [dominantMood] = Object.entries(counts).sort((left, right) => right[1] - left[1])[0];
 
-  if (dominantMood === "estresado") return "Esta semana: alto nivel de estres.";
-  if (dominantMood === "ansioso") return "Esta semana: hay senales de ansiedad sostenida.";
+  if (dominantMood === "estresado") return "Esta semana: alto nivel de estrés.";
+  if (dominantMood === "ansioso") return "Esta semana: hay señales de ansiedad sostenida.";
   if (dominantMood === "triste") return "Esta semana: se percibe una carga emocional baja.";
-  if (dominantMood === "feliz") return "Esta semana: tu energia emocional va en buen camino.";
-  if (dominantMood === "enfadado") return "Esta semana: hay tension acumulada que conviene descargar.";
+  if (dominantMood === "feliz") return "Esta semana: tu energía emocional va en buen camino.";
+  if (dominantMood === "enfadado") return "Esta semana: hay tensión acumulada que conviene descargar.";
 
   return "Esta semana: tu estado emocional ha sido bastante estable.";
 }
@@ -122,14 +135,8 @@ export default function ChatPage() {
     saveUserProfile(userProfile);
   }, [isReady, userProfile]);
 
-  const handleClearHistory = () => {
-    clearHistory();
-    setMessages([]);
-  };
-
-  const handleSendMessage = async (userMessage) => {
+  const sendMessage = async (userMessage) => {
     if (!userMessage || userMessage.trim() === "") {
-      console.log("Mensaje vacio bloqueado");
       return;
     }
 
@@ -164,11 +171,16 @@ export default function ChatPage() {
     } catch (_error) {
       setMessages((prev) => [
         ...prev,
-        { sender: "neura", text: "Error de conexion con Neura", timestamp: Date.now() },
+        { sender: "neura", text: "Error de conexión con Neura", timestamp: Date.now() },
       ]);
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleClearHistory = () => {
+    clearHistory();
+    setMessages([]);
   };
 
   const emotionMeta = EMOTION_META[emotion] || EMOTION_META.neutral;
@@ -177,60 +189,49 @@ export default function ChatPage() {
 
   return (
     <NeuraLayout>
-      <header className="relative w-full overflow-hidden bg-gradient-to-b from-[#321b4f] via-[#49276d] to-[#5e3a7f] px-6 py-10 text-center text-white">
-        <div
-          className="pointer-events-none absolute left-1/2 top-1/2 h-56 w-56 -translate-x-1/2 -translate-y-1/2 rounded-full blur-3xl opacity-70 animate-pulse-slow"
-          style={{ background: emotionMeta.orb }}
-        />
-        <img
-          src="/images/Recorte%20de%20mariposa.png"
-          className="absolute left-10 top-10 w-20 animate-float-soft opacity-80"
-          alt=""
-          aria-hidden="true"
-        />
-        <img
-          src="/images/Recorte%20de%20mariposa%20-%20copia.png"
-          className="absolute right-16 top-20 w-24 animate-float-soft opacity-80 delay-500"
-          alt=""
-          aria-hidden="true"
-        />
-        <div className="relative z-10">
-          <div className="mx-auto mb-4 inline-flex items-center gap-3 rounded-full border border-white/15 bg-white/10 px-4 py-2 backdrop-blur-md">
-            <span className="emotion-orb h-3 w-3 rounded-full" style={{ backgroundColor: emotionMeta.orb }}></span>
-            <span className={`text-sm font-medium ${emotionMeta.accent}`}>{emotionMeta.label}</span>
-          </div>
-          <h1 className="text-4xl font-headline font-bold drop-shadow-xl md:text-5xl">\u00BFC\u00F3mo te sientes hoy?</h1>
-          <p className="mx-auto mt-4 max-w-2xl text-lg text-white/80 md:text-xl">
-            Estoy aqui para escucharte. En pocos segundos podemos bajar ruido mental y darte un siguiente paso claro.
-          </p>
-        </div>
-      </header>
+      <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-[#0a0018] via-[#12002e] to-[#1a003d] px-6 py-10 text-white">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(128,90,213,0.22),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(96,165,250,0.15),transparent_28%)]" />
+        <div className="pointer-events-none absolute left-1/2 top-28 h-72 w-72 -translate-x-1/2 rounded-full blur-3xl opacity-80 animate-pulse-slow" style={{ background: emotionMeta.orb }} />
 
-      <section className="min-h-[60vh] px-6 py-12">
-        <div className="mx-auto max-w-3xl space-y-6 rounded-3xl border border-white/10 bg-white/5 p-6 shadow-2xl backdrop-blur-xl">
-          <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
-            <div className={`rounded-2xl border border-white/10 bg-gradient-to-br ${emotionMeta.surface} px-4 py-4 text-white shadow-[0_20px_60px_-35px_rgba(189,157,255,0.45)]`}>
-              <p className="text-xs uppercase tracking-[0.25em] text-white/50">Estado emocional</p>
-              <p className={`mt-2 text-lg font-semibold ${emotionMeta.accent}`}>
-                {emotionMeta.emoji} {emotionMeta.label}
-              </p>
-            </div>
-            <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 text-white">
-              <p className="text-xs uppercase tracking-[0.25em] text-white/50">Resumen emocional</p>
-              <p className="mt-2 text-sm leading-6 text-white/80">{"\\u{1F4CA}"} {weeklySummary}</p>
+        <div className="relative z-10 mx-auto flex w-full max-w-5xl flex-col items-center">
+          <div className="text-center mt-6">
+            <h1 className="bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text text-5xl font-extrabold text-transparent drop-shadow-lg md:text-6xl">
+              NEURA
+            </h1>
+            <p className="mt-1 tracking-wide text-purple-300">Tu inteligencia emocional</p>
+            <p className="mt-6 text-lg opacity-90">¿Cómo te sientes hoy?</p>
+            <p className={`mt-1 text-sm ${emotionMeta.accent}`}>{emotionMeta.label}</p>
+            <button
+              type="button"
+              className="mt-4 inline-flex rounded-full border border-purple-400/40 bg-purple-600/30 px-4 py-1 text-sm backdrop-blur-md"
+            >
+              {currentMode.emoji} Modo: {currentMode.label}
+            </button>
+          </div>
+
+          <div className="mb-6 mt-10">
+            <div className="relative flex h-40 w-40 items-center justify-center rounded-full bg-gradient-to-br from-purple-500 via-fuchsia-500 to-blue-500 shadow-[0_0_40px_rgba(150,0,255,0.6)]">
+              <div className="absolute inset-2 rounded-full border border-white/15 bg-black/10 backdrop-blur-lg"></div>
+              <span className="relative text-5xl">😊</span>
+              <div className="emotion-wave absolute -bottom-3 left-1/2 h-px w-40 -translate-x-1/2" style={{ backgroundImage: `linear-gradient(90deg, transparent, ${emotionMeta.orb}, transparent)` }}></div>
             </div>
           </div>
 
-          <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 text-white">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-white/50">Modo personalidad</p>
-                <p className="mt-2 text-sm text-white/75">
-                  {currentMode.emoji} NEURA responde ahora en modo {currentMode.label.toLowerCase()}.
+          <div className="w-full max-w-2xl space-y-6 rounded-[2rem] border border-white/10 bg-white/5 p-6 shadow-xl backdrop-blur-xl">
+            <div className="grid gap-4 md:grid-cols-[1.2fr_0.8fr]">
+              <div className={`rounded-2xl border border-white/10 bg-gradient-to-br ${emotionMeta.surface} px-4 py-4 text-white`}>
+                <p className="text-xs uppercase tracking-[0.25em] text-white/50">Estado detectado</p>
+                <p className={`mt-2 text-lg font-semibold ${emotionMeta.accent}`}>
+                  {emotionMeta.emoji} {emotionMeta.label}
                 </p>
               </div>
+              <div className="rounded-2xl border border-white/10 bg-black/10 px-4 py-4 text-white">
+                <p className="text-xs uppercase tracking-[0.25em] text-white/50">Esta semana</p>
+                <p className="mt-2 text-sm leading-6 text-white/80">📊 {weeklySummary}</p>
+              </div>
             </div>
-            <div className="mt-4 flex flex-wrap gap-2">
+
+            <div className="flex flex-wrap justify-center gap-2">
               {PERSONALITY_MODES.map((item) => (
                 <button
                   key={item.id}
@@ -246,22 +247,55 @@ export default function ChatPage() {
                 </button>
               ))}
             </div>
+
+            <Chat
+              messages={messages}
+              onSendMessage={sendMessage}
+              emotion={emotion}
+              emotionMeta={emotionMeta}
+              userProfile={userProfile}
+              loading={loading}
+            />
           </div>
 
-          <Chat
-            messages={messages}
-            onSendMessage={handleSendMessage}
-            emotion={emotion}
-            emotionMeta={emotionMeta}
-            userProfile={userProfile}
-            loading={loading}
-          />
-          <button
-            onClick={handleClearHistory}
-            className="mx-auto mt-4 block rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-medium text-purple-200 shadow-lg backdrop-blur-md transition-all hover:bg-white/20"
-          >
-            Limpiar historial
-          </button>
+          <div className="mt-6 flex flex-wrap justify-center gap-3">
+            {HERO_ACTIONS.map((action) => (
+              <button
+                key={action}
+                type="button"
+                onClick={() => sendMessage(action)}
+                className="rounded-xl border border-white/20 bg-white/10 px-4 py-2 transition hover:-translate-y-0.5 hover:bg-white/15"
+              >
+                {action}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-8 flex gap-4 text-2xl">
+            {EMOTION_PRESETS.map((preset) => (
+              <button
+                key={preset.label}
+                type="button"
+                onClick={() => sendMessage(preset.prompt)}
+                className="transition hover:-translate-y-1 hover:scale-110"
+                aria-label={preset.prompt}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-10 text-center text-xs text-purple-300/80">
+            <p>Privado y seguro · Solo tú y NEURA</p>
+            <p className="mt-1">Respuestas en segundos · Gracias a Groq + Llama 3</p>
+            <button
+              type="button"
+              onClick={handleClearHistory}
+              className="mt-4 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-[11px] uppercase tracking-[0.2em] text-white/75 transition hover:bg-white/15"
+            >
+              Limpiar historial
+            </button>
+          </div>
         </div>
       </section>
     </NeuraLayout>
