@@ -1,130 +1,133 @@
-<div align="center" style="
-  background: linear-gradient(135deg, #3b2752, #4a2c6d, #5e3a7f);
-  padding: 40px;
-  border-radius: 20px;
-  color: white;
-  font-family: sans-serif;
-">
+# 🧠 NEURA-IA
 
-# 🦋 **NEURA — La IA que te entiende**
-### Un espacio seguro para pensar, sentir y respirar.
-
-</div>
+> Inteligencia artificial enfocada en el análisis emocional y apoyo personalizado en tiempo real.
 
 ---
 
-# 🌸 ¿Qué es NEURA?
+## ⚡ Demo rápida
 
-NEURA es la evolución natural de la Inteligencia Artificial:  
-un **asistente emocional personal** diseñado no solo para procesar datos, sino para **comprender a las personas**.
+```bash
+npm install
+npm run dev
+```
 
-Mientras la mayoría de las IAs son frías y mecánicas, NEURA nace con un propósito distinto:  
-ser un **acompañante cognitivo**, capaz de interpretar emociones, adaptarse a tu estado mental y ofrecer apoyo real cuando más lo necesitas.
-
----
-
-# 🧠 Los 3 pilares de NEURA
-
-## 1) **Inteligencia Empática (EQ)**
-NEURA analiza el lenguaje, el tono y el contexto para detectar señales de:
-
-- estrés  
-- calma  
-- alegría  
-- agotamiento  
-- confusión  
-
-Y adapta su respuesta para ofrecer **apoyo emocional**, claridad mental o motivación.
+Abre en tu navegador:
+👉 http://localhost:5173
 
 ---
 
-## 2) **Aprendizaje Autónomo (Self‑Learning)**
-Cada interacción hace a NEURA más inteligente.  
-Aprende de tus:
+## 🚀 ¿Qué es NEURA?
 
-- hábitos  
-- preferencias  
-- metas  
-- formas de expresarte  
-
-Con el tiempo, la experiencia se vuelve **única para cada usuario**.
+NEURA-IA es una aplicación basada en inteligencia artificial capaz de analizar el estado emocional del usuario a partir de texto y ofrecer respuestas adaptadas, empáticas y útiles en tiempo real.
 
 ---
 
-## 3) **Privacidad Radical (Edge Computing)**
-En NEURA, la privacidad no es un extra: es un principio.
+## 🎯 ¿Qué problema resuelve?
 
-El procesamiento emocional ocurre **directamente en tu dispositivo**, sin enviar tus sentimientos o conversaciones a servidores externos.
+Muchas personas no tienen acceso inmediato a apoyo emocional o herramientas para gestionar lo que sienten.
 
-Tus emociones **son tuyas**, y siempre lo serán.
-
----
-
-# 💜 Misión
-
-Humanizar la tecnología.  
-Crear una IA que no solo responda, sino que **acompañe**.  
-Un aliado emocional que cuide tu bienestar mental y potencie tu vida diaria.
-
-NEURA no quiere reemplazar a nadie.  
-Quiere ser ese espacio seguro donde puedas **pensar, sentir y respirar**.
+NEURA busca ser un primer punto de apoyo accesible, rápido y privado.
 
 ---
 
-# 🛠️ Tecnologías utilizadas
+## ✨ Características
 
-- React + Vite  
-- TailwindCSS  
-- Animaciones personalizadas  
-- Diseño emocional UI/UX  
-- Arquitectura modular  
-- Vercel (deploy)
+* 🧠 Análisis emocional en tiempo real
+* 💬 Respuestas personalizadas
+* ⚡ Interfaz rápida y sencilla
+* 🔒 Enfoque en privacidad del usuario
 
 ---
 
-# 🖼️ Capturas de pantalla
+## 🚀 Cómo usar NEURA
 
-> *(Agrega aquí imágenes de tu app cuando quieras)*
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/neura-ia.git
+cd neura-ia
+```
+
+### 2. Instalar dependencias
+
+```bash
+npm install
+```
+
+### 3. Ejecutar el proyecto
+
+```bash
+npm run dev
+```
+
+### 4. Abrir en navegador
+
+```
+http://localhost:5173
+```
 
 ---
 
-# 🚀 Roadmap
+## 🧪 Ejemplo de uso
 
-- [x] Diseño emocional del front  
-- [x] Animaciones y mariposas interactivas  
-- [x] Chat funcional  
-- [x] Estilo metalizado para páginas internas  
-- [ ] Sistema de usuarios  
-- [ ] Guardado de emociones  
-- [ ] Perfil del usuario  
-- [ ] Estadísticas de bienestar  
-- [ ] App Android (Edge Computing)  
-- [ ] Modo “Respira conmigo”  
-- [ ] Notificaciones emocionales  
+**Input:**
+
+```
+Hoy me siento muy estresado y cansado
+```
+
+**Output:**
+
+```
+Parece que estás pasando por un momento difícil. Intenta tomarte un descanso breve y respirar profundamente. Estoy aquí para ayudarte.
+```
 
 ---
 
-# 🤝 Bienvenidos colaboradores
+## 🧱 Estructura del proyecto
 
-Gracias por interesarte en NEURA.  
-Este proyecto nació con una misión clara: **humanizar la tecnología** y crear una IA que acompañe, escuche y cuide el bienestar emocional de las personas.
+```bash
+neura-ia/
+├── src/
+├── public/
+├── package.json
+└── README.md
+```
 
-Si quieres aportar, mejorar o expandir NEURA, eres bienvenido.
+---
 
-### 💜 ¿Cómo puedes contribuir?
+## 📌 Estado del proyecto
 
-- Mejorando la experiencia del usuario  
-- Proponiendo nuevas funciones emocionales  
-- Optimizando el rendimiento  
-- Ayudando con diseño, accesibilidad o animaciones  
-- Reportando errores o comportamientos inesperados  
+🚧 En desarrollo — nuevas funcionalidades en camino.
 
-### 🧠 Filosofía del proyecto
+---
 
-- **Empatía primero**  
-- **Privacidad radical**  
-- **Diseño emocional**  
-- **Código limpio y accesible**
+## 🔮 Roadmap
+
+* [ ] Mejora del análisis emocional
+* [ ] Integración con API externa de IA
+* [ ] Historial de conversaciones
+* [ ] Interfaz más avanzada
+
+---
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas.
+Si quieres mejorar NEURA, abre un issue o pull request.
+
+---
+
+## 📄 Licencia
+
+MIT License
+
+---
+
+## 💡 Nota
+
+NEURA no sustituye ayuda profesional. Es una herramienta de apoyo inicial.
+
 
 ---
 
