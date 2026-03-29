@@ -1,5 +1,6 @@
-const HISTORY_KEY = "neura_history";
+﻿const HISTORY_KEY = "neura_history";
 const PROFILE_KEY = "neura_profile";
+const SESSION_KEY = "neura_session_id";
 
 function readJson(key, fallbackValue) {
   const savedValue = localStorage.getItem(key);
@@ -14,6 +15,14 @@ function readJson(key, fallbackValue) {
     console.warn(`No se pudo leer ${key} desde localStorage.`, error);
     return fallbackValue;
   }
+}
+
+function createSessionId() {
+  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
+    return crypto.randomUUID();
+  }
+
+  return `neura-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
 }
 
 export function loadHistory() {
@@ -34,4 +43,22 @@ export function loadUserProfile() {
 
 export function saveUserProfile(profile) {
   localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
+}
+
+export function getOrCreateSessionId() {
+  const existingSessionId = localStorage.getItem(SESSION_KEY);
+
+  if (existingSessionId) {
+    return existingSessionId;
+  }
+
+  const newSessionId = createSessionId();
+  localStorage.setItem(SESSION_KEY, newSessionId);
+  return newSessionId;
+}
+
+export function resetSessionId() {
+  const newSessionId = createSessionId();
+  localStorage.setItem(SESSION_KEY, newSessionId);
+  return newSessionId;
 }

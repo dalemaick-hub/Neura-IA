@@ -1,10 +1,10 @@
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+﻿const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
-function buildChatPayload(message, mode) {
-  return { message, mode };
+function buildChatPayload(message, mode, sessionId) {
+  return { message, mode, sessionId };
 }
 
-export async function analizarEmocion(texto, mode = "calmado") {
+export async function analizarEmocion(texto, mode = "calmado", sessionId) {
   const normalizedText = texto?.trim();
 
   if (!normalizedText) {
@@ -14,6 +14,7 @@ export async function analizarEmocion(texto, mode = "calmado") {
       actionableAdvice: "",
       checkInPrompt: "",
       mode,
+      sessionId,
     };
   }
 
@@ -23,7 +24,7 @@ export async function analizarEmocion(texto, mode = "calmado") {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(buildChatPayload(normalizedText, mode)),
+      body: JSON.stringify(buildChatPayload(normalizedText, mode, sessionId)),
     });
 
     if (!response.ok) {
@@ -38,14 +39,29 @@ export async function analizarEmocion(texto, mode = "calmado") {
       emotion: "neutral",
       response: "Error conectando con Neura",
       actionableAdvice: "Respira profundo una vez y vuelve a intentarlo en unos segundos.",
-      checkInPrompt: "�Quieres que lo intentemos otra vez?",
+      checkInPrompt: "¿Quieres que lo intentemos otra vez?",
       mode,
+      sessionId,
     };
   }
 }
 
-export async function askNeura(message) {
-  return analizarEmocion(message);
+export async function resetNeuraSession(sessionId) {
+  if (!sessionId) {
+    return;
+  }
+
+  try {
+    await fetch(`${API_URL}/api/chat/session/${sessionId}`, {
+      method: "DELETE",
+    });
+  } catch (error) {
+    console.error("No se pudo limpiar la sesion de Neura:", error);
+  }
+}
+
+export async function askNeura(message, mode = "calmado", sessionId) {
+  return analizarEmocion(message, mode, sessionId);
 }
 
 export async function saveNeuraMemory() {

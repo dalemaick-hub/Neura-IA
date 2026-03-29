@@ -1,13 +1,19 @@
-import express from "express";
+﻿import express from "express";
 import { detectEmotion } from "../services/emotion.js";
+import { clearSessionData, getOrCreateSession } from "../services/sessionMemory.js";
 import { generateResponse } from "../services/ai.js";
 
 const router = express.Router();
-let chatHistory = [];
 
 router.post("/", async (req, res) => {
   try {
-    const { message, mode } = req.body;
+    const { message, mode, sessionId } = req.body;
+
+    if (!sessionId || !String(sessionId).trim()) {
+      return res.status(400).json({
+        error: "Falta sessionId",
+      });
+    }
 
     if (!message || !message.trim()) {
       return res.status(400).json({
@@ -15,11 +21,14 @@ router.post("/", async (req, res) => {
       });
     }
 
-    const emotion = await detectEmotion(message);
-    const result = await generateResponse(chatHistory, message, emotion, mode);
+    await getOrCreateSession(
+      sessionId,
+      req.get("user-agent"),
+      req.get("x-forwarded-for") || req.ip,
+    );
 
-    chatHistory.push({ role: "user", content: message });
-    chatHistory.push({ role: "assistant", content: result.reply });
+    const emotion = await detectEmotion(message);
+    const result = await generateResponse(sessionId, message, emotion, mode);
 
     return res.json({
       emotion,
@@ -27,12 +36,30 @@ router.post("/", async (req, res) => {
       actionableAdvice: result.actionableAdvice,
       checkInPrompt: result.checkInPrompt,
       mode: mode || "calmado",
+      sessionId,
     });
   } catch (error) {
     console.error("ERROR REAL:", error);
     return res.status(500).json({
       error: error.message || "Error desconocido",
     });
+  }
+});
+
+router.delete("/session/:sessionId", async (req, res) => {
+  try {
+    const { sessionId } = req.params;
+
+    if (!sessionId || !sessionId.trim()) {
+      return res.status(400).json({ error: "Falta sessionId" });
+    }
+
+    await clearSessionData(sessionId);
+
+    return res.json({ ok: true });
+  } catch (error) {
+    console.error("No se pudo limpiar la sesion:", error);
+    return res.status(500).json({ error: error.message || "No se pudo limpiar la sesion" });
   }
 });
 

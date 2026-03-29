@@ -1,10 +1,12 @@
 ﻿import React, { useEffect, useState } from "react";
 import Chat from "../components/Chat";
-import { analizarEmocion } from "../services/ai.js";
+import { analizarEmocion, resetNeuraSession } from "../services/ai.js";
 import {
   clearHistory,
+  getOrCreateSessionId,
   loadHistory,
   loadUserProfile,
+  resetSessionId,
   saveHistory,
   saveUserProfile,
 } from "../services/chatStorage.js";
@@ -111,16 +113,19 @@ export default function ChatPage() {
   const [userProfile, setUserProfile] = useState({ name: "", moods: [] });
   const [isReady, setIsReady] = useState(false);
   const [mode, setMode] = useState("calmado");
+  const [sessionId, setSessionId] = useState("");
 
   useEffect(() => {
     const savedMessages = loadHistory();
     const savedProfile = loadUserProfile();
+    const storedSessionId = getOrCreateSessionId();
     const lastDetectedEmotion = [...savedMessages]
       .reverse()
       .find((message) => message.sender === "neura" && message.emotion)?.emotion;
 
     setMessages(savedMessages);
     setUserProfile(savedProfile);
+    setSessionId(storedSessionId);
     setEmotion(lastDetectedEmotion || savedProfile.moods.at(-1) || "neutral");
     setIsReady(true);
   }, []);
@@ -136,7 +141,7 @@ export default function ChatPage() {
   }, [isReady, userProfile]);
 
   const sendMessage = async (userMessage) => {
-    if (!userMessage || userMessage.trim() === "") {
+    if (!userMessage || userMessage.trim() === "" || !sessionId) {
       return;
     }
 
@@ -147,7 +152,7 @@ export default function ChatPage() {
     setLoading(true);
 
     try {
-      const data = await analizarEmocion(trimmedMessage, mode);
+      const data = await analizarEmocion(trimmedMessage, mode, sessionId);
       const detectedEmotion = data.emotion || "neutral";
 
       setEmotion(detectedEmotion);
@@ -178,9 +183,16 @@ export default function ChatPage() {
     }
   };
 
-  const handleClearHistory = () => {
+  const handleClearHistory = async () => {
+    if (sessionId) {
+      await resetNeuraSession(sessionId);
+    }
+
     clearHistory();
     setMessages([]);
+    setEmotion("neutral");
+    setUserProfile({ name: "", moods: [] });
+    setSessionId(resetSessionId());
   };
 
   const emotionMeta = EMOTION_META[emotion] || EMOTION_META.neutral;

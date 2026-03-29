@@ -1,4 +1,10 @@
 ﻿import Groq from "groq-sdk";
+import {
+  getHistory,
+  getMemory,
+  saveMessage,
+  updateMemory,
+} from "./sessionMemory.js";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -6,8 +12,6 @@ const groq = new Groq({
 
 const CHAT_MODEL = process.env.GROQ_CHAT_MODEL || "llama-3.3-70b-versatile";
 const SUMMARY_MODEL = process.env.GROQ_SUMMARY_MODEL || CHAT_MODEL;
-
-let memory = "";
 
 const MODE_INSTRUCTIONS = {
   calmado: "Habla con suavidad, calma y contencion. Baja el ritmo y transmite seguridad.",
@@ -35,7 +39,7 @@ function buildFallbackCheckIn(emotion) {
 async function summarizeMemory(history) {
   const summaryPrompt = `
 Resume la siguiente conversacion en maximo 5 lineas.
-Manten solo informacion importante sobre el usuario, gustos, datos personales, estilo de hablar y temas clave.
+Incluye solo informacion importante sobre el usuario: gustos, estilo de hablar, temas clave.
 
 Conversacion:
 ${history.map((message) => `${message.role}: ${message.content}`).join("\n")}
@@ -52,19 +56,6 @@ ${history.map((message) => `${message.role}: ${message.content}`).join("\n")}
   });
 
   return completion.choices[0].message.content;
-}
-
-async function updateMemory(history) {
-  if (history.length < 6) {
-    return;
-  }
-
-  try {
-    memory = await summarizeMemory(history);
-    history.splice(0, history.length - 4);
-  } catch (error) {
-    console.error("No se pudo resumir la memoria de chat:", error);
-  }
 }
 
 function extractJsonCandidate(text) {
@@ -104,8 +95,11 @@ function parseAssistantPayload(rawText, emotion) {
   }
 }
 
-export async function generateResponse(history, text, emotion, mode = "calmado") {
-  await updateMemory(history);
+export async function generateResponse(sessionId, text, emotion, mode = "calmado") {
+  await updateMemory(sessionId, summarizeMemory);
+
+  const history = await getHistory(sessionId);
+  const memory = await getMemory(sessionId);
   const modeInstruction = MODE_INSTRUCTIONS[mode] || MODE_INSTRUCTIONS.calmado;
 
   const completion = await groq.chat.completions.create({
@@ -114,24 +108,24 @@ export async function generateResponse(history, text, emotion, mode = "calmado")
       {
         role: "system",
         content: `
-Eres un asistente emocional avanzado.
+Eres NEURA, una inteligencia artificial empatica disenada para acompanar emocionalmente a las personas.
+Tu estilo es calido, breve, humano y cercano.
 
-El usuario esta: ${emotion}
+Memoria del usuario: ${memory || "sin memoria previa"}
+Emocion detectada: ${emotion}
 Modo de personalidad: ${mode}
-Memoria corta: ${memory || "sin contexto previo"}
 
 Reglas:
-- Responde con empatia real, no generica
-- Da un consejo practico y util
 - Devuelve SIEMPRE JSON valido con este formato:
   {"reply":"...","actionableAdvice":"...","checkInPrompt":"..."}
 - "reply" debe tener 2 o 3 frases maximo
 - "actionableAdvice" debe ser una accion concreta que pueda hacerse en menos de 2 minutos
 - "checkInPrompt" debe invitar a seguir conversando
-- Se cercano, humano y claro
-- Responde en espanol
-- Usa el historial si aporta contexto
-- No des instrucciones peligrosas, violentas o ilegales
+- Tono suave, humano y cercano
+- 1 o 2 emojis maximo si encajan de forma natural
+- No des consejos medicos, legales ni de autolesion
+- No menciones nombres propios a menos que el usuario los diga
+- Usa el historial y la memoria solo si aportan contexto real
 - Ajusta el tono segun esta guia: ${modeInstruction}
         `.trim(),
       },
@@ -145,7 +139,12 @@ Reglas:
     max_tokens: 260,
   });
 
-  return parseAssistantPayload(completion.choices[0].message.content, emotion);
+  const result = parseAssistantPayload(completion.choices[0].message.content, emotion);
+
+  await saveMessage(sessionId, "user", text, emotion);
+  await saveMessage(sessionId, "assistant", result.reply, emotion);
+
+  return result;
 }
 
 export const summarizeHistory = summarizeMemory;
