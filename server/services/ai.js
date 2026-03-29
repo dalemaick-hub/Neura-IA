@@ -4,6 +4,9 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+const CHAT_MODEL = process.env.GROQ_CHAT_MODEL || "llama-3.3-70b-versatile";
+const SUMMARY_MODEL = process.env.GROQ_SUMMARY_MODEL || CHAT_MODEL;
+
 let memory = "";
 
 const MODE_INSTRUCTIONS = {
@@ -12,6 +15,22 @@ const MODE_INSTRUCTIONS = {
   analitico: "Habla con claridad estructurada, explicando causas y pasos concretos.",
   directo: "Habla de forma breve, honesta y concreta, sin rodeos pero con respeto.",
 };
+
+function buildFallbackAction(emotion) {
+  if (emotion === "estresado") return "Levanta los hombros, sueltalos despacio y haz 5 respiraciones lentas.";
+  if (emotion === "ansioso") return "Mira a tu alrededor y nombra 3 cosas que ves, 2 que oyes y 1 que sientes.";
+  if (emotion === "triste") return "Toma agua, abre una ventana y da un paseo corto de 2 minutos.";
+  if (emotion === "enfadado") return "Alejate un minuto del foco de tension antes de responder o decidir algo.";
+  if (emotion === "feliz") return "Aprovecha esta energia para cerrar una tarea pequena importante ahora mismo.";
+  return "Haz una pausa corta, respira profundo y escribe en una frase que necesitas ahora.";
+}
+
+function buildFallbackCheckIn(emotion) {
+  if (emotion === "estresado" || emotion === "ansioso") return "¿Te sientes un poco mas tranquilo ahora?";
+  if (emotion === "triste") return "¿Notas un poco mas de ligereza que hace un momento?";
+  if (emotion === "enfadado") return "¿Bajo un poco la tension o sigue igual?";
+  return "¿Quieres profundizar o prefieres algo mas practico?";
+}
 
 async function summarizeMemory(history) {
   const summaryPrompt = `
@@ -23,7 +42,7 @@ ${history.map((message) => `${message.role}: ${message.content}`).join("\n")}
   `;
 
   const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+    model: SUMMARY_MODEL,
     messages: [
       { role: "system", content: "Eres un asistente que resume conversaciones." },
       { role: "user", content: summaryPrompt },
@@ -36,63 +55,45 @@ ${history.map((message) => `${message.role}: ${message.content}`).join("\n")}
 }
 
 async function updateMemory(history) {
-  if (history.length >= 6) {
+  if (history.length < 6) {
+    return;
+  }
+
+  try {
     memory = await summarizeMemory(history);
     history.splice(0, history.length - 4);
+  } catch (error) {
+    console.error("No se pudo resumir la memoria de chat:", error);
   }
 }
 
-function buildFallbackAction(emotion) {
-  if (emotion === "estresado") {
-    return "Levanta los hombros, sueltalos despacio y haz 5 respiraciones lentas.";
+function extractJsonCandidate(text) {
+  const cleaned = text.replace(/```json|```/gi, "").trim();
+  const start = cleaned.indexOf("{");
+  const end = cleaned.lastIndexOf("}");
+
+  if (start === -1 || end === -1 || end <= start) {
+    return null;
   }
 
-  if (emotion === "ansioso") {
-    return "Mira a tu alrededor y nombra 3 cosas que ves, 2 que oyes y 1 que sientes.";
-  }
-
-  if (emotion === "triste") {
-    return "Toma agua, abre una ventana y da un paseo corto de 2 minutos.";
-  }
-
-  if (emotion === "enfadado") {
-    return "Alejate un minuto del foco de tension antes de responder o decidir algo.";
-  }
-
-  if (emotion === "feliz") {
-    return "Aprovecha esta energia para cerrar una tarea pequena importante ahora mismo.";
-  }
-
-  return "Haz una pausa corta, respira profundo y escribe en una frase que necesitas ahora.";
-}
-
-function buildFallbackCheckIn(emotion) {
-  if (emotion === "estresado" || emotion === "ansioso") {
-    return "¿Te sientes un poco mas tranquilo ahora?";
-  }
-
-  if (emotion === "triste") {
-    return "¿Notas un poco mas de ligereza que hace un momento?";
-  }
-
-  if (emotion === "enfadado") {
-    return "¿Bajo un poco la tension o sigue igual?";
-  }
-
-  return "¿Quieres profundizar o prefieres algo mas practico?";
+  return cleaned.slice(start, end + 1);
 }
 
 function parseAssistantPayload(rawText, emotion) {
+  const rawReply = typeof rawText === "string" ? rawText.trim() : "";
   const fallback = {
-    reply: rawText?.trim() || "Estoy aqui contigo.",
+    reply: rawReply || "Estoy aqui contigo.",
     actionableAdvice: buildFallbackAction(emotion),
     checkInPrompt: buildFallbackCheckIn(emotion),
   };
 
-  try {
-    const cleaned = rawText.replace(/```json|```/g, "").trim();
-    const parsed = JSON.parse(cleaned);
+  const candidate = extractJsonCandidate(rawReply);
+  if (!candidate) {
+    return fallback;
+  }
 
+  try {
+    const parsed = JSON.parse(candidate);
     return {
       reply: parsed.reply?.trim() || fallback.reply,
       actionableAdvice: parsed.actionableAdvice?.trim() || fallback.actionableAdvice,
@@ -108,7 +109,7 @@ export async function generateResponse(history, text, emotion, mode = "calmado")
   const modeInstruction = MODE_INSTRUCTIONS[mode] || MODE_INSTRUCTIONS.calmado;
 
   const completion = await groq.chat.completions.create({
-    model: "llama-3.3-70b-versatile",
+    model: CHAT_MODEL,
     messages: [
       {
         role: "system",
@@ -148,4 +149,3 @@ Reglas:
 }
 
 export const summarizeHistory = summarizeMemory;
-

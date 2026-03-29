@@ -4,6 +4,7 @@ const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
 });
 
+const EMOTION_MODEL = process.env.GROQ_EMOTION_MODEL || "llama-3.1-8b-instant";
 const EMOTION_PROMPT = "Clasifica la emocion del usuario en una sola palabra: feliz, triste, estresado, ansioso, enfadado o neutral.";
 
 function normalizeEmotion(label) {
@@ -25,7 +26,7 @@ export async function detectEmotion(text) {
 
   try {
     const completion = await groq.chat.completions.create({
-      model: "llama-3.1-8b-instant",
+      model: EMOTION_MODEL,
       messages: [
         {
           role: "system",
