@@ -1,4 +1,4 @@
-import Groq from "groq-sdk";
+ï»¿import Groq from "groq-sdk";
 
 const groq = new Groq({
   apiKey: process.env.GROQ_API_KEY,
@@ -23,7 +23,7 @@ ${history.map((message) => `${message.role}: ${message.content}`).join("\n")}
   `;
 
   const completion = await groq.chat.completions.create({
-    model: "llama3-70b-8192",
+    model: "llama-3.3-70b-versatile",
     messages: [
       { role: "system", content: "Eres un asistente que resume conversaciones." },
       { role: "user", content: summaryPrompt },
@@ -68,18 +68,18 @@ function buildFallbackAction(emotion) {
 
 function buildFallbackCheckIn(emotion) {
   if (emotion === "estresado" || emotion === "ansioso") {
-    return "¿Te sientes un poco mas tranquilo ahora?";
+    return "Â¿Te sientes un poco mas tranquilo ahora?";
   }
 
   if (emotion === "triste") {
-    return "¿Notas un poco mas de ligereza que hace un momento?";
+    return "Â¿Notas un poco mas de ligereza que hace un momento?";
   }
 
   if (emotion === "enfadado") {
-    return "¿Bajo un poco la tension o sigue igual?";
+    return "Â¿Bajo un poco la tension o sigue igual?";
   }
 
-  return "¿Quieres profundizar o prefieres algo mas practico?";
+  return "Â¿Quieres profundizar o prefieres algo mas practico?";
 }
 
 function parseAssistantPayload(rawText, emotion) {
@@ -108,7 +108,7 @@ export async function generateResponse(history, text, emotion, mode = "calmado")
   const modeInstruction = MODE_INSTRUCTIONS[mode] || MODE_INSTRUCTIONS.calmado;
 
   const completion = await groq.chat.completions.create({
-    model: "llama3-70b-8192",
+    model: "llama-3.3-70b-versatile",
     messages: [
       {
         role: "system",
@@ -148,3 +148,4 @@ Reglas:
 }
 
 export const summarizeHistory = summarizeMemory;
+
