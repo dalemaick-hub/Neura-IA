@@ -1,4 +1,4 @@
-﻿import Groq from "groq-sdk";
+import OpenAI from "openai";
 import {
   getHistory,
   getMemory,
@@ -6,12 +6,12 @@ import {
   updateMemory,
 } from "./sessionMemory.js";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-const CHAT_MODEL = process.env.GROQ_CHAT_MODEL || "llama-3.3-70b-versatile";
-const SUMMARY_MODEL = process.env.GROQ_SUMMARY_MODEL || CHAT_MODEL;
+const CHAT_MODEL = process.env.OPENAI_CHAT_MODEL || "gpt-4o-mini";
+const SUMMARY_MODEL = process.env.OPENAI_SUMMARY_MODEL || CHAT_MODEL;
 
 const MODE_INSTRUCTIONS = {
   calmado: "Habla con suavidad, calma y contencion. Baja el ritmo y transmite seguridad.",
@@ -45,7 +45,7 @@ Conversacion:
 ${history.map((message) => `${message.role}: ${message.content}`).join("\n")}
   `;
 
-  const completion = await groq.chat.completions.create({
+  const completion = await openai.chat.completions.create({
     model: SUMMARY_MODEL,
     messages: [
       { role: "system", content: "Eres un asistente que resume conversaciones." },
@@ -102,7 +102,7 @@ export async function generateResponse(sessionId, text, emotion, mode = "calmado
   const memory = await getMemory(sessionId);
   const modeInstruction = MODE_INSTRUCTIONS[mode] || MODE_INSTRUCTIONS.calmado;
 
-  const completion = await groq.chat.completions.create({
+  const completion = await openai.chat.completions.create({
     model: CHAT_MODEL,
     messages: [
       {

@@ -1,10 +1,10 @@
-﻿import Groq from "groq-sdk";
+import OpenAI from "openai";
 
-const groq = new Groq({
-  apiKey: process.env.GROQ_API_KEY,
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
 });
 
-const EMOTION_MODEL = process.env.GROQ_EMOTION_MODEL || "llama-3.1-8b-instant";
+const EMOTION_MODEL = process.env.OPENAI_EMOTION_MODEL || "gpt-4o-mini";
 const EMOTION_PROMPT = "Clasifica la emocion del usuario en una sola palabra: feliz, triste, estresado, ansioso, enfadado o neutral.";
 
 function normalizeEmotion(label) {
@@ -25,7 +25,7 @@ export async function detectEmotion(text) {
   }
 
   try {
-    const completion = await groq.chat.completions.create({
+    const completion = await openai.chat.completions.create({
       model: EMOTION_MODEL,
       messages: [
         {
@@ -43,7 +43,7 @@ export async function detectEmotion(text) {
 
     return normalizeEmotion(completion.choices[0].message.content);
   } catch (error) {
-    console.error("No se pudo detectar la emocion con Groq:", error);
+    console.error("No se pudo detectar la emocion con OpenAI:", error);
     return "neutral";
   }
 }
