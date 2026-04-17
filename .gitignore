@@ -6,3 +6,4 @@ Neura-IA
 .env.development
 .env.*
 !.env.example
+Neura-IA
