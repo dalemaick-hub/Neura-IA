@@ -1,5 +1,8 @@
 node_modules
 Neura-IA
 .env
+.env.local
+.env.production
+.env.development
 .env.*
 !.env.example
