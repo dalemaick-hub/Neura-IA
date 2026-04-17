@@ -1,4 +1,4 @@
-﻿import express from "express";
+import express from "express";
 import { detectEmotion } from "../services/emotion.js";
 import { clearSessionData, getOrCreateSession } from "../services/sessionMemory.js";
 import { generateResponse } from "../services/ai.js";
@@ -39,9 +39,15 @@ router.post("/", async (req, res) => {
       sessionId,
     });
   } catch (error) {
-    console.error("ERROR REAL:", error);
-    return res.status(500).json({
-      error: error.message || "Error desconocido",
+    console.error("ERROR REAL EN BACKEND:", error);
+    
+    // Si el error viene de OpenAI, capturamos su mensaje específico
+    const errorMessage = error.error?.message || error.message || "Error desconocido en el servidor";
+    const statusCode = error.status || 500;
+
+    return res.status(statusCode).json({
+      error: errorMessage,
+      type: error.type || "server_error"
     });
   }
 });

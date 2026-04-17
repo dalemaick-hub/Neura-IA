@@ -1,4 +1,4 @@
-﻿const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 function buildChatPayload(message, mode, sessionId) {
   return { message, mode, sessionId };
@@ -28,17 +28,31 @@ export async function analizarEmocion(texto, mode = "calmado", sessionId) {
     });
 
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(errorText || "No se pudo analizar el mensaje.");
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.error || "No se pudo analizar el mensaje.");
     }
 
     return await response.json();
   } catch (error) {
     console.error("Error al consultar la IA:", error);
+    
+    let userFriendlyResponse = "Error conectando con Neura";
+    let actionableAdvice = "Respira profundo una vez y vuelve a intentarlo en unos segundos.";
+
+    if (error.message.includes("Failed to fetch")) {
+      userFriendlyResponse = "No pude contactar con Neura. Es posible que el servidor esté despertando (tarda unos 40s) o haya un problema de conexión.";
+    } else if (error.message.includes("401") || error.message.toLowerCase().includes("api key")) {
+      userFriendlyResponse = "Hay un problema con la llave de acceso (API Key) de OpenAI.";
+      actionableAdvice = "Por favor, revisa la configuración de las variables de entorno en el servidor.";
+    } else if (error.message.includes("insufficient_quota")) {
+      userFriendlyResponse = "La cuenta de OpenAI se ha quedado sin saldo o cuota.";
+      actionableAdvice = "Revisa el panel de facturación de OpenAI.";
+    }
+
     return {
       emotion: "neutral",
-      response: "Error conectando con Neura",
-      actionableAdvice: "Respira profundo una vez y vuelve a intentarlo en unos segundos.",
+      response: userFriendlyResponse,
+      actionableAdvice: actionableAdvice,
       checkInPrompt: "¿Quieres que lo intentemos otra vez?",
       mode,
       sessionId,
