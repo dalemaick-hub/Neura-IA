@@ -1,7 +1,13 @@
 import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = 'https://iboteqiyqqljpbkflkew.supabase.co'
-// Usa tu llave anon real aquí
-const supabaseKey = 'sb_publishable_Er-1Gbhua2RowD08tc5TNw_2REHRW68' 
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
 
-export const supabase = createClient(supabaseUrl, supabaseKey)
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error(
+    'Faltan variables de entorno VITE_SUPABASE_URL o VITE_SUPABASE_ANON_KEY. ' +
+    'Copia .env.example a .env y rellena tus credenciales.'
+  )
+}
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey)

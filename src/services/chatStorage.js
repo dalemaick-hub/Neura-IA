@@ -1,64 +1,34 @@
-﻿const HISTORY_KEY = "neura_history";
-const PROFILE_KEY = "neura_profile";
-const SESSION_KEY = "neura_session_id";
+// Las claves ahora incluyen el userId para que cada usuario tenga su propio historial
+function key(base, userId) {
+  return userId ? `neura_${base}_${userId}` : `neura_${base}_anonymous`
+}
 
-function readJson(key, fallbackValue) {
-  const savedValue = localStorage.getItem(key);
-
-  if (!savedValue) {
-    return fallbackValue;
-  }
-
+function readJson(storageKey, fallback) {
   try {
-    return JSON.parse(savedValue);
-  } catch (error) {
-    console.warn(`No se pudo leer ${key} desde localStorage.`, error);
-    return fallbackValue;
+    const saved = localStorage.getItem(storageKey)
+    return saved ? JSON.parse(saved) : fallback
+  } catch (err) {
+    console.warn(`No se pudo leer ${storageKey} desde localStorage.`, err)
+    return fallback
   }
 }
 
-function createSessionId() {
-  if (typeof crypto !== "undefined" && typeof crypto.randomUUID === "function") {
-    return crypto.randomUUID();
-  }
-
-  return `neura-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+export function loadHistory(userId) {
+  return readJson(key('history', userId), [])
 }
 
-export function loadHistory() {
-  return readJson(HISTORY_KEY, []);
+export function saveHistory(messages, userId) {
+  localStorage.setItem(key('history', userId), JSON.stringify(messages))
 }
 
-export function saveHistory(messages) {
-  localStorage.setItem(HISTORY_KEY, JSON.stringify(messages));
+export function clearHistory(userId) {
+  localStorage.removeItem(key('history', userId))
 }
 
-export function clearHistory() {
-  localStorage.removeItem(HISTORY_KEY);
+export function loadUserProfile(userId) {
+  return readJson(key('profile', userId), { name: '', moods: [] })
 }
 
-export function loadUserProfile() {
-  return readJson(PROFILE_KEY, { name: "", moods: [] });
-}
-
-export function saveUserProfile(profile) {
-  localStorage.setItem(PROFILE_KEY, JSON.stringify(profile));
-}
-
-export function getOrCreateSessionId() {
-  const existingSessionId = localStorage.getItem(SESSION_KEY);
-
-  if (existingSessionId) {
-    return existingSessionId;
-  }
-
-  const newSessionId = createSessionId();
-  localStorage.setItem(SESSION_KEY, newSessionId);
-  return newSessionId;
-}
-
-export function resetSessionId() {
-  const newSessionId = createSessionId();
-  localStorage.setItem(SESSION_KEY, newSessionId);
-  return newSessionId;
+export function saveUserProfile(profile, userId) {
+  localStorage.setItem(key('profile', userId), JSON.stringify(profile))
 }
