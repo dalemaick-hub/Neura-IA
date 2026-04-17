@@ -4,7 +4,7 @@ import { useAuth } from '../context/AuthContext'
 import NeuraLayout from '../components/NeuraLayout'
 
 export default function SignInPage() {
-  const { signIn, signUp, signInWithGoogle } = useAuth()
+  const { signIn, signUp, signInWithGoogle, signInAsGuest } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
 
@@ -51,6 +51,11 @@ export default function SignInPage() {
     if (error) setError(translateError(error.message))
   }
 
+  const handleGuest = () => {
+    signInAsGuest()
+    navigate(from, { replace: true })
+  }
+
   return (
     <NeuraLayout>
       <section className="min-h-screen flex items-center justify-center px-6 py-24">
@@ -70,6 +75,19 @@ export default function SignInPage() {
 
           {/* Card */}
           <div className="rounded-[2rem] border border-white/10 bg-white/5 backdrop-blur-xl p-8 shadow-xl">
+
+            {/* Guest Access */}
+            <button
+              type="button"
+              onClick={handleGuest}
+              className="w-full flex items-center justify-center gap-3 rounded-full border border-purple-400/30 bg-purple-400/10 px-5 py-3 text-sm text-purple-300 transition hover:bg-purple-400/20 mb-3"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                <circle cx="12" cy="7" r="4" />
+              </svg>
+              Acceder como Invitado
+            </button>
 
             {/* Google OAuth */}
             <button

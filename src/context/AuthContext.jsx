@@ -7,12 +7,26 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
   const [session, setSession] = useState(null)
   const [loading, setLoading] = useState(true)
+  const [isGuest, setIsGuest] = useState(false)
 
   useEffect(() => {
-    // Carga la sesión inicial
+    // Verificar si hay una sesión de invitado guardada
+    const guestData = localStorage.getItem('neura_guest')
+    if (guestData) {
+      const guest = JSON.parse(guestData)
+      setUser(guest)
+      setIsGuest(true)
+      setLoading(false)
+      return
+    }
+
+    // Carga la sesión inicial de Supabase
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
-      setUser(session?.user ?? null)
+      if (session?.user) {
+        setUser(session.user)
+        setIsGuest(false)
+      }
       setLoading(false)
     })
 
@@ -20,7 +34,12 @@ export function AuthProvider({ children }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, session) => {
         setSession(session)
-        setUser(session?.user ?? null)
+        if (session?.user) {
+          setUser(session.user)
+          setIsGuest(false)
+        } else if (!localStorage.getItem('neura_guest')) {
+          setUser(null)
+        }
         setLoading(false)
       }
     )
@@ -28,12 +47,27 @@ export function AuthProvider({ children }) {
     return () => subscription.unsubscribe()
   }, [])
 
+  const signInAsGuest = () => {
+    const guestUser = {
+      id: 'guest_' + Math.random().toString(36).substr(2, 9),
+      email: 'invitado@neura.ia',
+      user_metadata: { username: 'Invitado' },
+      is_guest: true
+    }
+    localStorage.setItem('neura_guest', JSON.stringify(guestUser))
+    setUser(guestUser)
+    setIsGuest(true)
+    return { data: guestUser, error: null }
+  }
+
   const signIn = async (email, password) => {
+    localStorage.removeItem('neura_guest')
     const { data, error } = await supabase.auth.signInWithPassword({ email, password })
     return { data, error }
   }
 
   const signUp = async (email, password, username) => {
+    localStorage.removeItem('neura_guest')
     const { data, error } = await supabase.auth.signUp({
       email,
       password,
@@ -45,6 +79,7 @@ export function AuthProvider({ children }) {
   }
 
   const signInWithGoogle = async () => {
+    localStorage.removeItem('neura_guest')
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -55,7 +90,10 @@ export function AuthProvider({ children }) {
   }
 
   const signOut = async () => {
+    localStorage.removeItem('neura_guest')
+    setIsGuest(false)
     const { error } = await supabase.auth.signOut()
+    setUser(null)
     return { error }
   }
 
@@ -63,9 +101,11 @@ export function AuthProvider({ children }) {
     user,
     session,
     loading,
+    isGuest,
     signIn,
     signUp,
     signInWithGoogle,
+    signInAsGuest,
     signOut,
   }
 
