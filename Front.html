@@ -134,6 +134,20 @@
   #chat-modal-messages::-webkit-scrollbar { width: 4px; }
   #chat-modal-messages::-webkit-scrollbar-thumb { background: rgba(189,157,255,0.2); border-radius: 2px; }
 
+  /* ── Scroll reveal ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
   /* ── Menú móvil ── */
   #mobile-menu {
     display: none;
@@ -154,7 +168,8 @@
   <button onclick="toggleMobileMenu()" class="absolute top-6 right-8 text-slate-400 hover:text-white">
     <span class="material-symbols-outlined text-3xl">close</span>
   </button>
-  <a href="#caracteristicas" onclick="toggleMobileMenu()" class="text-2xl font-bold text-white hover:text-indigo-400 transition-colors">Características</a>
+  <a href="#como-funciona"   onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Cómo funciona</a>
+  <a href="#caracteristicas" onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Características</a>
   <a href="#sobre-neura"     onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Sobre NEURA</a>
   <a href="#pilares"         onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Inteligencia</a>
   <a href="#mision"          onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Misión</a>
@@ -168,7 +183,6 @@
 ════════════════════════════════════════ -->
 <div id="chat-modal">
   <div id="chat-modal-box">
-    <!-- Header del chat -->
     <div style="padding:1rem 1.5rem; border-bottom:1px solid rgba(189,157,255,0.1); display:flex; align-items:center; justify-content:space-between;">
       <div style="display:flex;align-items:center;gap:0.75rem;">
         <span style="display:inline-block;width:8px;height:8px;background:#ff6daf;border-radius:50%;box-shadow:0 0 8px #ff6daf;animation:blink 2s infinite;"></span>
@@ -180,7 +194,6 @@
       </button>
     </div>
 
-    <!-- Mensajes -->
     <div id="chat-modal-messages">
       <div class="chat-msg" style="display:flex;gap:0.75rem;align-items:flex-start;">
         <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;">N</div>
@@ -190,7 +203,6 @@
       </div>
     </div>
 
-    <!-- Input del chat -->
     <div style="padding:1rem 1.5rem;border-top:1px solid rgba(189,157,255,0.1);display:flex;gap:0.75rem;">
       <input id="chat-modal-input" type="text" placeholder="Escribe cómo te sientes..."
         style="flex:1;background:#22262f;border:1px solid rgba(189,157,255,0.15);border-radius:9999px;padding:0.75rem 1.25rem;color:#ecedf6;font-size:0.95rem;outline:none;font-family:Inter,sans-serif;"
@@ -209,18 +221,16 @@
 ════════════════════════════════════════ -->
 <nav class="fixed top-0 w-full z-50 bg-slate-950/60 backdrop-blur-xl shadow-[0_0_40px_rgba(189,157,255,0.08)]">
   <div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
-    <!-- Logo -->
     <a href="#inicio" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-400 font-headline tracking-tight">NEURA</a>
 
-    <!-- Links escritorio -->
     <div class="hidden md:flex items-center space-x-8">
-      <a href="#caracteristicas" class="text-indigo-400 border-b-2 border-indigo-500 pb-1 font-headline tracking-tight font-bold text-lg hover:text-white transition-all">Características</a>
+      <a href="#como-funciona"   class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Cómo funciona</a>
+      <a href="#caracteristicas" class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Características</a>
       <a href="#sobre-neura"     class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Sobre NEURA</a>
       <a href="#pilares"         class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Inteligencia</a>
       <a href="#mision"          class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Misión</a>
     </div>
 
-    <!-- Botones derecha -->
     <div class="flex items-center space-x-4">
       <button onclick="openChat()" class="hidden md:block text-slate-300 hover:text-white transition-colors font-medium px-4 py-2">
         Iniciar sesión
@@ -228,7 +238,6 @@
       <button onclick="openChat()" class="bg-gradient-to-br from-primary-dim to-primary text-on-primary-container font-bold px-6 py-2.5 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg shadow-primary/20">
         Comenzar
       </button>
-      <!-- Hamburguesa móvil -->
       <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white ml-2">
         <span class="material-symbols-outlined text-2xl">menu</span>
       </button>
@@ -239,7 +248,7 @@
 <!-- ════════════════════════════════════════
      HERO
 ════════════════════════════════════════ -->
-<header id="inicio" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+<header id="inicio" class="relative min-h-[88vh] flex items-center justify-center pt-20 overflow-hidden">
   <div class="absolute inset-0 z-0">
     <img class="w-full h-full object-cover opacity-30 scale-105"
       alt="Fondo abstracto con nebulosas púrpura"
@@ -247,25 +256,21 @@
     <div class="absolute inset-0 bg-gradient-to-b from-background/0 via-background/60 to-background"></div>
   </div>
 
-  <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
-    <!-- Badge -->
-    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-surface-variant/40 border border-outline-variant/20 mb-8">
+  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-surface-variant/40 border border-outline-variant/20 mb-6 reveal">
       <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse pulse-orb"></span>
       <span class="text-sm font-medium tracking-wide text-primary">IA Empática · Disponible ahora</span>
     </div>
 
-    <!-- Título -->
-    <h1 class="text-6xl md:text-8xl font-black font-headline tracking-tighter text-on-surface mb-6 leading-none">
+    <h1 class="text-5xl md:text-7xl font-black font-headline tracking-tighter text-on-surface mb-4 leading-tight reveal">
       NEURA — <span class="text-gradient">La IA que te entiende.</span>
     </h1>
-    <p class="text-xl md:text-2xl text-on-surface-variant max-w-3xl mx-auto mb-10 leading-relaxed font-light">
-      No es solo inteligencia artificial. Es un acompañante emocional diseñado para ayudarte a pensar mejor, sentirte mejor y vivir mejor.
+    <p class="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-7 leading-relaxed font-light reveal">
+      Tu acompañante emocional: escucha, detecta cómo te sientes y te ayuda a estar mejor, cada día.
     </p>
 
-    <!-- ── CHAT DEMO EN EL HERO ── -->
     <div id="chat-demo" class="max-w-2xl mx-auto rounded-2xl p-4 mb-10">
       <div id="hero-messages" style="min-height:72px; display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1rem;">
-        <!-- Mensaje inicial de NEURA -->
         <div class="chat-msg" style="display:flex;gap:0.6rem;align-items:flex-start;">
           <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;">N</div>
           <div style="background:rgba(34,38,47,0.9);padding:0.6rem 1rem;border-radius:0 1rem 1rem 1rem;font-size:0.9rem;color:#ecedf6;text-align:left;line-height:1.5;">
@@ -285,7 +290,6 @@
       </div>
     </div>
 
-    <!-- CTAs -->
     <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
       <button onclick="openChat()"
         class="w-full sm:w-auto px-10 py-5 rounded-full bg-gradient-to-r from-primary-dim to-primary text-on-primary-container font-bold text-lg shadow-[0_20px_40px_-15px_rgba(189,157,255,0.4)] hover:scale-105 transition-transform">
@@ -302,8 +306,8 @@
 <!-- ════════════════════════════════════════
      SOBRE NEURA
 ════════════════════════════════════════ -->
-<section id="sobre-neura" class="py-32 relative">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<section id="sobre-neura" class="py-20 relative">
+  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center reveal">
     <div class="relative group">
       <div class="absolute -inset-4 bg-gradient-to-r from-primary to-secondary opacity-20 blur-3xl rounded-full"></div>
       <div class="relative aspect-square rounded-xl overflow-hidden shadow-2xl">
@@ -329,11 +333,43 @@
 </section>
 
 <!-- ════════════════════════════════════════
+     CÓMO FUNCIONA
+════════════════════════════════════════ -->
+<section id="como-funciona" class="py-20 px-6">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-16 reveal">
+      <span class="text-primary font-headline font-bold uppercase tracking-[0.3em] mb-3 block text-sm">Simple y directo</span>
+      <h2 class="text-4xl md:text-5xl font-black font-headline text-on-surface">¿Cómo funciona NEURA?</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <div class="flex flex-col items-center text-center p-8 rounded-xl bg-surface-container border border-outline-variant/10 reveal">
+        <div class="w-14 h-14 rounded-full bg-primary/15 flex items-center justify-center mb-6 text-2xl font-black text-primary font-headline">1</div>
+        <span class="material-symbols-outlined text-primary text-4xl mb-4">edit_note</span>
+        <h3 class="text-xl font-bold font-headline mb-3">Cuéntale cómo te sientes</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">Escribe con tus propias palabras, sin formularios ni categorías. Solo habla.</p>
+      </div>
+      <div class="flex flex-col items-center text-center p-8 rounded-xl bg-surface-container border border-outline-variant/10 reveal">
+        <div class="w-14 h-14 rounded-full bg-secondary/15 flex items-center justify-center mb-6 text-2xl font-black text-secondary font-headline">2</div>
+        <span class="material-symbols-outlined text-secondary text-4xl mb-4">psychology</span>
+        <h3 class="text-xl font-bold font-headline mb-3">NEURA te analiza</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">Detecta tu emoción, el contexto y lo que necesitas en este momento concreto.</p>
+      </div>
+      <div class="flex flex-col items-center text-center p-8 rounded-xl bg-surface-container border border-outline-variant/10 reveal">
+        <div class="w-14 h-14 rounded-full bg-tertiary/15 flex items-center justify-center mb-6 text-2xl font-black text-tertiary font-headline">3</div>
+        <span class="material-symbols-outlined text-tertiary text-4xl mb-4">favorite</span>
+        <h3 class="text-xl font-bold font-headline mb-3">Recibe apoyo real</h3>
+        <p class="text-on-surface-variant text-sm leading-relaxed">Una respuesta empática + un consejo accionable que puedes hacer en menos de 2 minutos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════════════════════════════
      CARACTERÍSTICAS (BENTO GRID)
 ════════════════════════════════════════ -->
-<section id="caracteristicas" class="py-32 bg-surface-container-low/50">
+<section id="caracteristicas" class="py-20 bg-surface-container-low/50">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-20">
+    <div class="text-center mb-16 reveal">
       <h2 class="text-4xl md:text-5xl font-black font-headline mb-6 text-on-surface">¿Por qué NEURA es diferente?</h2>
       <p class="text-on-surface-variant text-lg max-w-2xl mx-auto">Diseñada para ser la interfaz definitiva entre el potencial humano y la tecnología digital.</p>
     </div>
@@ -363,8 +399,8 @@
         <div class="absolute top-0 right-0 p-8 text-primary opacity-20 group-hover:opacity-100 transition-opacity">
           <span class="material-symbols-outlined text-7xl">shield_person</span>
         </div>
-        <h3 class="text-2xl font-bold font-headline mb-4">Respeta tu privacidad al 100%</h3>
-        <p class="text-on-surface-variant leading-relaxed">Cifrado de extremo a extremo y procesamiento local para máxima seguridad.</p>
+        <h3 class="text-2xl font-bold font-headline mb-4">Tu privacidad, nuestra prioridad</h3>
+        <p class="text-on-surface-variant leading-relaxed">Tus conversaciones viajan cifradas y nunca se usan para entrenar modelos ni se venden a terceros.</p>
       </div>
     </div>
   </div>
@@ -373,7 +409,7 @@
 <!-- ════════════════════════════════════════
      LOS 3 PILARES
 ════════════════════════════════════════ -->
-<section id="pilares" class="py-32 px-6">
+<section id="pilares" class="py-20 px-6">
   <div class="max-w-7xl mx-auto">
     <h2 class="text-3xl font-black font-headline mb-16 text-center tracking-widest uppercase opacity-40">Los 3 pilares de NEURA</h2>
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
@@ -411,7 +447,7 @@
 <!-- ════════════════════════════════════════
      MISIÓN
 ════════════════════════════════════════ -->
-<section id="mision" class="py-32 relative overflow-hidden">
+<section id="mision" class="py-20 relative overflow-hidden">
   <div class="max-w-4xl mx-auto px-6 text-center">
     <span class="text-tertiary font-headline font-bold uppercase tracking-[0.3em] mb-6 block">Nuestra Misión</span>
     <h2 class="text-4xl md:text-6xl font-black font-headline mb-10 leading-tight">
@@ -424,7 +460,7 @@
 <!-- ════════════════════════════════════════
      CTA FINAL
 ════════════════════════════════════════ -->
-<section class="py-40 px-6">
+<section class="py-24 px-6">
   <div class="max-w-5xl mx-auto rounded-xl bg-gradient-to-br from-surface-container-high to-background p-12 md:p-24 text-center relative overflow-hidden border border-outline-variant/20 shadow-2xl">
     <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
       <div class="absolute top-0 left-0 w-64 h-64 bg-primary blur-[120px]"></div>
@@ -481,6 +517,19 @@
      JAVASCRIPT
 ════════════════════════════════════════ -->
 <script>
+
+// ── Scroll reveal ──
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      revealObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
 // ── Session ID persistente (identifica al usuario sin login) ──
 function getSessionId() {
   let id = sessionStorage.getItem('neura_session_id');
@@ -594,7 +643,6 @@ async function sendHeroMessage() {
   if (!text) return;
   input.value = '';
 
-  // Mensaje del usuario (hero tiene layout compacto)
   const userMsg = document.createElement('div');
   userMsg.className = 'chat-msg';
   userMsg.style.cssText = 'display:flex;justify-content:flex-end;';
@@ -602,7 +650,6 @@ async function sendHeroMessage() {
   container.appendChild(userMsg);
   heroHistory.push({ role: 'user', content: text });
 
-  // Typing indicator compacto
   const typing = document.createElement('div');
   typing.style.cssText = 'display:flex;gap:0.5rem;align-items:center;padding:0.4rem 0;';
   typing.innerHTML = `
