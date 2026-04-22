@@ -1,7 +1,7 @@
 export default function LandingHighlights() {
   return (
     <>
-      <section className="py-32 relative">
+      <section id="sobre-neura" className="py-32 relative">
         <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
           <div className="relative group">
             <div className="absolute -inset-4 bg-gradient-to-r from-primary to-secondary opacity-20 blur-3xl rounded-full"></div>
@@ -30,13 +30,13 @@ export default function LandingHighlights() {
         </div>
       </section>
 
-      <section className="py-32 bg-surface-container-low/50">
+      <section id="caracteristicas" className="py-32 bg-surface-container-low/50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl md:text-5xl font-black font-headline mb-6 text-on-surface">Por que NEURA es diferente?</h2>
             <p className="text-on-surface-variant text-lg max-w-2xl mx-auto">Disenada para ser la interfaz definitiva entre el potencial humano y la tecnologia digital.</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          <div id="pilares" className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <div className="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
               <div className="absolute top-0 right-0 p-8 text-primary opacity-20 group-hover:opacity-100 transition-opacity">
                 <span className="material-symbols-outlined text-7xl">psychology</span>
@@ -66,6 +66,16 @@ export default function LandingHighlights() {
               <p className="text-on-surface-variant leading-relaxed">Cifrado de extremo a extremo y procesamiento local para maxima seguridad.</p>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section id="mision" className="py-32 relative overflow-hidden">
+        <div className="max-w-4xl mx-auto px-6 text-center">
+          <h2 className="text-4xl md:text-5xl font-black font-headline mb-8">Nuestra Misión</h2>
+          <p className="text-xl text-on-surface-variant leading-relaxed">
+            Humanizar la tecnología para que no solo sea una herramienta de cálculo, sino un puente hacia una mejor comprensión de nosotros mismos. 
+            En NEURA, creemos que el futuro de la IA es empático, seguro y profundamente humano.
+          </p>
         </div>
       </section>
     </>

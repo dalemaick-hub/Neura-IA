@@ -26,7 +26,7 @@ export default function LandingFooter() {
         </div>
       </div>
       <div className="max-w-7xl mx-auto px-8 mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className="font-inter text-sm text-slate-400 opacity-90">© 2024 NEURA Intelligence. Human-Centric by Design.</p>
+        <p className="font-inter text-sm text-slate-400 opacity-90">© {new Date().getFullYear()} NEURA Intelligence. Hecho con propósito.</p>
         <div className="flex gap-6 items-center">
           <span className="w-2 h-2 rounded-full bg-primary"></span>
           <span className="text-xs uppercase tracking-widest text-slate-500">System Online</span>
