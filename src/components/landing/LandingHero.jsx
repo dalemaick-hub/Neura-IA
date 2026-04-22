@@ -2,6 +2,16 @@ import { Link } from "react-router-dom";
 import { useState } from "react";
 import { analizarEmocion } from "../../services/ai";
 
+// Función para generar o recuperar el ID de sesión del visitante
+function getSessionId() {
+  let id = sessionStorage.getItem('neura_session_id');
+  if (!id) {
+    id = 'session_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+    sessionStorage.setItem('neura_session_id', id);
+  }
+  return id;
+}
+
 export default function LandingHero({ onStart, onOpenChat }) {
   const [demoInput, setDemoInput] = useState("");
   const [demoMessages, setDemoMessages] = useState([
@@ -18,8 +28,9 @@ export default function LandingHero({ onStart, onOpenChat }) {
     setIsDemoTyping(true);
 
     try {
-      const result = await analizarEmocion(text, "calmado", "hero-demo-" + Date.now());
-      setDemoMessages(prev => [...prev, { role: "assistant", content: result.response }]);
+      const sessionId = getSessionId();
+      const result = await analizarEmocion(text, "calmado", sessionId);
+      setMessages(prev => [...prev, { role: "assistant", content: result.response }]);
     } catch (error) {
       setDemoMessages(prev => [...prev, { role: "assistant", content: "Lo siento, tuve un problema de conexión." }]);
     } finally {

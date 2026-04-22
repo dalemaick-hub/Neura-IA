@@ -5,6 +5,16 @@ import LandingHighlights from "./landing/LandingHighlights";
 import LandingNav from "./landing/LandingNav";
 import { analizarEmocion } from "../services/ai";
 
+// Función para generar o recuperar el ID de sesión del visitante
+function getSessionId() {
+  let id = sessionStorage.getItem('neura_session_id');
+  if (!id) {
+    id = 'session_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
+    sessionStorage.setItem('neura_session_id', id);
+  }
+  return id;
+}
+
 const Landing = ({ onStart }) => {
   const [open, setOpen] = useState(false);
   const [showChatModal, setShowChatModal] = useState(false);
@@ -33,7 +43,8 @@ const Landing = ({ onStart }) => {
     setIsTyping(true);
 
     try {
-      const result = await analizarEmocion(input, "calmado", "landing-demo-" + Date.now());
+      const sessionId = getSessionId();
+      const result = await analizarEmocion(input, "calmado", sessionId);
       setMessages(prev => [...prev, { role: "assistant", content: result.response }]);
     } catch (error) {
       setMessages(prev => [...prev, { role: "assistant", content: "Lo siento, tuve un problema de conexión. Inténtalo de nuevo." }]);
