@@ -1,709 +1,249 @@
 <!DOCTYPE html>
-<html class="dark" lang="es">
-<head>
+
+<html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>NEURA — La IA que te entiende</title>
-<meta name="description" content="NEURA — La IA empática que analiza tus emociones y te ofrece apoyo personalizado en tiempo real. Tu acompañante emocional digital."/>
-<meta name="robots" content="index, follow"/>
-<link rel="canonical" href="https://neura-ia.com"/>
-<meta property="og:title" content="NEURA — La IA que te entiende"/>
-<meta property="og:description" content="Acompañante emocional diseñado para ayudarte a pensar mejor, sentirte mejor y vivir mejor."/>
+<link rel="canonical" href="https://neura-ia.com/"/>
+<meta name="description" content="Tu acompañante emocional con IA. Detecta cómo te sientes y te ofrece apoyo real, cada día."/>
+<meta name="keywords" content="inteligencia artificial emocional, IA empática, salud mental IA, asistente emocional, bienestar digital"/>
+<meta name="author" content="NEURA Intelligence"/>
+
+<!-- Open Graph / Facebook -->
 <meta property="og:type" content="website"/>
-<meta property="og:url" content="https://neura-ia.com"/>
+<meta property="og:url" content="https://neura-ia.com/"/>
+<meta property="og:title" content="NEURA — La IA que te entiende"/>
+<meta property="og:description" content="Tu acompañante emocional con IA. Detecta cómo te sientes y te ofrece apoyo real, cada día."/>
 <meta property="og:image" content="https://neura-ia.com/og-image.png"/>
-<meta property="og:image:width" content="1200"/>
-<meta property="og:image:height" content="630"/>
 <meta property="og:locale" content="es_ES"/>
 <meta property="og:site_name" content="NEURA"/>
+
+<!-- Twitter -->
 <meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:site" content="@neura_ia"/>
 <meta name="twitter:title" content="NEURA — La IA que te entiende"/>
-<meta name="twitter:description" content="Acompañante emocional diseñado para ayudarte a pensar mejor, sentirte mejor y vivir mejor."/>
+<meta name="twitter:description" content="Tu acompañante emocional con IA. Detecta cómo te sientes y te ofrece apoyo real."/>
 <meta name="twitter:image" content="https://neura-ia.com/og-image.png"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          "surface-container": "#161a21",
-          "outline-variant": "#45484f",
-          "tertiary-container": "#fa53a4",
-          "on-tertiary": "#4b002a",
-          "tertiary": "#ff6daf",
-          "on-error-container": "#ffb2b9",
-          "surface-tint": "#bd9dff",
-          "surface-variant": "#22262f",
-          "on-surface-variant": "#a9abb3",
-          "background": "#0b0e14",
-          "on-error": "#490013",
-          "on-primary-container": "#2e006c",
-          "on-surface": "#ecedf6",
-          "surface-dim": "#0b0e14",
-          "secondary-fixed": "#65e1ff",
-          "surface-container-low": "#10131a",
-          "on-primary": "#3c0089",
-          "error-dim": "#d73357",
-          "surface": "#0b0e14",
-          "primary-fixed-dim": "#a67aff",
-          "secondary": "#53ddfc",
-          "tertiary-fixed-dim": "#ff73b1",
-          "inverse-primary": "#742fe5",
-          "primary-container": "#b28cff",
-          "primary": "#bd9dff",
-          "secondary-container": "#00687a",
-          "inverse-surface": "#f9f9ff",
-          "tertiary-fixed": "#ff8cbc",
-          "on-secondary-container": "#ecfaff",
-          "secondary-dim": "#40ceed",
-          "on-tertiary-container": "#2f0018",
-          "primary-dim": "#8a4cfc",
-          "on-primary-fixed": "#000000",
-          "on-secondary-fixed-variant": "#005969",
-          "outline": "#73757d",
-          "error": "#ff6e84",
-          "surface-container-high": "#1c2028",
-          "surface-bright": "#282c36",
-          "on-primary-fixed-variant": "#390083",
-          "secondary-fixed-dim": "#48d4f3",
-          "on-secondary-fixed": "#003a45",
-          "on-tertiary-fixed-variant": "#740044",
-          "inverse-on-surface": "#52555c",
-          "on-secondary": "#004b58",
-          "on-tertiary-fixed": "#37001d",
-          "on-background": "#ecedf6",
-          "primary-fixed": "#b28cff",
-          "tertiary-dim": "#ff67ad",
-          "error-container": "#a70138",
-          "surface-container-highest": "#22262f",
-          "surface-container-lowest": "#000000"
-        },
-        fontFamily: {
-          "headline": ["Manrope"],
-          "body": ["Inter"],
-          "label": ["Inter"]
-        },
-        borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
-      },
-    },
-  }
-</script>
-<style>
-  .glass-panel {
-    background: rgba(11, 14, 20, 0.7);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
-  }
-  .hero-gradient {
-    background: radial-gradient(circle at 50% 50%, rgba(189, 157, 255, 0.15) 0%, rgba(11, 14, 20, 0) 70%);
-  }
-  .pulse-orb { box-shadow: 0 0 30px #ff6daf; }
-  .text-gradient {
-    background-clip: text;
-    -webkit-background-clip: text;
-    color: transparent;
-    background-image: linear-gradient(135deg, #8a4cfc, #bd9dff);
-  }
 
-  /* ── Chat demo (hero) ── */
-  #chat-demo {
-    background: rgba(22, 26, 33, 0.85);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(189,157,255,0.15);
-  }
-  .chat-msg { animation: fadeInUp 0.3s ease; }
-  @keyframes fadeInUp { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
-  .typing-dot { animation: blink 1.2s infinite; }
-  .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-  .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-  @keyframes blink { 0%,80%,100%{opacity:0.2} 40%{opacity:1} }
-
-  /* ── Chat modal completo ── */
-  #chat-modal {
-    display: none;
-    position: fixed; inset: 0; z-index: 200;
-    background: rgba(0,0,0,0.85);
-    backdrop-filter: blur(10px);
-    align-items: center; justify-content: center;
-  }
-  #chat-modal.open { display: flex; }
-  #chat-modal-box {
-    background: #0f1218;
-    border: 1px solid rgba(189,157,255,0.2);
-    border-radius: 1.5rem;
-    width: min(680px, 95vw);
-    height: min(80vh, 700px);
-    display: flex; flex-direction: column; overflow: hidden;
-    box-shadow: 0 40px 80px rgba(0,0,0,0.6);
-  }
-  #chat-modal-messages {
-    flex: 1; overflow-y: auto;
-    padding: 1.5rem; display: flex; flex-direction: column; gap: 1rem;
-  }
-  #chat-modal-messages::-webkit-scrollbar { width: 4px; }
-  #chat-modal-messages::-webkit-scrollbar-thumb { background: rgba(189,157,255,0.2); border-radius: 2px; }
-
-  /* ── Scroll reveal ── */
-  .reveal {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-  .reveal.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  .reveal-delay-1 { transition-delay: 0.1s; }
-  .reveal-delay-2 { transition-delay: 0.2s; }
-  .reveal-delay-3 { transition-delay: 0.3s; }
-
-  /* ── Menú móvil ── */
-  #mobile-menu {
-    display: none;
-    position: fixed; inset: 0; z-index: 100;
-    background: rgba(7,9,14,0.97);
-    backdrop-filter: blur(20px);
-    flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
-  }
-  #mobile-menu.open { display: flex; }
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 </head>
 <body class="bg-background text-on-surface font-body overflow-x-hidden selection:bg-primary/30">
-
-<!-- ════════════════════════════════════════
-     MENÚ MÓVIL
-════════════════════════════════════════ -->
-<div id="mobile-menu">
-  <button onclick="toggleMobileMenu()" class="absolute top-6 right-8 text-slate-400 hover:text-white">
-    <span class="material-symbols-outlined text-3xl">close</span>
-  </button>
-  <a href="#como-funciona"   onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Cómo funciona</a>
-  <a href="#caracteristicas" onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Características</a>
-  <a href="#sobre-neura"     onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Sobre NEURA</a>
-  <a href="#pilares"         onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Inteligencia</a>
-  <a href="#mision"          onclick="toggleMobileMenu()" class="text-2xl font-bold text-slate-300 hover:text-white transition-colors">Misión</a>
-  <button onclick="openChat(); toggleMobileMenu();" class="mt-4 bg-gradient-to-br from-primary-dim to-primary text-on-primary-container font-bold px-8 py-3 rounded-full text-lg">
-    Comenzar gratis
-  </button>
-</div>
-
-<!-- ════════════════════════════════════════
-     MODAL DE CHAT COMPLETO
-════════════════════════════════════════ -->
-<div id="chat-modal">
-  <div id="chat-modal-box">
-    <div style="padding:1rem 1.5rem; border-bottom:1px solid rgba(189,157,255,0.1); display:flex; align-items:center; justify-content:space-between;">
-      <div style="display:flex;align-items:center;gap:0.75rem;">
-        <span style="display:inline-block;width:8px;height:8px;background:#ff6daf;border-radius:50%;box-shadow:0 0 8px #ff6daf;animation:blink 2s infinite;"></span>
-        <span style="font-weight:700;font-family:Manrope,sans-serif;font-size:1.1rem;">NEURA</span>
-        <span style="font-size:12px;color:#a9abb3;">IA Empática · En línea</span>
-      </div>
-      <button onclick="closeChat()" style="color:#a9abb3;background:none;border:none;cursor:pointer;padding:4px;border-radius:6px;" title="Cerrar">
-        <span class="material-symbols-outlined">close</span>
-      </button>
-    </div>
-
-    <div id="chat-modal-messages">
-      <div class="chat-msg" style="display:flex;gap:0.75rem;align-items:flex-start;">
-        <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;">N</div>
-        <div style="background:#22262f;padding:0.75rem 1rem;border-radius:0 1rem 1rem 1rem;max-width:80%;font-size:0.95rem;line-height:1.6;color:#ecedf6;">
-          ¡Hola! Soy NEURA, tu acompañante emocional. 💜<br>¿Cómo te sientes hoy? Cuéntame lo que quieras, estoy aquí para escucharte.
-        </div>
-      </div>
-    </div>
-
-    <div style="padding:1rem 1.5rem;border-top:1px solid rgba(189,157,255,0.1);display:flex;gap:0.75rem;">
-      <input id="chat-modal-input" type="text" placeholder="Escribe cómo te sientes..."
-        style="flex:1;background:#22262f;border:1px solid rgba(189,157,255,0.15);border-radius:9999px;padding:0.75rem 1.25rem;color:#ecedf6;font-size:0.95rem;outline:none;font-family:Inter,sans-serif;"
-        onkeydown="if(event.key==='Enter') sendModalMessage()"
-      />
-      <button onclick="sendModalMessage()"
-        style="background:linear-gradient(135deg,#8a4cfc,#bd9dff);border:none;border-radius:50%;width:44px;height:44px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-        <span class="material-symbols-outlined" style="color:#2e006c;font-size:20px;">send</span>
-      </button>
-    </div>
-  </div>
-</div>
-
-<!-- ════════════════════════════════════════
-     NAVEGACIÓN
-════════════════════════════════════════ -->
+<!-- Top Navigation -->
 <nav class="fixed top-0 w-full z-50 bg-slate-950/60 backdrop-blur-xl shadow-[0_0_40px_rgba(189,157,255,0.08)]">
-  <div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
-    <a href="#inicio" class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-400 font-headline tracking-tight">NEURA</a>
-
-    <div class="hidden md:flex items-center space-x-8">
-      <a href="#como-funciona"   class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Cómo funciona</a>
-      <a href="#caracteristicas" class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Características</a>
-      <a href="#sobre-neura"     class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Sobre NEURA</a>
-      <a href="#pilares"         class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Inteligencia</a>
-      <a href="#mision"          class="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg">Misión</a>
-    </div>
-
-    <div class="flex items-center space-x-4">
-      <button onclick="openChat()" class="hidden md:block text-slate-300 hover:text-white transition-colors font-medium px-4 py-2">
-        Iniciar sesión
-      </button>
-      <button onclick="openChat()" class="bg-gradient-to-br from-primary-dim to-primary text-on-primary-container font-bold px-6 py-2.5 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg shadow-primary/20">
-        Comenzar
-      </button>
-      <button onclick="toggleMobileMenu()" class="md:hidden text-slate-300 hover:text-white ml-2">
-        <span class="material-symbols-outlined text-2xl">menu</span>
-      </button>
-    </div>
-  </div>
+<div class="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
+<div class="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-400 font-headline tracking-tight">NEURA</div>
+<div class="hidden md:flex items-center space-x-8">
+<a class="text-indigo-400 border-b-2 border-indigo-500 pb-1 font-manrope tracking-tight font-bold text-lg cursor-pointer active:opacity-80 transition-all" href="#">Features</a>
+<a class="text-slate-300 hover:text-white transition-colors font-manrope tracking-tight font-bold text-lg cursor-pointer active:opacity-80" href="#">About</a>
+<a class="text-slate-300 hover:text-white transition-colors font-manrope tracking-tight font-bold text-lg cursor-pointer active:opacity-80" href="#">Intelligence</a>
+<a class="text-slate-300 hover:text-white transition-colors font-manrope tracking-tight font-bold text-lg cursor-pointer active:opacity-80" href="#">Ethics</a>
+</div>
+<div class="flex items-center space-x-4">
+<button class="text-slate-300 hover:text-white transition-colors font-medium px-4 py-2">Sign In</button>
+<button class="bg-gradient-to-br from-primary-dim to-primary text-on-primary-container font-bold px-6 py-2.5 rounded-full hover:scale-105 transition-transform duration-300 shadow-lg shadow-primary/20">Get Started</button>
+</div>
+</div>
 </nav>
-
-<!-- ════════════════════════════════════════
-     HERO
-════════════════════════════════════════ -->
-<header id="inicio" class="relative min-h-[88vh] flex items-center justify-center pt-20 overflow-hidden">
-  <div class="absolute inset-0 z-0">
-    <img class="w-full h-full object-cover opacity-30 scale-105"
-      alt="Fondo abstracto con nebulosas púrpura"
-      src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa-Gi7wWlXUc9pNdeAaS_vpMkPauYi4Lu64-x49gzxspqT5EMRNPSJ1c6s963KomlkHqSzb619LvJ5wCMThJhihyYJ_rz6w8xgNFXatWPWr9sZR7Mu1BwrF3g8qc2y0rXw43lhai9N2ZO5ZVo7UJFMtSXpDKFd_6n4E0OFh8pGmZ4aziWa1miVKRlVctzl1LBRAbMhZFsqNUEzHWeUKrripc5rZv1mTSJDaqs1mL-CJoRX3N0Zgiz5iYmgdrt9XXRgMA6PX96Lrg"/>
-    <div class="absolute inset-0 bg-gradient-to-b from-background/0 via-background/60 to-background"></div>
-  </div>
-
-  <div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
-    <div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-surface-variant/40 border border-outline-variant/20 mb-6 reveal">
-      <span class="w-2 h-2 rounded-full bg-tertiary animate-pulse pulse-orb"></span>
-      <span class="text-sm font-medium tracking-wide text-primary">IA Empática · Disponible ahora</span>
-    </div>
-
-    <h1 class="text-5xl md:text-7xl font-black font-headline tracking-tighter text-on-surface mb-4 leading-tight reveal">
-      NEURA — <span class="text-gradient">La IA que te entiende.</span>
-    </h1>
-    <p class="text-lg md:text-xl text-on-surface-variant max-w-2xl mx-auto mb-7 leading-relaxed font-light reveal">
-      Tu acompañante emocional: escucha, detecta cómo te sientes y te ayuda a estar mejor, cada día.
-    </p>
-
-    <div id="chat-demo" class="max-w-2xl mx-auto rounded-2xl p-4 mb-10">
-      <div id="hero-messages" style="min-height:72px; display:flex; flex-direction:column; gap:0.75rem; margin-bottom:1rem;">
-        <div class="chat-msg" style="display:flex;gap:0.6rem;align-items:flex-start;">
-          <div style="width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:white;">N</div>
-          <div style="background:rgba(34,38,47,0.9);padding:0.6rem 1rem;border-radius:0 1rem 1rem 1rem;font-size:0.9rem;color:#ecedf6;text-align:left;line-height:1.5;">
-            ¿Cómo te sientes hoy? Cuéntame lo que quieras. 💜
-          </div>
-        </div>
-      </div>
-      <div style="display:flex;gap:0.6rem;align-items:center;">
-        <input id="hero-input" type="text" placeholder="Escribe algo... (ej: estoy estresado)"
-          style="flex:1;background:rgba(34,38,47,0.8);border:1px solid rgba(189,157,255,0.2);border-radius:9999px;padding:0.7rem 1.2rem;color:#ecedf6;font-size:0.9rem;outline:none;font-family:Inter,sans-serif;"
-          onkeydown="if(event.key==='Enter') sendHeroMessage()"
-        />
-        <button onclick="sendHeroMessage()"
-          style="background:linear-gradient(135deg,#8a4cfc,#bd9dff);border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-          <span class="material-symbols-outlined" style="color:#2e006c;font-size:18px;">send</span>
-        </button>
-      </div>
-    </div>
-
-    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-      <button onclick="openChat()"
-        class="w-full sm:w-auto px-10 py-5 rounded-full bg-gradient-to-r from-primary-dim to-primary text-on-primary-container font-bold text-lg shadow-[0_20px_40px_-15px_rgba(189,157,255,0.4)] hover:scale-105 transition-transform">
-        Empieza ahora
-      </button>
-      <button onclick="document.getElementById('sobre-neura').scrollIntoView({behavior:'smooth'})"
-        class="w-full sm:w-auto px-10 py-5 rounded-full glass-panel border border-outline-variant/30 text-on-surface font-semibold text-lg hover:bg-surface-bright transition-colors">
-        Descubre NEURA
-      </button>
-    </div>
-  </div>
+<!-- Hero Section -->
+<header class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover opacity-30 scale-105" data-alt="Dreamy abstract background with floating iridescent particles and deep purple nebulas, soft cosmic light, ethereal digital atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCa-Gi7wWlXUc9pNdeAaS_vpMkPauYi4Lu64-x49gzxspqT5EMRNPSJ1c6s963KomlkHqSzb619LvJ5wCMThJhihyYJ_rz6w8xgNFXatWPWr9sZR7Mu1BwrF3g8qc2y0rXw43lhai9N2ZO5ZVo7UJFMtSXpDKFd_6n4E0OFh8pGmZ4aziWa1miVKRlVctzl1LBRAbMhZFsqNUEzHWeUKrripc5rZv1mTSJDaqs1mL-CJoRX3N0Zgiz5iYmgdrt9XXRgMA6PX96Lrg"/>
+<div class="absolute inset-0 bg-gradient-to-b from-background/0 via-background/60 to-background"></div>
+</div>
+<div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+<div class="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-surface-variant/40 border border-outline-variant/20 mb-8">
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse pulse-orb"></span>
+<span class="text-sm font-medium tracking-wide text-primary">IA Empática ya disponible</span>
+</div>
+<h1 class="text-6xl md:text-8xl font-black font-headline tracking-tighter text-on-surface mb-6 leading-none">
+                NEURA — <span class="text-gradient">La IA que te entiende.</span>
+</h1>
+<p class="text-xl md:text-2xl text-on-surface-variant max-w-3xl mx-auto mb-10 leading-relaxed font-light">
+                No es solo inteligencia artificial. Es un acompañante emocional diseñado para ayudarte a pensar mejor, sentirte mejor y vivir mejor.
+            </p>
+<div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+<button class="w-full sm:w-auto px-10 py-5 rounded-full bg-gradient-to-r from-primary-dim to-primary text-on-primary-container font-bold text-lg shadow-[0_20px_40px_-15px_rgba(189,157,255,0.4)] hover:scale-105 transition-transform">
+                    Empieza ahora
+                </button>
+<button class="w-full sm:w-auto px-10 py-5 rounded-full glass-panel border border-outline-variant/30 text-on-surface font-semibold text-lg hover:bg-surface-bright transition-colors">
+                    Descubre NEURA
+                </button>
+</div>
+</div>
 </header>
-
-<!-- ════════════════════════════════════════
-     SOBRE NEURA
-════════════════════════════════════════ -->
-<section id="sobre-neura" class="py-20 relative">
-  <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center reveal">
-    <div class="relative group">
-      <div class="absolute -inset-4 bg-gradient-to-r from-primary to-secondary opacity-20 blur-3xl rounded-full"></div>
-      <div class="relative aspect-square rounded-xl overflow-hidden shadow-2xl">
-        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-          alt="Escultura 3D orgánica en espacio oscuro con texturas iridiscentes"
-          src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAIoqpdQfCZ5qkBcIkxQBiOK-VBbGo9faM4W8xDFLmQxSUR1ZuQNjo1zSSV5BNc00KuqvMqB5ysGOWdZlPBZy3fZouKsx6wu-2WaPDeuag26f1WI0dJPtHnh497eYGoRYS4RBYD48Dw3ZB7hdbuSK_p01XwiszjEcvRntjvplwXdeKwc528jIAh9UOVkGVSiQb1HfMB5Kxum1vrXypHRA75FspOTvG1fzMAnZ-tMmUe4_d2aZ4W4w8HTfKJp5QLVhSKCGOYoc_CQ"/>
-      </div>
-    </div>
-    <div>
-      <h2 class="text-4xl md:text-5xl font-black font-headline mb-8 leading-tight">
-        La evolución de la <br/><span class="text-secondary">inteligencia artificial</span>
-      </h2>
-      <p class="text-lg md:text-xl text-on-surface-variant leading-relaxed mb-8">
-        NEURA es un asistente emocional personal que no solo procesa información, sino que comprende a las personas. A diferencia de las IAs tradicionales, NEURA analiza tu lenguaje y tu estado emocional para ofrecerte respuestas que realmente te ayudan.
-      </p>
-      <div class="space-y-4">
-        <div class="p-6 rounded-lg bg-surface-container-high border-l-4 border-tertiary">
-          <p class="text-on-surface font-medium italic">"Apoyo, claridad mental y productividad adaptada a ti."</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Evolution Section (Qué es NEURA) -->
+<section class="py-32 relative">
+<div class="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+<div class="relative group">
+<div class="absolute -inset-4 bg-gradient-to-r from-primary to-secondary opacity-20 blur-3xl rounded-full"></div>
+<div class="relative aspect-square rounded-xl overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover grayscale-0 group-hover:scale-110 transition-transform duration-700" data-alt="Abstract 3D organic sculpture floating in dark space, iridescent liquid metal textures, bioluminescent glow, ethereal digital art" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAIoqpdQfCZ5qkBcIkxQBiOK-VBbGo9faM4W8xDFLmQxSUR1ZuQNjo1zSSV5BNc00KuqvMqB5ysGOWdZlPBZy3fZouKsx6wu-2WaPDeuag26f1WI0dJPtHnh497eYGoRYS4RBYD48Dw3ZB7hdbuSK_p01XwiszjEcvRntjvplwXdeKwc528jIAh9UOVkGVSiQb1HfMB5Kxum1vrXypHRA75FspOTvG1fzMAnZ-tMmUe4_d2aZ4W4w8HTfKJp5QLVhSKCGOYoc_CQ"/>
+</div>
+</div>
+<div>
+<h2 class="text-4xl md:text-5xl font-black font-headline mb-8 leading-tight">
+                    La evolución de la <br/><span class="text-secondary">inteligencia artificial</span>
+</h2>
+<p class="text-lg md:text-xl text-on-surface-variant leading-relaxed mb-8">
+                    NEURA es un asistente emocional personal que no solo procesa información, sino que comprende a las personas. A diferencia de las IAs tradicionales, NEURA analiza tu lenguaje y tu estado emocional para ofrecerte respuestas que realmente te ayudan.
+                </p>
+<div class="space-y-4">
+<div class="p-6 rounded-lg bg-surface-container-high border-l-4 border-tertiary">
+<p class="text-on-surface font-medium italic">"Apoyo, claridad mental y productividad adaptada a ti."</p>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- ════════════════════════════════════════
-     CÓMO FUNCIONA
-════════════════════════════════════════ -->
-<section id="como-funciona" class="py-20 px-6">
-  <div class="max-w-5xl mx-auto">
-    <div class="text-center mb-16 reveal">
-      <span class="text-primary font-headline font-bold uppercase tracking-[0.3em] mb-3 block text-sm">Simple y directo</span>
-      <h2 class="text-4xl md:text-5xl font-black font-headline text-on-surface">¿Cómo funciona NEURA?</h2>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <div class="flex flex-col items-center text-center p-8 rounded-xl bg-surface-container border border-outline-variant/10 reveal">
-        <div class="w-14 h-14 rounded-full bg-primary/15 flex items-center justify-center mb-6 text-2xl font-black text-primary font-headline">1</div>
-        <span class="material-symbols-outlined text-primary text-4xl mb-4">edit_note</span>
-        <h3 class="text-xl font-bold font-headline mb-3">Cuéntale cómo te sientes</h3>
-        <p class="text-on-surface-variant text-sm leading-relaxed">Escribe con tus propias palabras, sin formularios ni categorías. Solo habla.</p>
-      </div>
-      <div class="flex flex-col items-center text-center p-8 rounded-xl bg-surface-container border border-outline-variant/10 reveal">
-        <div class="w-14 h-14 rounded-full bg-secondary/15 flex items-center justify-center mb-6 text-2xl font-black text-secondary font-headline">2</div>
-        <span class="material-symbols-outlined text-secondary text-4xl mb-4">psychology</span>
-        <h3 class="text-xl font-bold font-headline mb-3">NEURA te analiza</h3>
-        <p class="text-on-surface-variant text-sm leading-relaxed">Detecta tu emoción, el contexto y lo que necesitas en este momento concreto.</p>
-      </div>
-      <div class="flex flex-col items-center text-center p-8 rounded-xl bg-surface-container border border-outline-variant/10 reveal">
-        <div class="w-14 h-14 rounded-full bg-tertiary/15 flex items-center justify-center mb-6 text-2xl font-black text-tertiary font-headline">3</div>
-        <span class="material-symbols-outlined text-tertiary text-4xl mb-4">favorite</span>
-        <h3 class="text-xl font-bold font-headline mb-3">Recibe apoyo real</h3>
-        <p class="text-on-surface-variant text-sm leading-relaxed">Una respuesta empática + un consejo accionable que puedes hacer en menos de 2 minutos.</p>
-      </div>
-    </div>
-  </div>
+<!-- Differentiation (Bento Grid) -->
+<section class="py-32 bg-surface-container-low/50">
+<div class="max-w-7xl mx-auto px-6">
+<div class="text-center mb-20">
+<h2 class="text-4xl md:text-5xl font-black font-headline mb-6 text-on-surface">¿Por qué NEURA es diferente?</h2>
+<p class="text-on-surface-variant text-lg max-w-2xl mx-auto">Diseñada para ser la interfaz definitiva entre el potencial humano y la tecnología digital.</p>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Point 1 -->
+<div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 text-primary opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-7xl">psychology</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Detecta emociones</h3>
+<p class="text-on-surface-variant leading-relaxed">Capacidad única para interpretar el subtexto emocional en cada conversación.</p>
+</div>
+<!-- Point 2 -->
+<div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 text-secondary opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-7xl" data-weight="fill">neurology</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Se adapta a tu forma de pensar</h3>
+<p class="text-on-surface-variant leading-relaxed">Personalidad y tono dinámico que se ajusta a tus necesidades cognitivas del momento.</p>
+</div>
+<!-- Point 3 -->
+<div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 text-tertiary opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-7xl">auto_awesome</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Aprende contigo cada día</h3>
+<p class="text-on-surface-variant leading-relaxed">Evoluciona a medida que interactúas, creando un gemelo digital de tu flujo de trabajo.</p>
+</div>
+<!-- Point 4 -->
+<div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-8 text-primary opacity-20 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-7xl" data-weight="fill">shield_person</span>
+</div>
+<h3 class="text-2xl font-bold font-headline mb-4">Respeta tu privacidad al 100%</h3>
+<p class="text-on-surface-variant leading-relaxed">Cifrado de extremo a extremo y procesamiento local para máxima seguridad.</p>
+</div>
+</div>
+</div>
 </section>
-
-<!-- ════════════════════════════════════════
-     CARACTERÍSTICAS (BENTO GRID)
-════════════════════════════════════════ -->
-<section id="caracteristicas" class="py-20 bg-surface-container-low/50">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
-      <h2 class="text-4xl md:text-5xl font-black font-headline mb-6 text-on-surface">¿Por qué NEURA es diferente?</h2>
-      <p class="text-on-surface-variant text-lg max-w-2xl mx-auto">Diseñada para ser la interfaz definitiva entre el potencial humano y la tecnología digital.</p>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-      <div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
-        <div class="absolute top-0 right-0 p-8 text-primary opacity-20 group-hover:opacity-100 transition-opacity">
-          <span class="material-symbols-outlined text-7xl">psychology</span>
-        </div>
-        <h3 class="text-2xl font-bold font-headline mb-4">Detecta emociones</h3>
-        <p class="text-on-surface-variant leading-relaxed">Capacidad única para interpretar el subtexto emocional en cada conversación.</p>
-      </div>
-      <div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
-        <div class="absolute top-0 right-0 p-8 text-secondary opacity-20 group-hover:opacity-100 transition-opacity">
-          <span class="material-symbols-outlined text-7xl">neurology</span>
-        </div>
-        <h3 class="text-2xl font-bold font-headline mb-4">Se adapta a tu forma de pensar</h3>
-        <p class="text-on-surface-variant leading-relaxed">Personalidad y tono dinámico que se ajusta a tus necesidades cognitivas del momento.</p>
-      </div>
-      <div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
-        <div class="absolute top-0 right-0 p-8 text-tertiary opacity-20 group-hover:opacity-100 transition-opacity">
-          <span class="material-symbols-outlined text-7xl">auto_awesome</span>
-        </div>
-        <h3 class="text-2xl font-bold font-headline mb-4">Aprende contigo cada día</h3>
-        <p class="text-on-surface-variant leading-relaxed">Evoluciona a medida que interactúas, creando un gemelo digital de tu flujo de trabajo.</p>
-      </div>
-      <div class="md:col-span-2 p-10 rounded-xl bg-surface-container-highest flex flex-col justify-end min-h-[300px] border border-outline-variant/10 relative overflow-hidden group">
-        <div class="absolute top-0 right-0 p-8 text-primary opacity-20 group-hover:opacity-100 transition-opacity">
-          <span class="material-symbols-outlined text-7xl">shield_person</span>
-        </div>
-        <h3 class="text-2xl font-bold font-headline mb-4">Tu privacidad, nuestra prioridad</h3>
-        <p class="text-on-surface-variant leading-relaxed">Tus conversaciones viajan cifradas y nunca se usan para entrenar modelos ni se venden a terceros.</p>
-      </div>
-    </div>
-  </div>
+<!-- The 3 Pillars -->
+<section class="py-32 px-6">
+<div class="max-w-7xl mx-auto">
+<h2 class="text-3xl font-black font-headline mb-16 text-center tracking-widest uppercase opacity-40">Los 3 pilares de NEURA</h2>
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+<!-- Pillar 1 -->
+<div class="relative p-1 bg-gradient-to-b from-primary/30 to-transparent rounded-xl">
+<div class="h-full bg-surface-container p-12 rounded-lg flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">favorite</span>
+</div>
+<h4 class="text-2xl font-bold font-headline mb-6">Inteligencia Empática</h4>
+<p class="text-on-surface-variant leading-relaxed">
+                            NEURA detecta estrés, motivación o agotamiento y responde como un apoyo emocional real, adaptando su lenguaje para ser el soporte que necesitas.
+                        </p>
+</div>
+</div>
+<!-- Pillar 2 -->
+<div class="relative p-1 bg-gradient-to-b from-secondary/30 to-transparent rounded-xl">
+<div class="h-full bg-surface-container p-12 rounded-lg flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-secondary text-3xl">hub</span>
+</div>
+<h4 class="text-2xl font-bold font-headline mb-6">Aprendizaje Autónomo</h4>
+<p class="text-on-surface-variant leading-relaxed">
+                            Cuanto más interactúas, mejor te entiende. Cada usuario tiene una experiencia única, construyendo una relación digital coherente y profunda.
+                        </p>
+</div>
+</div>
+<!-- Pillar 3 -->
+<div class="relative p-1 bg-gradient-to-b from-tertiary/30 to-transparent rounded-xl">
+<div class="h-full bg-surface-container p-12 rounded-lg flex flex-col items-center text-center">
+<div class="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-tertiary text-3xl">verified_user</span>
+</div>
+<h4 class="text-2xl font-bold font-headline mb-6">Privacidad Radical</h4>
+<p class="text-on-surface-variant leading-relaxed">
+                            Todo ocurre en tu dispositivo. Tus datos nunca salen de tu control. No almacenamos conversaciones en la nube, solo en tu santuario digital personal.
+                        </p>
+</div>
+</div>
+</div>
+</div>
 </section>
-
-<!-- ════════════════════════════════════════
-     LOS 3 PILARES
-════════════════════════════════════════ -->
-<section id="pilares" class="py-20 px-6">
-  <div class="max-w-7xl mx-auto">
-    <h2 class="text-3xl font-black font-headline mb-16 text-center tracking-widest uppercase opacity-40">Los 3 pilares de NEURA</h2>
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
-      <div class="relative p-1 bg-gradient-to-b from-primary/30 to-transparent rounded-xl">
-        <div class="h-full bg-surface-container p-12 rounded-lg flex flex-col items-center text-center">
-          <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-8">
-            <span class="material-symbols-outlined text-primary text-3xl">favorite</span>
-          </div>
-          <h4 class="text-2xl font-bold font-headline mb-6">Inteligencia Empática</h4>
-          <p class="text-on-surface-variant leading-relaxed">NEURA detecta estrés, motivación o agotamiento y responde como un apoyo emocional real, adaptando su lenguaje para ser el soporte que necesitas.</p>
-        </div>
-      </div>
-      <div class="relative p-1 bg-gradient-to-b from-secondary/30 to-transparent rounded-xl">
-        <div class="h-full bg-surface-container p-12 rounded-lg flex flex-col items-center text-center">
-          <div class="w-16 h-16 rounded-full bg-secondary/10 flex items-center justify-center mb-8">
-            <span class="material-symbols-outlined text-secondary text-3xl">hub</span>
-          </div>
-          <h4 class="text-2xl font-bold font-headline mb-6">Aprendizaje Autónomo</h4>
-          <p class="text-on-surface-variant leading-relaxed">Cuanto más interactúas, mejor te entiende. Cada usuario tiene una experiencia única, construyendo una relación digital coherente y profunda.</p>
-        </div>
-      </div>
-      <div class="relative p-1 bg-gradient-to-b from-tertiary/30 to-transparent rounded-xl">
-        <div class="h-full bg-surface-container p-12 rounded-lg flex flex-col items-center text-center">
-          <div class="w-16 h-16 rounded-full bg-tertiary/10 flex items-center justify-center mb-8">
-            <span class="material-symbols-outlined text-tertiary text-3xl">verified_user</span>
-          </div>
-          <h4 class="text-2xl font-bold font-headline mb-6">Privacidad Radical</h4>
-          <p class="text-on-surface-variant leading-relaxed">Tus conversaciones son tuyas. No las vendemos, no las compartimos. Tu experiencia con NEURA es completamente privada y segura.</p>
-        </div>
-      </div>
-    </div>
-  </div>
+<!-- Mission -->
+<section class="py-32 relative overflow-hidden">
+<div class="max-w-4xl mx-auto px-6 text-center">
+<span class="text-tertiary font-headline font-bold uppercase tracking-[0.3em] mb-6 block">Nuestra Misión</span>
+<h2 class="text-4xl md:text-6xl font-black font-headline mb-10 leading-tight">
+                Humanizar la tecnología para que la IA se convierta en un aliado que cuide tu <span class="text-gradient">bienestar diario.</span>
+</h2>
+<div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
+</div>
 </section>
-
-<!-- ════════════════════════════════════════
-     MISIÓN
-════════════════════════════════════════ -->
-<section id="mision" class="py-20 relative overflow-hidden">
-  <div class="max-w-4xl mx-auto px-6 text-center">
-    <span class="text-tertiary font-headline font-bold uppercase tracking-[0.3em] mb-6 block">Nuestra Misión</span>
-    <h2 class="text-4xl md:text-6xl font-black font-headline mb-10 leading-tight">
-      Humanizar la tecnología para que la IA se convierta en un aliado que cuide tu <span class="text-gradient">bienestar diario.</span>
-    </h2>
-    <div class="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto"></div>
-  </div>
+<!-- Final CTA -->
+<section class="py-40 px-6">
+<div class="max-w-5xl mx-auto rounded-xl bg-gradient-to-br from-surface-container-high to-background p-12 md:p-24 text-center relative overflow-hidden border border-outline-variant/20 shadow-2xl">
+<div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
+<div class="absolute top-0 left-0 w-64 h-64 bg-primary blur-[120px]"></div>
+<div class="absolute bottom-0 right-0 w-64 h-64 bg-secondary blur-[120px]"></div>
+</div>
+<h2 class="text-4xl md:text-6xl font-black font-headline mb-8 text-on-surface relative z-10">
+                Empieza a construir una mejor versión de ti con NEURA.
+            </h2>
+<button class="relative z-10 bg-on-surface text-surface px-12 py-6 rounded-full font-black text-xl hover:scale-105 transition-transform shadow-xl">
+                Probar NEURA
+            </button>
+</div>
 </section>
-
-<!-- ════════════════════════════════════════
-     CTA FINAL
-════════════════════════════════════════ -->
-<section class="py-24 px-6">
-  <div class="max-w-5xl mx-auto rounded-xl bg-gradient-to-br from-surface-container-high to-background p-12 md:p-24 text-center relative overflow-hidden border border-outline-variant/20 shadow-2xl">
-    <div class="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-      <div class="absolute top-0 left-0 w-64 h-64 bg-primary blur-[120px]"></div>
-      <div class="absolute bottom-0 right-0 w-64 h-64 bg-secondary blur-[120px]"></div>
-    </div>
-    <h2 class="text-4xl md:text-6xl font-black font-headline mb-8 text-on-surface relative z-10">
-      Empieza a construir una mejor versión de ti con NEURA.
-    </h2>
-    <button onclick="openChat()" class="relative z-10 bg-on-surface text-surface px-12 py-6 rounded-full font-black text-xl hover:scale-105 transition-transform shadow-xl">
-      Probar NEURA gratis
-    </button>
-  </div>
-</section>
-
-<!-- ════════════════════════════════════════
-     FOOTER
-════════════════════════════════════════ -->
+<!-- Footer -->
 <footer class="bg-slate-950 w-full py-20 border-t border-white/5">
-  <div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 max-w-7xl mx-auto">
-    <div class="flex flex-col gap-6">
-      <div class="text-xl font-bold text-indigo-400 font-headline">NEURA</div>
-      <p class="text-sm text-slate-400 leading-relaxed">
-        Construyendo el futuro de la inteligencia emocional artificial con un enfoque en la soberanía del usuario y la salud mental.
-      </p>
-    </div>
-    <div class="flex flex-col gap-4">
-      <span class="text-white font-medium font-headline">Producto</span>
-      <a href="#caracteristicas" class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">Características</a>
-      <a href="#pilares"         class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">Inteligencia</a>
-      <a href="#mision"          class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">Nuestra misión</a>
-    </div>
-    <div class="flex flex-col gap-4">
-      <span class="text-white font-medium font-headline">Legal</span>
-      <a href="#" class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">Política de privacidad</a>
-      <a href="#" class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">Términos de servicio</a>
-    </div>
-    <div class="flex flex-col gap-4">
-      <span class="text-white font-medium font-headline">Redes</span>
-      <a href="#" class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">Twitter / X</a>
-      <a href="#" class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">LinkedIn</a>
-      <a href="https://github.com/dalemaick-hub/Neura-IA" target="_blank" rel="noopener" class="text-slate-500 hover:text-indigo-300 transition-colors text-sm">GitHub</a>
-    </div>
-  </div>
-  <div class="max-w-7xl mx-auto px-8 mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-    <p class="text-sm text-slate-400 opacity-90">© <span id="footer-year"></span> NEURA Intelligence. Hecho con propósito.</p>
-    <div class="flex gap-6 items-center">
-      <span class="w-2 h-2 rounded-full bg-primary" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#bd9dff;"></span>
-      <span class="text-xs uppercase tracking-widest text-slate-500">Sistema en línea</span>
-    </div>
-  </div>
-</footer>
-
-<!-- ════════════════════════════════════════
-     JAVASCRIPT
-════════════════════════════════════════ -->
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 px-8 max-w-7xl mx-auto">
+<div class="flex flex-col gap-6">
+<div class="text-xl font-bold text-indigo-400 font-headline">NEURA</div>
+<p class="font-inter text-sm text-slate-400 leading-relaxed">
+                    Construyendo el futuro de la inteligencia emocional artificial con un enfoque en la soberanía del usuario y la salud mental.
+                </p>
+</div>
+<div class="flex flex-col gap-4">
+<span class="text-white font-medium font-headline">Producto</span>
+<a class="text-slate-500 hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Features</a>
+<a class="text-slate-500 hover:text-indigo-300 transition-colors font-inter text-sm" href="#">AI Ethics</a>
+<a class="text-slate-500 hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Mission Statement</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="text-white font-medium font-headline">Legal</span>
+<a class="text-slate-500 hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Privacy Policy</a>
+<a class="text-slate-500 hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Terms of Service</a>
+</div>
+<div class="flex flex-col gap-4">
+<span class="text-white font-medium font-headline">Social</span>
+<a class="text-slate-500 hover:text-indigo-300 transition-colors font-inter text-sm" href="#">Twitter</a>
+<a class="text-slate-500 hover:text-indigo-300 transition-colors font-inter text-sm" href="#">LinkedIn</a>
+</div>
+</div>
+<div class="max-w-7xl mx-auto px-8 mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+<p class="font-inter text-sm text-slate-400 opacity-90">© <span id="current-year"></span> NEURA Intelligence. Human-Centric by Design.</p>
 <script>
-
-// ── Scroll reveal ──
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-// ── Session ID persistente (identifica al usuario sin login) ──
-function getSessionId() {
-  let id = sessionStorage.getItem('neura_session_id');
-  if (!id) {
-    id = 'session_' + Date.now() + '_' + Math.random().toString(36).slice(2, 9);
-    sessionStorage.setItem('neura_session_id', id);
-  }
-  return id;
-}
-
-// ── Año dinámico en el footer ──
-document.getElementById('footer-year').textContent = new Date().getFullYear();
-
-// ── Menú móvil ──
-function toggleMobileMenu() {
-  document.getElementById('mobile-menu').classList.toggle('open');
-  document.body.style.overflow = document.getElementById('mobile-menu').classList.contains('open') ? 'hidden' : '';
-}
-
-// ── Abrir / cerrar chat modal ──
-function openChat() {
-  document.getElementById('chat-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  setTimeout(() => document.getElementById('chat-modal-input').focus(), 100);
-}
-function closeChat() {
-  document.getElementById('chat-modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-// Cerrar con Escape
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeChat(); });
-// Cerrar al click fuera del box
-document.getElementById('chat-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeChat();
-});
-
-// ── Indicador de escritura ──
-function createTypingIndicator() {
-  const wrap = document.createElement('div');
-  wrap.id = 'typing-indicator';
-  wrap.style.cssText = 'display:flex;gap:0.75rem;align-items:flex-start;';
-  wrap.innerHTML = `
-    <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;">N</div>
-    <div style="background:#22262f;padding:0.75rem 1rem;border-radius:0 1rem 1rem 1rem;display:flex;gap:5px;align-items:center;">
-      <span class="typing-dot" style="width:6px;height:6px;border-radius:50%;background:#bd9dff;display:inline-block;"></span>
-      <span class="typing-dot" style="width:6px;height:6px;border-radius:50%;background:#bd9dff;display:inline-block;"></span>
-      <span class="typing-dot" style="width:6px;height:6px;border-radius:50%;background:#bd9dff;display:inline-block;"></span>
-    </div>`;
-  return wrap;
-}
-
-function addMessage(container, role, text) {
-  const wrap = document.createElement('div');
-  wrap.className = 'chat-msg';
-  if (role === 'user') {
-    wrap.style.cssText = 'display:flex;justify-content:flex-end;';
-    wrap.innerHTML = `<div style="background:linear-gradient(135deg,#8a4cfc,#bd9dff);padding:0.75rem 1rem;border-radius:1rem 1rem 0 1rem;max-width:80%;font-size:0.95rem;line-height:1.6;color:#fff;">${text}</div>`;
-  } else {
-    wrap.style.cssText = 'display:flex;gap:0.75rem;align-items:flex-start;';
-    wrap.innerHTML = `
-      <div style="width:32px;height:32px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;">N</div>
-      <div style="background:#22262f;padding:0.75rem 1rem;border-radius:0 1rem 1rem 1rem;max-width:80%;font-size:0.95rem;line-height:1.6;color:#ecedf6;">${text}</div>`;
-  }
-  container.appendChild(wrap);
-  container.scrollTop = container.scrollHeight;
-}
-
-// ── Historial de conversación para el modal ──
-const modalHistory = [];
-
-// ── Enviar mensaje en MODAL ──
-async function sendModalMessage() {
-  const input = document.getElementById('chat-modal-input');
-  const container = document.getElementById('chat-modal-messages');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-
-  addMessage(container, 'user', text);
-  modalHistory.push({ role: 'user', content: text });
-
-  const typing = createTypingIndicator();
-  container.appendChild(typing);
-  container.scrollTop = container.scrollHeight;
-
-  try {
-    const sessionId = getSessionId();
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, sessionId, mode: 'calmado' })
-    });
-    const data = await res.json();
-    typing.remove();
-    const reply = data?.response || 'Estoy aquí contigo. 💜';
-    addMessage(container, 'neura', reply);
-    modalHistory.push({ role: 'assistant', content: reply });
-  } catch {
-    typing.remove();
-    addMessage(container, 'neura', 'Lo siento, hubo un problema de conexión. Vuelve a intentarlo. 💜');
-  }
-}
-
-// ── Enviar mensaje en HERO (mini demo) ──
-const heroHistory = [];
-
-async function sendHeroMessage() {
-  const input = document.getElementById('hero-input');
-  const container = document.getElementById('hero-messages');
-  const text = input.value.trim();
-  if (!text) return;
-  input.value = '';
-
-  const userMsg = document.createElement('div');
-  userMsg.className = 'chat-msg';
-  userMsg.style.cssText = 'display:flex;justify-content:flex-end;';
-  userMsg.innerHTML = `<div style="background:linear-gradient(135deg,#8a4cfc,#bd9dff);padding:0.55rem 0.9rem;border-radius:1rem 1rem 0 1rem;font-size:0.88rem;color:#fff;max-width:75%;">${text}</div>`;
-  container.appendChild(userMsg);
-  heroHistory.push({ role: 'user', content: text });
-
-  const typing = document.createElement('div');
-  typing.style.cssText = 'display:flex;gap:0.5rem;align-items:center;padding:0.4rem 0;';
-  typing.innerHTML = `
-    <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;">N</div>
-    <span class="typing-dot" style="width:5px;height:5px;border-radius:50%;background:#bd9dff;display:inline-block;"></span>
-    <span class="typing-dot" style="width:5px;height:5px;border-radius:50%;background:#bd9dff;display:inline-block;"></span>
-    <span class="typing-dot" style="width:5px;height:5px;border-radius:50%;background:#bd9dff;display:inline-block;"></span>`;
-  container.appendChild(typing);
-  container.scrollTop = container.scrollHeight;
-
-  try {
-    const sessionId = getSessionId();
-    const res = await fetch('/api/chat', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text, sessionId, mode: 'calmado' })
-    });
-    const data = await res.json();
-    typing.remove();
-    const reply = (data?.response || 'Estoy aquí para escucharte. 💜') + ' ¿Quieres contarme más? 💬';
-    heroHistory.push({ role: 'assistant', content: reply });
-
-    const neuraMsg = document.createElement('div');
-    neuraMsg.className = 'chat-msg';
-    neuraMsg.style.cssText = 'display:flex;gap:0.5rem;align-items:flex-start;';
-    neuraMsg.innerHTML = `
-      <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;">N</div>
-      <div style="background:rgba(34,38,47,0.9);padding:0.55rem 0.9rem;border-radius:0 1rem 1rem 1rem;font-size:0.88rem;color:#ecedf6;line-height:1.5;max-width:80%;">${reply}</div>`;
-    container.appendChild(neuraMsg);
-    container.scrollTop = container.scrollHeight;
-  } catch {
-    typing.remove();
-    const errMsg = document.createElement('div');
-    errMsg.className = 'chat-msg';
-    errMsg.style.cssText = 'display:flex;gap:0.5rem;align-items:flex-start;';
-    errMsg.innerHTML = `
-      <div style="width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#8a4cfc,#ff6daf);flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;color:white;">N</div>
-      <div style="background:rgba(34,38,47,0.9);padding:0.55rem 0.9rem;border-radius:0 1rem 1rem 1rem;font-size:0.88rem;color:#ecedf6;">Estoy aquí. 💜 <button onclick="openChat()" style="color:#bd9dff;background:none;border:none;cursor:pointer;font-size:0.88rem;padding:0;text-decoration:underline;">Abre el chat completo</button></div>`;
-    container.appendChild(errMsg);
-  }
-}
+    document.getElementById('current-year').textContent = new Date().getFullYear();
 </script>
-</body>
-</html>
+<div class="flex gap-6 items-center">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<span class="text-xs uppercase tracking-widest text-slate-500">System Online</span>
+</div>
+</div>
+</footer>
+</body></html>
