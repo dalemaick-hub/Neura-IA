@@ -1,25 +1,21 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { useLocation } from 'react-router-dom'
-import { AuthProvider } from './context/AuthContext'
-import Navbar from './components/Navbar'
-import Footer from './components/Footer'
-import Home from './components/Home'
-import FeaturesPage from './pages/FeaturesPage'
-import AboutPage from './pages/AboutPage'
-import IntelligencePage from './pages/IntelligencePage'
-import EthicsPage from './pages/EthicsPage'
-import DiscoverPage from './pages/DiscoverPage'
-import ChatPage from './pages/ChatPage'
-import SignInPage from './pages/SignInPage'
-import PrivateRoute from './components/PrivateRoute'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import Home from "./components/Home";
+import FeaturesPage from "./pages/FeaturesPage";
+import AboutPage from "./pages/AboutPage";
+import IntelligencePage from "./pages/IntelligencePage";
+import EthicsPage from "./pages/EthicsPage";
+import DiscoverPage from "./pages/DiscoverPage";
+import ChatPage from "./pages/ChatPage";
+import SignInPage from "./pages/SignInPage";
+import PrivateRoute from "./components/PrivateRoute";
 
 function AppShell() {
-  const location = useLocation()
-  const isLandingRoute = location.pathname === '/'
-
   return (
     <>
-      {!isLandingRoute && <Navbar />}
+      <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/features" element={<FeaturesPage />} />
@@ -28,7 +24,6 @@ function AppShell() {
         <Route path="/ethics" element={<EthicsPage />} />
         <Route path="/discover" element={<DiscoverPage />} />
         <Route path="/signin" element={<SignInPage />} />
-
         <Route
           path="/chat"
           element={
@@ -38,9 +33,9 @@ function AppShell() {
           }
         />
       </Routes>
-      {!isLandingRoute && <Footer />}
+      <Footer />
     </>
-  )
+  );
 }
 
 function App() {
@@ -50,7 +45,7 @@ function App() {
         <AppShell />
       </Router>
     </AuthProvider>
-  )
+  );
 }
 
-export default App
+export default App;
