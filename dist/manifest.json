@@ -8,7 +8,7 @@
   "theme_color": "#8B5CF6",
   "icons": [
     {
-      "src": "assets/logo-neura.png",
+      "src": "/assets/logo-neura.png?v=20260424",
       "sizes": "1024x1024",
       "type": "image/png"
     }

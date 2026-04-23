@@ -83,7 +83,7 @@ export function AuthProvider({ children }) {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: `${window.location.origin}/chat`
+        redirectTo: 'https://neura-ia-v3cc.vercel.app'
       }
     })
     return { data, error }
