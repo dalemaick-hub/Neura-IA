@@ -55,11 +55,11 @@ export default function LandingHero({ onOpenChat }) {
           <span className="w-2 h-2 rounded-full bg-tertiary animate-pulse pulse-orb"></span>
           <span className="text-sm font-medium tracking-wide text-primary">IA Empática · Disponible ahora</span>
         </div>
-        <h1 className="text-6xl md:text-8xl font-black font-headline tracking-tighter text-on-surface mb-6 leading-none">
+        <h1 className="text-5xl md:text-7xl font-black font-headline tracking-tighter text-on-surface mb-4 leading-none">
           NEURA — <span className="text-gradient">La IA que te entiende.</span>
         </h1>
-        <p className="text-xl md:text-2xl text-on-surface-variant max-w-3xl mx-auto mb-10 leading-relaxed font-light">
-          No es solo inteligencia artificial. Es un acompañante emocional diseñado para ayudarte a pensar mejor, sentirte mejor y vivir mejor.
+        <p className="text-xl text-on-surface-variant max-w-3xl mx-auto mb-8 leading-relaxed font-light">
+          Acompañante emocional que detecta cómo te sientes y te ayuda a estar mejor.
         </p>
 
         <div
@@ -102,7 +102,7 @@ export default function LandingHero({ onOpenChat }) {
               value={demoInput}
               onChange={(e) => setDemoInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && sendDemoMessage()}
-              placeholder="Escribe algo... (ej: estoy estresado)"
+              placeholder="Escribe algo..."
               className="flex-1 rounded-full border border-primary/20 bg-[rgba(34,38,47,0.8)] px-5 py-3.5 text-sm text-white outline-none transition-colors placeholder:text-on-surface-variant focus:border-primary/50"
             />
             <button
@@ -120,13 +120,13 @@ export default function LandingHero({ onOpenChat }) {
             onClick={onOpenChat}
             className="w-full sm:w-auto px-10 py-5 rounded-full bg-gradient-to-r from-primary-dim to-primary text-on-primary-container font-bold text-lg shadow-[0_20px_40px_-15px_rgba(189,157,255,0.4)] hover:scale-105 transition-transform"
           >
-            Empieza ahora
+            Comenzar
           </button>
           <button
-            onClick={() => document.getElementById("sobre-neura")?.scrollIntoView({ behavior: "smooth" })}
+            onClick={() => document.getElementById("como-funciona")?.scrollIntoView({ behavior: "smooth" })}
             className="w-full sm:w-auto px-10 py-5 rounded-full glass-panel border border-outline-variant/30 text-on-surface font-semibold text-lg hover:bg-surface-bright transition-colors"
           >
-            Descubre NEURA
+            Cómo funciona
           </button>
         </div>
       </div>

@@ -10,9 +10,9 @@ export default function LandingFooter() {
         </div>
         <div className="flex flex-col gap-4">
           <span className="text-white font-medium font-headline">Producto</span>
+          <a className="text-slate-500 hover:text-indigo-300 transition-colors text-sm" href="#como-funciona">Cómo funciona</a>
           <a className="text-slate-500 hover:text-indigo-300 transition-colors text-sm" href="#caracteristicas">Características</a>
-          <a className="text-slate-500 hover:text-indigo-300 transition-colors text-sm" href="#pilares">Inteligencia</a>
-          <a className="text-slate-500 hover:text-indigo-300 transition-colors text-sm" href="#mision">Nuestra misión</a>
+          <a className="text-slate-500 hover:text-indigo-300 transition-colors text-sm" href="#precios">Precios</a>
         </div>
         <div className="flex flex-col gap-4">
           <span className="text-white font-medium font-headline">Legal</span>

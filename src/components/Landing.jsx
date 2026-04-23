@@ -60,9 +60,10 @@ const Landing = ({ onStart }) => {
         onToggleMenu={() => setOpen((value) => !value)}
         onCloseMenu={() => setOpen(false)}
         onOpenChat={openChat}
+        onStart={onStart}
       />
       <LandingHero onOpenChat={openChat} />
-      <LandingHighlights />
+      <LandingHighlights onOpenChat={openChat} onStart={onStart} />
       <LandingFooter />
 
       {/* Chat Modal */}

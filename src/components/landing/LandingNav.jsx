@@ -1,4 +1,4 @@
-export default function LandingNav({ open, onToggleMenu, onCloseMenu, onOpenChat }) {
+export default function LandingNav({ open, onToggleMenu, onCloseMenu, onOpenChat, onStart }) {
   return (
     <nav className="fixed top-0 w-full z-50 bg-slate-950/60 backdrop-blur-xl shadow-[0_0_40px_rgba(189,157,255,0.08)]">
       <div className="flex justify-between items-center px-8 py-6 max-w-7xl mx-auto">
@@ -6,13 +6,12 @@ export default function LandingNav({ open, onToggleMenu, onCloseMenu, onOpenChat
           NEURA
         </a>
         <div className="hidden md:flex items-center space-x-8">
-          <a className="text-indigo-400 border-b-2 border-indigo-500 pb-1 font-headline tracking-tight font-bold text-lg hover:text-white transition-all" href="#caracteristicas">Características</a>
-          <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#sobre-neura">Sobre NEURA</a>
-          <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#pilares">Inteligencia</a>
-          <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#mision">Misión</a>
+          <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#como-funciona">Cómo funciona</a>
+          <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#caracteristicas">Características</a>
+          <a className="text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#precios">Precios</a>
         </div>
         <div className="flex items-center space-x-4">
-          <button onClick={onOpenChat} className="hidden md:block text-slate-300 hover:text-white transition-colors font-medium px-4 py-2">
+          <button onClick={onStart} className="hidden md:block text-slate-300 hover:text-white transition-colors font-medium px-4 py-2">
             Iniciar sesión
           </button>
           <button
@@ -35,27 +34,24 @@ export default function LandingNav({ open, onToggleMenu, onCloseMenu, onOpenChat
           <button onClick={onCloseMenu} className="absolute top-6 right-8 text-slate-400 hover:text-white" type="button">
             <span className="material-symbols-outlined text-3xl">close</span>
           </button>
+          <a className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#como-funciona" onClick={onCloseMenu}>
+            Cómo funciona
+          </a>
           <a className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#caracteristicas" onClick={onCloseMenu}>
             Características
           </a>
-          <a className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#sobre-neura" onClick={onCloseMenu}>
-            Sobre NEURA
-          </a>
-          <a className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#pilares" onClick={onCloseMenu}>
-            Inteligencia
-          </a>
-          <a className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#mision" onClick={onCloseMenu}>
-            Misión
+          <a className="block text-slate-300 hover:text-white transition-colors font-headline tracking-tight font-bold text-lg" href="#precios" onClick={onCloseMenu}>
+            Precios
           </a>
           <button
             type="button"
             onClick={() => {
-              onOpenChat()
+              onStart()
               onCloseMenu()
             }}
             className="mt-4 bg-gradient-to-br from-primary-dim to-primary text-on-primary-container font-bold px-8 py-3 rounded-full text-lg"
           >
-            Comenzar gratis
+            Iniciar sesión
           </button>
         </div>
       )}
