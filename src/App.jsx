@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import { AuthProvider } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Footer from './components/Footer'
@@ -12,31 +13,41 @@ import ChatPage from './pages/ChatPage'
 import SignInPage from './pages/SignInPage'
 import PrivateRoute from './components/PrivateRoute'
 
+function AppShell() {
+  const location = useLocation()
+  const isLandingRoute = location.pathname === '/'
+
+  return (
+    <>
+      {!isLandingRoute && <Navbar />}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/intelligence" element={<IntelligencePage />} />
+        <Route path="/ethics" element={<EthicsPage />} />
+        <Route path="/discover" element={<DiscoverPage />} />
+        <Route path="/signin" element={<SignInPage />} />
+
+        <Route
+          path="/chat"
+          element={
+            <PrivateRoute>
+              <ChatPage />
+            </PrivateRoute>
+          }
+        />
+      </Routes>
+      {!isLandingRoute && <Footer />}
+    </>
+  )
+}
+
 function App() {
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/features" element={<FeaturesPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/intelligence" element={<IntelligencePage />} />
-          <Route path="/ethics" element={<EthicsPage />} />
-          <Route path="/discover" element={<DiscoverPage />} />
-          <Route path="/signin" element={<SignInPage />} />
-
-          {/* Ruta protegida — requiere sesión activa */}
-          <Route
-            path="/chat"
-            element={
-              <PrivateRoute>
-                <ChatPage />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-        <Footer />
+        <AppShell />
       </Router>
     </AuthProvider>
   )

@@ -56,37 +56,39 @@ const Landing = ({ onStart }) => {
   return (
     <div className="bg-background text-on-surface font-body min-h-screen overflow-x-hidden selection:bg-primary/30">
       <LandingNav
-        onStart={onStart}
         open={open}
         onToggleMenu={() => setOpen((value) => !value)}
         onCloseMenu={() => setOpen(false)}
         onOpenChat={openChat}
       />
-      <LandingHero onStart={onStart} onOpenChat={openChat} />
+      <LandingHero onOpenChat={openChat} />
       <LandingHighlights />
       <LandingFooter />
 
       {/* Chat Modal */}
       {showChatModal && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-          <div className="w-full max-w-lg bg-slate-900 border border-white/10 rounded-3xl shadow-2xl flex flex-col max-h-[80vh] overflow-hidden">
-            <div className="p-6 border-b border-white/5 flex justify-between items-center bg-gradient-to-r from-purple-900/20 to-indigo-900/20">
+          <div className="w-full max-w-2xl bg-[#0f1218] border border-primary/15 rounded-[1.75rem] shadow-[0_40px_80px_rgba(0,0,0,0.6)] flex flex-col max-h-[80vh] overflow-hidden">
+            <div className="p-5 md:p-6 border-b border-primary/10 flex justify-between items-center bg-[#0f1218]">
               <div className="flex items-center gap-3">
-                <div className="w-8 h-8 rounded-full bg-primary flex items-center justify-center font-bold text-sm">N</div>
-                <h3 className="font-headline font-bold text-white">Chat con NEURA</h3>
+                <span className="inline-flex h-2 w-2 rounded-full bg-tertiary shadow-[0_0_12px_#ff6daf] animate-pulse"></span>
+                <div>
+                  <h3 className="font-headline font-bold text-white">NEURA</h3>
+                  <p className="text-xs text-on-surface-variant">IA Empática · En línea</p>
+                </div>
               </div>
               <button onClick={closeChat} className="text-white/40 hover:text-white transition-colors">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-4 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-5 md:p-6 space-y-4 custom-scrollbar">
               {messages.map((msg, i) => (
                 <div key={i} className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[85%] px-4 py-2 rounded-2xl text-sm ${
+                  <div className={`max-w-[85%] px-4 py-3 rounded-[1.25rem] text-sm leading-6 ${
                     msg.role === "user" 
-                      ? "bg-primary text-on-primary rounded-tr-none" 
-                      : "bg-white/5 text-white/90 border border-white/10 rounded-tl-none"
+                      ? "bg-gradient-to-br from-primary-dim to-primary text-white rounded-br-md" 
+                      : "bg-surface-variant text-white/90 border border-white/8 rounded-tl-md"
                   }`}>
                     {msg.content}
                   </div>
@@ -94,25 +96,25 @@ const Landing = ({ onStart }) => {
               ))}
               {isTyping && (
                 <div className="flex justify-start">
-                  <div className="bg-white/5 text-white/40 px-4 py-2 rounded-2xl text-xs animate-pulse">
+                  <div className="bg-surface-variant text-white/40 px-4 py-2 rounded-2xl text-xs animate-pulse">
                     NEURA está pensando...
                   </div>
                 </div>
               )}
             </div>
 
-            <div className="p-6 border-t border-white/5 flex gap-3">
+            <div className="p-5 md:p-6 border-t border-primary/10 flex gap-3">
               <input 
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && sendMessage()}
-                placeholder="Escribe algo..."
-                className="flex-1 bg-white/5 border border-white/10 rounded-full px-5 py-3 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
+                placeholder="Escribe cómo te sientes..."
+                className="flex-1 bg-surface-variant border border-white/10 rounded-full px-5 py-3 text-sm text-white focus:outline-none focus:border-primary/50 transition-colors"
               />
               <button 
                 onClick={sendMessage}
                 disabled={isTyping}
-                className="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50"
+                className="w-12 h-12 rounded-full bg-gradient-to-br from-primary-dim to-primary text-on-primary-container flex items-center justify-center hover:scale-105 transition-transform disabled:opacity-50"
               >
                 <span className="material-symbols-outlined">send</span>
               </button>
@@ -120,6 +122,19 @@ const Landing = ({ onStart }) => {
           </div>
         </div>
       )}
+
+      <div className="fixed bottom-5 right-5 z-40">
+        <button
+          type="button"
+          onClick={openChat}
+          className="inline-flex items-center gap-3 rounded-full border border-primary/20 bg-slate-950/80 px-5 py-3 text-sm font-semibold text-white shadow-[0_18px_40px_rgba(0,0,0,0.35)] backdrop-blur-xl transition hover:-translate-y-0.5 hover:border-primary/40"
+        >
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-gradient-to-br from-primary-dim to-tertiary text-white">
+            <span className="material-symbols-outlined text-[18px]">chat</span>
+          </span>
+          Hablar con NEURA
+        </button>
+      </div>
     </div>
   );
 };
